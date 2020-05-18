@@ -17,6 +17,7 @@ public class Main {
 		// loads settings
 		SettingsLoader.loadSettings();
 	
+		
 	}
 	
 }
