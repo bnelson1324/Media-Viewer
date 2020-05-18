@@ -19,8 +19,6 @@ public class SettingsLoader {
 	}
 	
 	public static void loadSettings() {
-		// loads the Media Viewer's settings
-		
 		File settingsFile = new File("settings/settings.cfg");
 
 		// makes sure settings file exists
