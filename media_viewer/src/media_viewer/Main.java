@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-
+// TODO: make it so you can search for images by tag
 	
 	public static void main(String[] args) {
 		
@@ -29,6 +29,7 @@ public class Main {
 	private static void init() {
 		SettingsLoader.loadSettings();
 		setUpStorageFolder();
+		MediaItemLoader.init();
 		MediaDataLoader.init();
 		
 		
@@ -43,7 +44,7 @@ public class Main {
 		}
 		
 		// creates media storage file if it doesn't exist
-		File mediaStorageFile = new File(SettingsLoader.getSetting("rootStorageFolderLoc") + "/..mediaDataStorage.json");
+		File mediaStorageFile = new File("mediaDataStorage.json");
 		if(!mediaStorageFile.exists()) {
 			try {
 				mediaStorageFile.createNewFile();

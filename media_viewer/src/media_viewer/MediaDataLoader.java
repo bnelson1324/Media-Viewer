@@ -22,17 +22,16 @@ public class MediaDataLoader {
 	
 	private static JsonArray mediaDataStorage;
 	
-	// pairs file paths with a media object
+	// pairs file path with a media object
 	private static HashMap<File, MediaData> allMediaData;
 	
 	/* This is what loads media data */
 	
 	public static void init() {
 		// gets mediaStorage json file
-		String rootStorageFolderLoc = SettingsLoader.getSetting("rootStorageFolderLoc");
 		
 		try {
-			myReader = new FileReader(new File(rootStorageFolderLoc + "/..mediaDataStorage.json"));
+			myReader = new FileReader(new File("mediaDataStorage.json"));
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
