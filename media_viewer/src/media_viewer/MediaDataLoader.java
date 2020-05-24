@@ -45,11 +45,11 @@ public class MediaDataLoader {
 		
 		for(JsonElement mediaDataJsonElement : mediaDataStorage) {
 			JsonObject mdJson = (JsonObject) mediaDataJsonElement;
-			
+
 			String mdPath = mdJson.get("fileLocation").getAsString();  
-			String mdName = mdJson.get("name").getAsString();
-			String mdDateCreated = mdJson.get("dateCreated").getAsString();
-			String mdDateAdded = mdJson.get("dateAdded").getAsString();
+			ArrayList<String> mdName = gson.fromJson(mdJson.get("name"), ArrayList.class);
+			ArrayList<String> mdDateCreated = gson.fromJson(mdJson.get("dateCreated"), ArrayList.class);
+			ArrayList<String> mdDateAdded = gson.fromJson(mdJson.get("dateAdded"), ArrayList.class);
 			ArrayList<String> mdAuthorName = gson.fromJson(mdJson.get("authorName"), ArrayList.class);
 			ArrayList<String> mdAuthorLink = gson.fromJson(mdJson.get("authorLinks"), ArrayList.class);
 			ArrayList<String> mdTags = gson.fromJson(mdJson.get("tags"), ArrayList.class);
@@ -61,12 +61,6 @@ public class MediaDataLoader {
 		
 	}
 	
-	/**
-	 * @deprecated Use {@link #getMediaDataByPath(Path)} instead
-	 */
-	public static MediaData getMediaData(Path path) {
-		return getMediaDataByPath(path);
-	}
 
 	public static MediaData getMediaDataByPath(Path path) {
 		return allMediaData.get(path);

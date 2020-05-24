@@ -19,7 +19,7 @@ public class MediaItem {
 	
 	@Override
 	public String toString() {
-		return "path: " + path;
+		return path.toString();
 	}
 	
 	

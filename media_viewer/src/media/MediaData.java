@@ -6,10 +6,9 @@ public class MediaData {
 
 	/* This is data describing a media file */
 	
-	private String name, dateCreated, dateAdded;
-	private ArrayList<String> authorName, authorLinks, tags;
+	private ArrayList<String> name, dateCreated, dateAdded, authorName, authorLinks, tags;
 	
-	public MediaData(String name, String dateCreated, String dateAdded, ArrayList<String> authorName, ArrayList<String> authorLinks, ArrayList<String> tags) {
+	public MediaData(ArrayList<String> name, ArrayList<String> dateCreated, ArrayList<String> dateAdded, ArrayList<String> authorName, ArrayList<String> authorLinks, ArrayList<String> tags) {
 		this.name = name;
 		this.dateCreated = dateCreated;
 		this.dateAdded = dateAdded;
@@ -18,15 +17,15 @@ public class MediaData {
 		this.tags = tags;
 	}
 	
-	public String getName() {
+	public ArrayList<String> getName() {
 		return name;
 	}
 	
-	public String getDateCreated() {
+	public ArrayList<String> getDateCreated() {
 		return dateCreated;
 	}
 	
-	public String getDateAdded() {
+	public ArrayList<String> getDateAdded() {
 		return dateAdded;
 	}
 	
@@ -38,14 +37,33 @@ public class MediaData {
 		return authorLinks;
 	}
 	
-	// gets the descriptive tags (non metadata)
-	public ArrayList<String> getDescTags() {
+	// gets the misc tags (tags ArrayList)
+	public ArrayList<String> getMiscTags() {
 		return tags;
 	}
 	
-	// gets all the tags, including metadata
+	// gets all the tags, including the ones that aren't misc 
 	public ArrayList<String> getAllTags() {
-		
+		ArrayList<String> allTags = new ArrayList<String>();
+		for(String s : name) {
+			allTags.add("name:" + s);
+		}
+		for(String s : dateCreated) {
+			allTags.add("dateCreated:" + s);
+		}
+		for(String s : dateAdded) {
+			allTags.add("dateAdded:" + s);
+		}
+		for(String s : authorName) {
+			allTags.add("authorName:" + s);
+		}
+		for(String s : authorLinks) {
+			allTags.add("authorLinks:" + s);
+		}
+		for(String s : tags) {
+			allTags.add(s);
+		}
+		return allTags;
 	}
 	
 	@Override
