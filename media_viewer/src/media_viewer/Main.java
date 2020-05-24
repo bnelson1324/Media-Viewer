@@ -2,7 +2,10 @@ package media_viewer;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Scanner;
+
+import media.MediaItem;
 
 public class Main {
 // TODO: make it so you can search for images by tag
@@ -17,10 +20,16 @@ public class Main {
 		
 		
 		// !! test code below
+		
+		for(MediaItem mi : MediaItemLoader.getAllMediaItems()) {
+			// prints all media data for any existing file automatically 
+			System.out.println(MediaDataLoader.getMediaData(mi.getFileLocation()));
+		}
+		
 		Scanner sc = new Scanner(System.in);
 		while(true) {
 			String input = sc.nextLine();
-			System.out.println(MediaDataLoader.getMediaData(new File(input)));
+			System.out.println(MediaDataLoader.getMediaData(Paths.get(input)));
 			
 			
 		}

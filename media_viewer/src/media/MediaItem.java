@@ -13,6 +13,10 @@ public class MediaItem {
 		this.fileLocation = fileLocation;
 	}
 	
+	public Path getFileLocation() {
+		return fileLocation;
+	}
+	
 	@Override
 	public String toString() {
 		return "fileLocation: " + fileLocation;
