@@ -21,6 +21,13 @@ public class SettingsLoader {
 	public static void loadSettings() {
 		// loads the Media Viewer's settings
 		
+		// makes sure the settings directory exists
+		File settingsDirectory = new File("settings");
+		if(!settingsDirectory.exists()) {
+			settingsDirectory.mkdir();
+		}
+		
+		
 		File settingsFile = new File("settings/settings.cfg");
 
 		// makes sure settings file exists

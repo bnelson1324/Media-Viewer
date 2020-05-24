@@ -2,7 +2,9 @@ package media_viewer;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import media.MediaItem;
@@ -14,22 +16,13 @@ public class Main {
 		
 		init();
 		
-		
-		
-		// launch program
-		
-		
 		// !! test code below
-		
-		for(MediaItem mi : MediaItemLoader.getAllMediaItems()) {
-			// prints all media data for any existing file automatically 
-			System.out.println(MediaDataLoader.getMediaData(mi.getFileLocation()));
-		}
 		
 		Scanner sc = new Scanner(System.in);
 		while(true) {
+			System.out.print("input a tag to search for: ");
 			String input = sc.nextLine();
-			System.out.println(MediaDataLoader.getMediaData(Paths.get(input)));
+			System.out.println(MediaHandler.getMediaByTag(input));
 			
 			
 		}
@@ -40,9 +33,6 @@ public class Main {
 		setUpStorageFolder();
 		MediaItemLoader.init();
 		MediaDataLoader.init();
-		
-		
-		
 	}
 	
 	private static void setUpStorageFolder() {
@@ -52,11 +42,12 @@ public class Main {
 			rootStorageFolder.mkdir();
 		}
 		
-		// creates media storage file if it doesn't exist
+		// create a new media storage file by copying the default one
 		File mediaStorageFile = new File("mediaDataStorage.json");
 		if(!mediaStorageFile.exists()) {
+			File defaultMediaStorage = new File("res/DEFAULT_MEDIA_DATA_STORAGE.json");
 			try {
-				mediaStorageFile.createNewFile();
+				Files.copy(defaultMediaStorage.toPath(), mediaStorageFile.toPath());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

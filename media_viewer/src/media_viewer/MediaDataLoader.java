@@ -61,7 +61,14 @@ public class MediaDataLoader {
 		
 	}
 	
+	/**
+	 * @deprecated Use {@link #getMediaDataByPath(Path)} instead
+	 */
 	public static MediaData getMediaData(Path path) {
+		return getMediaDataByPath(path);
+	}
+
+	public static MediaData getMediaDataByPath(Path path) {
 		return allMediaData.get(path);
 	}
 	

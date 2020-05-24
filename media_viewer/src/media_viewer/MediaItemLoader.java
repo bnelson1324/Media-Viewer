@@ -14,6 +14,8 @@ public class MediaItemLoader {
 	/* This is what loads media files*/
 	
 	public static void init() {
+		// finds every file from the root storage folder
+		
 		allMediaItems = new ArrayList<MediaItem>();
 		
 		Path rootStorageFolder = Paths.get(SettingsLoader.getSetting("rootStorageFolderLoc"));
@@ -31,7 +33,7 @@ public class MediaItemLoader {
 	
 	
 	// recursively adds all non-directory files from a directory, including from its subdirectories, into an ArrayList
-	public static void fetchFiles(File dir, ArrayList<Path> allNonDirFiles) {
+	private static void fetchFiles(File dir, ArrayList<Path> allNonDirFiles) {
 		File[] allFiles = dir.listFiles();
 	
 		for(File f : allFiles) {

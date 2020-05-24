@@ -18,15 +18,45 @@ public class MediaData {
 		this.tags = tags;
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
+	public String getDateCreated() {
+		return dateCreated;
+	}
+	
+	public String getDateAdded() {
+		return dateAdded;
+	}
+	
+	public ArrayList<String> getAuthorName() {
+		return authorName;
+	}
+	
+	public ArrayList<String> getAuthorLinks() {
+		return authorLinks;
+	}
+	
+	// gets the descriptive tags (non metadata)
+	public ArrayList<String> getDescTags() {
+		return tags;
+	}
+	
+	// gets all the tags, including metadata
+	public ArrayList<String> getAllTags() {
+		
+	}
+	
 	@Override
 	public String toString() {
 		String str = "";
 		str += "Name: '" + name;
 		str += "', dateCreated: " + dateCreated;
 		str += ", dateAdded: " + dateAdded;
-		str += ", authorName: '" + authorName;
-		str += "', authorLinks: " + authorLinks;
-		str += "', tags: " + tags + "'";
+		str += ", authorName: " + authorName;
+		str += ", authorLinks: " + authorLinks;
+		str += ", tags: " + tags;
 		return str;
 	}
 }
