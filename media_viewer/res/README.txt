@@ -1,0 +1,1 @@
+This folder contains resources for the program. Do not modify anything in here.
