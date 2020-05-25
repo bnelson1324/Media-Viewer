@@ -11,7 +11,7 @@ public class MediaHandler {
 	
 	
 	public static ArrayList<MediaItem> getMediaByTag(String search) {
-		// media items that contain all tags
+		// media items that pass the search
 		ArrayList<MediaItem> passingMediaItems = new ArrayList<MediaItem>();
 		
 		ArrayList<MediaItem> allMediaItems = MediaItemLoader.getAllMediaItems();

@@ -10,10 +10,9 @@ import java.util.Scanner;
 import media.MediaItem;
 
 public class Main {
-// TODO: make it so you can search for images by tag
 	
 	public static void main(String[] args) {
-		
+	
 		init();
 		
 		// !! test code below
