@@ -22,8 +22,6 @@ public class MediaHandler {
 		ArrayList<MediaItem> passingMediaItems = new ArrayList<MediaItem>();
 		
 		ArrayList<MediaItem> allMediaItems = MediaItemLoader.getAllMediaItems();
-		// TODO: add ability to use parentheses ( (<tag> && <tag>) || (<tag> && <tag>) ) in search
-		
 		
 		for(MediaItem mi : allMediaItems) {
 			// tags the current media item has
@@ -36,8 +34,7 @@ public class MediaHandler {
 			String toEval = "";
 			String nextTag = "";
 			for(char ch : search.toCharArray()) {
-				if(ch == '&' || ch == '|' || ch == '!') {
-					// TODO: add to above when implementing parentheses and not operator
+				if(ch == '&' || ch == '|' || ch == '!' || ch == '(' || ch == ')') {
 					// if char isn't part of the tag
 					
 					if(!nextTag.trim().equals("") ) {

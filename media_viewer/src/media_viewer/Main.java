@@ -17,17 +17,6 @@ public class Main {
 		
 		// !! test code below
 		
-		// searches to test
-		// only && and || used
-		String search1 = "!green && magenta";
-		String search2 = "!death grips && magenta";
-		String search3 = " death grips ||!magenta";
-		String search4 = "2002 Toyota Camry|| magenta ";
-		System.out.println("search1: " + MediaHandler.getMediaByTag(search1));
-		System.out.println("search2: " + MediaHandler.getMediaByTag(search2));
-		System.out.println("search3: " + MediaHandler.getMediaByTag(search3));
-		System.out.println("search4: " + MediaHandler.getMediaByTag(search4));
-		
 		Scanner sc = new Scanner(System.in);
 		while(true) {
 			System.out.print("input a tag to search for: ");
