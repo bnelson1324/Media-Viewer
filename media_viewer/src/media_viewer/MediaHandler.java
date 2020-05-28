@@ -71,14 +71,6 @@ public class MediaHandler {
 		return passingMediaItems;
 	}
 	
-
-	private static void searchUpdateToEval(String nextTag, String toEval, ArrayList<String> containedTags) {
-		// helper method for getMediaByTag()
-		boolean hasTag = containedTags.contains(nextTag.trim());
-		toEval += hasTag;
-		nextTag = "";
-	}
-	
 	public static void init() {
 		sem = new ScriptEngineManager();
 		se = sem.getEngineByName("JavaScript");
