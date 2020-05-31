@@ -13,8 +13,9 @@ import media_control.MediaLoader;
 
 public class Main {
 	
-	// TODO: add tag-adding method in order to tag images in the storage folder which arent in the json file yet
-	
+	/* TODO: when the program starts, detect if any media items are untagged
+	 * (can be done by seeing if their media data is null), and prompt the user to tag them
+	 */
 	
 	public static void main(String[] args) {
 	
