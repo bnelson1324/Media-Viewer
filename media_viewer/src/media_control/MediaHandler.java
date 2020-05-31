@@ -1,4 +1,4 @@
-package media_viewer;
+package media_control;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import media.MediaData;
 import media.MediaItem;
 
 public class MediaHandler {
@@ -21,11 +22,11 @@ public class MediaHandler {
 		// media items that pass the search
 		ArrayList<MediaItem> passingMediaItems = new ArrayList<MediaItem>();
 		
-		ArrayList<MediaItem> allMediaItems = MediaItemLoader.getAllMediaItems();
+		ArrayList<MediaItem> allMediaItems = MediaLoader.getAllMediaItems();
 		
 		for(MediaItem mi : allMediaItems) {
 			// tags the current media item has
-			ArrayList<String> containedTags = MediaDataLoader.getMediaDataByPath(mi.getPath()).getAllTags();
+			ArrayList<String> containedTags = MediaLoader.getMediaDataByPath(mi.getPath()).getAllTags();
 			
 			// checks current media item has the desired tag
 			
@@ -69,6 +70,11 @@ public class MediaHandler {
 		}
 		
 		return passingMediaItems;
+	}
+	
+	public static void addMedia(MediaItem mi, MediaData md) {
+		// pairs a media item its media data
+		MediaLoader.addMediaData(mi.getPath(), md);
 	}
 	
 	public static void init() {
