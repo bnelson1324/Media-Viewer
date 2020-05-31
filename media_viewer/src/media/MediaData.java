@@ -37,14 +37,6 @@ public class MediaData {
 		return authorLinks;
 	}
 	
-	// gets the misc tags (tags ArrayList)
-	/**
-	 * @deprecated Use {@link #getGenericTags()} instead
-	 */
-	public ArrayList<String> getMiscTags() {
-		return getGenericTags();
-	}
-
 	// gets the generic tags (tags ArrayList)
 	public ArrayList<String> getGenericTags() {
 		return tags;

@@ -9,6 +9,7 @@ import java.util.Scanner;
 import media.MediaData;
 import media.MediaItem;
 import media_control.MediaHandler;
+import media_control.MediaLoader;
 
 public class CommandConsole {
 	
@@ -25,7 +26,7 @@ public class CommandConsole {
 		
 		switch(mode) {
 			case "default":
-				// changes mode
+				// changes mode or executes a command
 				switch(input) {
 					default: toPrint = "enter a command";
 						break;
@@ -37,10 +38,19 @@ public class CommandConsole {
 						mode = "tag item";
 						toPrint = "beginning tagging process. enter '!back' to go back, or enter anything else to continue";
 						break;
+					case "list media items":
+						System.out.println(MediaHandler.getAllMediaItems());
+						toPrint = "enter a command";
+						break;
+					case "save media data":
+						MediaLoader.saveMediaData();
+						System.out.println("saved media data");
+						toPrint = "enter a command";
+						break;
 				}
 				break;
 			case "search":
-				toPrint = MediaHandler.getMediaByTag(input).toString();
+				toPrint = MediaHandler.getMediaItemsByTag(input).toString();
 				break;
 			case "tag item":
 				toPrint = tagItem(input) + ", enter anything to continue";
@@ -73,6 +83,23 @@ public class CommandConsole {
 		// tagging process
 		System.out.print("enter a file name: ");
 		fileLocation = sc.nextLine();
+		
+		// TODO: make sure the media file exists. can be done by seeing of allMedia contains a media w/ this path
+		
+		// prevents overwriting any existing media data
+		if(MediaHandler.getMediaDataByPath(Paths.get(fileLocation)) != null) {
+			return "cannot tag this file, it is already tagged";
+		}
+		
+		System.out.print("enter the name(s) of this item, or enter '!next' to go to next category: ");
+		while(true) {
+			String toAdd = sc.nextLine();
+			if(toAdd.equals("!next")) {
+				break;
+			}
+			name.add(toAdd);
+			System.out.println("added: " + toAdd);
+		}
 		
 		System.out.print("enter date(s) this item was created, or enter '!next' to go to next category: ");
 		while(true) {
