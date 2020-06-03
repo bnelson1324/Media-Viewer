@@ -3,20 +3,16 @@ package media_control;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 
 import media.MediaData;
@@ -28,27 +24,10 @@ public class MediaLoader {
 	/* This is what loads media items and data */
 	
 	private static Reader myReader;
-	private static Gson gson;
+	static Gson gson;
 	
-	private static JsonArray mediaDataStorageJson;
+	static JsonArray mediaDataStorageJson;
 	
-	// all media items in the storage folder
-	private static ArrayList<MediaItem> allMediaItems;
-	
-	// pairs file path with a media object
-	private static HashMap<Path, MediaData> allMediaData;
-	
-	
-	
-	// TODO: add method to save allMediaData to the JSON file
-	
-	static MediaData getMediaDataByPath(Path path) {
-		return allMediaData.get(path);
-	}
-	
-	static void addMediaData(Path p, MediaData md) {
-		allMediaData.put(p, md);
-	}
 	
 	// recursively adds all non-directory files from a directory, including from its subdirectories, into an ArrayList
 	private static void fetchFiles(File dir, ArrayList<Path> allNonDirFiles) {
@@ -62,10 +41,6 @@ public class MediaLoader {
 			}
 		}
 	}
-	
-	static ArrayList<MediaItem> getAllMediaItems() {
-		return allMediaItems;
-	}
 
 	public static void init() {
 		loadMediaItems();
@@ -73,10 +48,10 @@ public class MediaLoader {
 		
 	}
 
-	private static void loadMediaItems() {
+	static ArrayList<MediaItem> loadMediaItems() {
 		// finds every file from the root storage folder
 		
-		allMediaItems = new ArrayList<MediaItem>();
+		ArrayList<MediaItem> allMediaItems = new ArrayList<MediaItem>();
 		
 		Path rootStorageFolder = Paths.get(SettingsLoader.getSetting("rootStorageFolderLoc"));
 		ArrayList<Path> allFiles = new ArrayList<Path>();
@@ -89,10 +64,12 @@ public class MediaLoader {
 			MediaItem mi = new MediaItem(Paths.get(relativePath));
 			allMediaItems.add(mi);
 		}
+		
+		return allMediaItems;
 	}
 
 	@SuppressWarnings("unchecked")
-	private static void loadMediaData() {
+	static HashMap<Path, MediaData> loadMediaData() {
 		gson = new GsonBuilder()
 			.setPrettyPrinting()
 			.create();
@@ -108,7 +85,7 @@ public class MediaLoader {
 		mediaDataStorageJson = gson.fromJson(myReader, JsonArray.class);
 		
 		// adds all data from mediaDataStorage to allMediaData
-		allMediaData = new HashMap<Path, MediaData>();
+		HashMap<Path, MediaData> allMediaData = new HashMap<Path, MediaData>();
 		
 		for(JsonElement mediaDataJsonElement : mediaDataStorageJson) {
 			JsonObject mdJson = (JsonObject) mediaDataJsonElement;
@@ -124,43 +101,11 @@ public class MediaLoader {
 			MediaData md = new MediaData(mdName, mdDateCreated, mdDateAdded, mdAuthorName, mdAuthorLink, mdTags);
 			allMediaData.put(Paths.get(mdPath), md);
 		}
+		
+		return allMediaData;
 	}
 
-	// saves media data to mediaDataStorage.json
-	public static void saveMediaData() {
-		// create array of jsonObjects
-		ArrayList<JsonElement> allJsonMediaData = new ArrayList<JsonElement>();
-		
-		// create a json object representing each media data, add these to the array
-		for(Map.Entry<Path, MediaData> entry : allMediaData.entrySet()) {
-			JsonObject mdJson = new JsonObject();
-					
-			// !! not sure if this works
-			// adds file location and media data to mdJson
-			mdJson.addProperty("fileLocation", entry.getKey().toString());
-			mdJson.add("name", gson.toJsonTree(entry.getValue().getName()));
-			mdJson.add("dateCreated", gson.toJsonTree(entry.getValue().getDateCreated()));
-			mdJson.add("dateAdded", gson.toJsonTree(entry.getValue().getDateAdded()));
-			mdJson.add("authorName", gson.toJsonTree(entry.getValue().getAuthorName()));
-			mdJson.add("authorLinks", gson.toJsonTree(entry.getValue().getAuthorLinks()));
-			mdJson.add("tags", gson.toJsonTree(entry.getValue().getGenericTags()));
-			
-			allJsonMediaData.add(mdJson);
-		}
-		
-		// overwrite mediaDataStorageJson with the array
-		mediaDataStorageJson = (JsonArray) gson.toJsonTree(allJsonMediaData);
-
-		// overwrite the mediaDataStorage file with mediaDataStorageJson
-		try {
-			FileWriter fw = new FileWriter("mediaDataStorage.json");
-			fw.write(gson.toJson(mediaDataStorageJson));
-			fw.close();
-		} catch (JsonIOException | IOException e) {
-			e.printStackTrace();
-		}
-		
-	}
+	
 	
 
 	

@@ -9,7 +9,7 @@ import java.util.Scanner;
 import media.MediaData;
 import media.MediaItem;
 import media_control.MediaHandler;
-import media_control.MediaLoader;
+import media_control.MediaSaver;
 
 public class CommandConsole {
 	
@@ -43,7 +43,7 @@ public class CommandConsole {
 						toPrint = "enter a command";
 						break;
 					case "save media data":
-						MediaLoader.saveMediaData();
+						MediaSaver.saveMediaData();
 						System.out.println("saved media data");
 						toPrint = "enter a command";
 						break;
