@@ -23,6 +23,17 @@
     ]
   },
   {
+    "fileLocation": "images\\desktop backgrounds\\sunflowers.jpg",
+    "name": [],
+    "dateCreated": [],
+    "dateAdded": [],
+    "authorName": [],
+    "authorLinks": [],
+    "tags": [
+      "untagged"
+    ]
+  },
+  {
     "fileLocation": "images\\2002 camry.jpg",
     "name": [
       "2002 Camry"
@@ -42,6 +53,64 @@
     "tags": [
       "2002 Toyota Camry",
       "outdoors"
+    ]
+  },
+  {
+    "fileLocation": "images\\desktop backgrounds\\plains.jpg",
+    "name": [],
+    "dateCreated": [],
+    "dateAdded": [],
+    "authorName": [],
+    "authorLinks": [],
+    "tags": [
+      "untagged"
+    ]
+  },
+  {
+    "fileLocation": "images\\desktop backgrounds\\mountains.jpg",
+    "name": [],
+    "dateCreated": [],
+    "dateAdded": [],
+    "authorName": [],
+    "authorLinks": [],
+    "tags": [
+      "untagged"
+    ]
+  },
+  {
+    "fileLocation": "images\\desktop backgrounds\\ocean.jpg",
+    "name": [],
+    "dateCreated": [],
+    "dateAdded": [],
+    "authorName": [],
+    "authorLinks": [],
+    "tags": [
+      "untagged"
+    ]
+  },
+  {
+    "fileLocation": "images\\desktop backgrounds\\forest.jpg",
+    "name": [
+      "Forest"
+    ],
+    "dateCreated": [
+      "n/a"
+    ],
+    "dateAdded": [
+      "2020/06/02"
+    ],
+    "authorName": [
+      "n/a"
+    ],
+    "authorLinks": [
+      "n/a"
+    ],
+    "tags": [
+      "outdoors",
+      "forest",
+      "river",
+      "trees",
+      "digital art"
     ]
   },
   {

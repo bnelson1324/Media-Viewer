@@ -109,19 +109,20 @@ public class MediaHandler {
 		allMediaData.put(p, md);
 	}
 	
-	public static void init() {
-		allMediaItems = MediaLoader.loadMediaItems();
-		allMediaData = MediaLoader.loadMediaData();
-		
-		sem = new ScriptEngineManager();
-		se = sem.getEngineByName("JavaScript");
-		
-		
-	}
-
 	public static HashMap<Path, MediaData> getAllMediaData() {
 		return allMediaData;
 	}
+	
+	
+	public static void init() {
+		allMediaItems = MediaLoader.getMediaItems();
+		allMediaData = MediaLoader.getMediaData();
+		
+		sem = new ScriptEngineManager();
+		se = sem.getEngineByName("JavaScript");
+
+	}
+
 	
 	
 }

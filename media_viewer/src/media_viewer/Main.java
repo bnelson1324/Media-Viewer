@@ -14,7 +14,6 @@ import media_control.MediaLoader;
 public class Main {
 	
 	/* TODO: when the program starts, detect if any media items are untagged
-	 * (can be done by seeing if their media data is null), and prompt the user to tag them
 	 */
 	
 	public static void main(String[] args) {
@@ -22,6 +21,8 @@ public class Main {
 		init();
 		
 		// !! test code below
+		
+		
 		
 		Scanner sc = new Scanner(System.in);
 		CommandConsole.takeInput("");

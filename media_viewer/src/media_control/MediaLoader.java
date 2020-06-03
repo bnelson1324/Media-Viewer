@@ -27,31 +27,16 @@ public class MediaLoader {
 	static Gson gson;
 	
 	static JsonArray mediaDataStorageJson;
-	
-	
-	// recursively adds all non-directory files from a directory, including from its subdirectories, into an ArrayList
-	private static void fetchFiles(File dir, ArrayList<Path> allNonDirFiles) {
-		File[] allFiles = dir.listFiles();
-	
-		for(File f : allFiles) {
-			if(f.isDirectory()) {
-				fetchFiles(f, allNonDirFiles);
-			} else {
-				allNonDirFiles.add(f.toPath());
-			}
-		}
-	}
 
-	public static void init() {
-		loadMediaItems();
-		loadMediaData();
-		
-	}
-
-	static ArrayList<MediaItem> loadMediaItems() {
+	
+	// all media items in the storage folder
+	private static ArrayList<MediaItem> loaderAllMediaItems;
+	
+	// pairs file path with a media object
+	private static HashMap<Path, MediaData> loaderAllMediaData;
+	
+	private static void loadMediaItems() {
 		// finds every file from the root storage folder
-		
-		ArrayList<MediaItem> allMediaItems = new ArrayList<MediaItem>();
 		
 		Path rootStorageFolder = Paths.get(SettingsLoader.getSetting("rootStorageFolderLoc"));
 		ArrayList<Path> allFiles = new ArrayList<Path>();
@@ -62,14 +47,12 @@ public class MediaLoader {
 			String relativePath = f.toString().substring(rootStorageFolder.toString().length() + 1);
 			
 			MediaItem mi = new MediaItem(Paths.get(relativePath));
-			allMediaItems.add(mi);
+			loaderAllMediaItems.add(mi);
 		}
-		
-		return allMediaItems;
 	}
 
 	@SuppressWarnings("unchecked")
-	static HashMap<Path, MediaData> loadMediaData() {
+	private static void loadMediaData() {
 		gson = new GsonBuilder()
 			.setPrettyPrinting()
 			.create();
@@ -84,9 +67,7 @@ public class MediaLoader {
 		
 		mediaDataStorageJson = gson.fromJson(myReader, JsonArray.class);
 		
-		// adds all data from mediaDataStorage to allMediaData
-		HashMap<Path, MediaData> allMediaData = new HashMap<Path, MediaData>();
-		
+		// adds all data from mediaDataStorage to loaderAllMediaData
 		for(JsonElement mediaDataJsonElement : mediaDataStorageJson) {
 			JsonObject mdJson = (JsonObject) mediaDataJsonElement;
 	
@@ -99,14 +80,59 @@ public class MediaLoader {
 			ArrayList<String> mdTags = gson.fromJson(mdJson.get("tags"), ArrayList.class);
 			
 			MediaData md = new MediaData(mdName, mdDateCreated, mdDateAdded, mdAuthorName, mdAuthorLink, mdTags);
-			allMediaData.put(Paths.get(mdPath), md);
+			loaderAllMediaData.put(Paths.get(mdPath), md);
 		}
-		
-		return allMediaData;
 	}
 
 	
+	// recursively adds all non-directory files from a directory, including from its subdirectories, into an ArrayList
+	private static void fetchFiles(File dir, ArrayList<Path> allNonDirFiles) {
+		File[] allFiles = dir.listFiles();
 	
+		for(File f : allFiles) {
+			if(f.isDirectory()) {
+				fetchFiles(f, allNonDirFiles);
+			} else {
+				allNonDirFiles.add(f.toPath());
+			}
+		}
+	}
+
+	// adds 'untagged' tag to mediaItems without tag
+	private static void addUntaggedTag() {
+		ArrayList<MediaItem> untaggedMediaItems = new ArrayList<MediaItem>();
+		
+		// finds all untagged media items
+		for(MediaItem mi : loaderAllMediaItems) {
+			if(loaderAllMediaData.get(mi.getPath()) == null) {
+				untaggedMediaItems.add(mi);
+			}
+		}
+		
+		// adds 'untagged' tag to them
+		for(MediaItem mi : untaggedMediaItems) {
+			ArrayList<String> tags = new ArrayList<String>();
+			tags.add("untagged");
+			MediaData md = new MediaData(new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), tags);
+			loaderAllMediaData.put(mi.getPath(), md);
+		}
+	}
+	
+	static ArrayList<MediaItem> getMediaItems() {
+		return loaderAllMediaItems;
+	}
+	
+	static HashMap<Path, MediaData> getMediaData() {
+		return loaderAllMediaData;
+	}
+	
+	public static void init() {
+		loaderAllMediaItems = new ArrayList<MediaItem>();
+		loaderAllMediaData = new HashMap<Path, MediaData>();
+		loadMediaItems();
+		loadMediaData();
+		addUntaggedTag();
+	}
 
 	
 	
