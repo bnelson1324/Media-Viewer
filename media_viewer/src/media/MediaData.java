@@ -2,8 +2,11 @@ package media;
 
 import java.util.ArrayList;
 
+
 public class MediaData {
 
+	// TODO: make the program automatically add a fileFormat tag like fileFormat:mp3 or fileFormat:wav
+	
 	/* This is data describing a media file */
 	
 	private ArrayList<String> name, dateCreated, dateAdded, authorName, authorLinks, tags;
@@ -37,8 +40,8 @@ public class MediaData {
 		return authorLinks;
 	}
 	
-	// gets the misc tags (tags ArrayList)
-	public ArrayList<String> getMiscTags() {
+	// gets the generic tags (tags ArrayList)
+	public ArrayList<String> getGenericTags() {
 		return tags;
 	}
 	

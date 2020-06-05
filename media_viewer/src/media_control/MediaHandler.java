@@ -1,31 +1,52 @@
-package media_viewer;
+package media_control;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import com.google.gson.JsonObject;
+
+import media.MediaData;
 import media.MediaItem;
 
 public class MediaHandler {
 
 	/* This class handles all media */
 	
+	// all media items in the storage folder
+	private static ArrayList<MediaItem> allMediaItems;
+	
+	// pairs file path with a media object
+	private static HashMap<Path, MediaData> allMediaData;
+	
+	
 	// used to parse searches
 	private static ScriptEngineManager sem;
 	private static ScriptEngine se;
 	
 	
-	public static ArrayList<MediaItem> getMediaByTag(String search) {
+
+	
+	
+
+	public static ArrayList<MediaItem> getMediaItemsByTag(String search) {
 		// media items that pass the search
 		ArrayList<MediaItem> passingMediaItems = new ArrayList<MediaItem>();
 		
-		ArrayList<MediaItem> allMediaItems = MediaItemLoader.getAllMediaItems();
+		ArrayList<MediaItem> allMediaItems = getAllMediaItems();
 		
 		for(MediaItem mi : allMediaItems) {
+			// skips media items w/o media data
+			if(getMediaDataByPath(mi.getPath()) == null) {
+				continue;
+			}
+			
 			// tags the current media item has
-			ArrayList<String> containedTags = MediaDataLoader.getMediaDataByPath(mi.getPath()).getAllTags();
+			ArrayList<String> containedTags = getMediaDataByPath(mi.getPath()).getAllTags();
 			
 			// checks current media item has the desired tag
 			
@@ -71,10 +92,37 @@ public class MediaHandler {
 		return passingMediaItems;
 	}
 	
+	public static ArrayList<MediaItem> getAllMediaItems() {
+		return allMediaItems;
+	}
+	
+	public static MediaData getMediaDataByPath(Path path) {
+		return allMediaData.get(path);
+	}
+	
+	public static void addMedia(MediaItem mi, MediaData md) {
+		// pairs a media item its media data
+		addMediaData(mi.getPath(), md);
+	}
+	
+	public static void addMediaData(Path p, MediaData md) {
+		allMediaData.put(p, md);
+	}
+	
+	public static HashMap<Path, MediaData> getAllMediaData() {
+		return allMediaData;
+	}
+	
+	
 	public static void init() {
+		allMediaItems = MediaLoader.getMediaItems();
+		allMediaData = MediaLoader.getMediaData();
+		
 		sem = new ScriptEngineManager();
 		se = sem.getEngineByName("JavaScript");
+
 	}
+
 	
 	
 }

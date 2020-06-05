@@ -8,8 +8,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import media.MediaItem;
+import media_control.MediaHandler;
+import media_control.MediaLoader;
 
 public class Main {
+	
+	/* TODO: when the program starts, detect if any media items are untagged
+	 */
 	
 	public static void main(String[] args) {
 	
@@ -17,21 +22,20 @@ public class Main {
 		
 		// !! test code below
 		
+		
+		
 		Scanner sc = new Scanner(System.in);
+		CommandConsole.takeInput("");
 		while(true) {
-			System.out.print("input a tag to search for: ");
 			String input = sc.nextLine();
-			System.out.println(MediaHandler.getMediaByTag(input));
-			
-			
+			CommandConsole.takeInput(input);
 		}
 	}
 	
 	private static void init() {
 		SettingsLoader.loadSettings();
 		setUpStorageFolder();
-		MediaItemLoader.init();
-		MediaDataLoader.init();
+		MediaLoader.init();
 		MediaHandler.init();
 	}
 	

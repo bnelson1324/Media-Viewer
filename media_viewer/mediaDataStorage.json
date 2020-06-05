@@ -1,30 +1,139 @@
 [
-	{
-		"fileLocation":"images/death grips car.jpg",
-		"name":["Death Grips car"],
-		"dateCreated":["n/a"],
-		"dateAdded":["2020/05/18"],
-		"authorName":["n/a"],
-		"authorLinks":["n/a"],
-		"tags":["death grips", "guillotine", "2002 Toyota Camry"]
-	},
-	{
-		"fileLocation":"images/gradient.png",
-		"name":["Gradient"],
-		"dateCreated":["2020/05/18"],
-		"dateAdded":["2020/05/18"],
-		"authorName":["Ben N."],
-		"authorLinks":["n/a"],
-		"tags":["digital art", "green", "magenta"]
-	},
-	{
-		"fileLocation":"images/2002 camry.jpg",
-		"name":["2002 Camry"],
-		"dateCreated":["n/a"],
-		"dateAdded":["2020/05/24"],
-		"authorName":["n/a"],
-		"authorLinks":["n/a"],
-		"tags":["2002 Toyota Camry", "outdoors"]
-	}
+  {
+    "fileLocation": "images\\gradient.png",
+    "name": [
+      "Gradient"
+    ],
+    "dateCreated": [
+      "2020/05/18"
+    ],
+    "dateAdded": [
+      "2020/05/18"
+    ],
+    "authorName": [
+      "Ben N."
+    ],
+    "authorLinks": [
+      "n/a"
+    ],
+    "tags": [
+      "digital art",
+      "green",
+      "magenta"
+    ]
+  },
+  {
+    "fileLocation": "images\\desktop backgrounds\\sunflowers.jpg",
+    "name": [],
+    "dateCreated": [],
+    "dateAdded": [],
+    "authorName": [],
+    "authorLinks": [],
+    "tags": [
+      "untagged"
+    ]
+  },
+  {
+    "fileLocation": "images\\2002 camry.jpg",
+    "name": [
+      "2002 Camry"
+    ],
+    "dateCreated": [
+      "n/a"
+    ],
+    "dateAdded": [
+      "2020/05/24"
+    ],
+    "authorName": [
+      "n/a"
+    ],
+    "authorLinks": [
+      "n/a"
+    ],
+    "tags": [
+      "2002 Toyota Camry",
+      "outdoors"
+    ]
+  },
+  {
+    "fileLocation": "images\\desktop backgrounds\\plains.jpg",
+    "name": [],
+    "dateCreated": [],
+    "dateAdded": [],
+    "authorName": [],
+    "authorLinks": [],
+    "tags": [
+      "untagged"
+    ]
+  },
+  {
+    "fileLocation": "images\\desktop backgrounds\\mountains.jpg",
+    "name": [],
+    "dateCreated": [],
+    "dateAdded": [],
+    "authorName": [],
+    "authorLinks": [],
+    "tags": [
+      "untagged"
+    ]
+  },
+  {
+    "fileLocation": "images\\desktop backgrounds\\ocean.jpg",
+    "name": [],
+    "dateCreated": [],
+    "dateAdded": [],
+    "authorName": [],
+    "authorLinks": [],
+    "tags": [
+      "untagged"
+    ]
+  },
+  {
+    "fileLocation": "images\\desktop backgrounds\\forest.jpg",
+    "name": [
+      "Forest"
+    ],
+    "dateCreated": [
+      "n/a"
+    ],
+    "dateAdded": [
+      "2020/06/02"
+    ],
+    "authorName": [
+      "n/a"
+    ],
+    "authorLinks": [
+      "n/a"
+    ],
+    "tags": [
+      "outdoors",
+      "forest",
+      "river",
+      "trees",
+      "digital art"
+    ]
+  },
+  {
+    "fileLocation": "images\\death grips car.jpg",
+    "name": [
+      "Death Grips car"
+    ],
+    "dateCreated": [
+      "n/a"
+    ],
+    "dateAdded": [
+      "2020/05/18"
+    ],
+    "authorName": [
+      "n/a"
+    ],
+    "authorLinks": [
+      "n/a"
+    ],
+    "tags": [
+      "death grips",
+      "guillotine",
+      "2002 Toyota Camry"
+    ]
+  }
 ]
-
