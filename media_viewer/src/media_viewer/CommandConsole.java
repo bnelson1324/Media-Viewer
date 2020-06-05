@@ -14,6 +14,7 @@ import media_control.MediaSaver;
 public class CommandConsole {
 	
 	// this lets the user control the program from the java console, for testing purposes
+	// !! code in here is very bad, probably delete this later
 	
 	private static String mode = "default";
 	private static String toPrint;

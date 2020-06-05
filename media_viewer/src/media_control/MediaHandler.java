@@ -8,8 +8,6 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import com.google.gson.JsonObject;
-
 import media.MediaData;
 import media.MediaItem;
 
@@ -57,7 +55,6 @@ public class MediaHandler {
 			for(char ch : search.toCharArray()) {
 				if(ch == '&' || ch == '|' || ch == '!' || ch == '(' || ch == ')') {
 					// if char isn't part of the tag
-					
 					if(!nextTag.trim().equals("") ) {
 						// this runs when the full tag name is determined. this determines whether the tag is present in the MediaItem
 						boolean hasTag = containedTags.contains(nextTag.trim());
@@ -115,6 +112,8 @@ public class MediaHandler {
 	
 	
 	public static void init() {
+		MediaLoader.init();
+		
 		allMediaItems = MediaLoader.getMediaItems();
 		allMediaData = MediaLoader.getMediaData();
 		

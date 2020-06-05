@@ -3,6 +3,7 @@ package media_control;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,7 +18,7 @@ import com.google.gson.JsonObject;
 
 import media.MediaData;
 import media.MediaItem;
-import media_viewer.SettingsLoader;
+import settings.SettingsHandler;
 
 public class MediaLoader {
 
@@ -38,7 +39,7 @@ public class MediaLoader {
 	private static void loadMediaItems() {
 		// finds every file from the root storage folder
 		
-		Path rootStorageFolder = Paths.get(SettingsLoader.getSetting("rootStorageFolderLoc"));
+		Path rootStorageFolder = Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc"));
 		ArrayList<Path> allFiles = new ArrayList<Path>();
 		fetchFiles(rootStorageFolder.toFile(), allFiles);
 		
@@ -81,6 +82,12 @@ public class MediaLoader {
 			
 			MediaData md = new MediaData(mdName, mdDateCreated, mdDateAdded, mdAuthorName, mdAuthorLink, mdTags);
 			loaderAllMediaData.put(Paths.get(mdPath), md);
+		}
+		try {
+			myReader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

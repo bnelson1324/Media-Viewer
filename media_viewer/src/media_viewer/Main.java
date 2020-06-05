@@ -3,18 +3,18 @@ package media_viewer;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Scanner;
 
-import media.MediaItem;
+import gui.GUIHandler;
 import media_control.MediaHandler;
 import media_control.MediaLoader;
+import settings.*;
 
 public class Main {
 	
 	/* TODO: when the program starts, detect if any media items are untagged
 	 */
+	// TODO: replace all n/a tags in the json file w/ blank spaces
 	
 	public static void main(String[] args) {
 	
@@ -22,8 +22,9 @@ public class Main {
 		
 		// !! test code below
 		
+
 		
-		
+		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		CommandConsole.takeInput("");
 		while(true) {
@@ -33,15 +34,15 @@ public class Main {
 	}
 	
 	private static void init() {
-		SettingsLoader.loadSettings();
+		SettingsHandler.init();
 		setUpStorageFolder();
-		MediaLoader.init();
 		MediaHandler.init();
+		GUIHandler.init();
 	}
 	
 	private static void setUpStorageFolder() {
 		// creates storage directory if it doesn't exist
-		File rootStorageFolder = new File(SettingsLoader.getSetting("rootStorageFolderLoc"));
+		File rootStorageFolder = new File(SettingsHandler.getSetting("rootStorageFolderLoc"));
 		if(!rootStorageFolder.exists()) {
 			rootStorageFolder.mkdir();
 		}
