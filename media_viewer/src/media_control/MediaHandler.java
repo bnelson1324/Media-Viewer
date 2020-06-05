@@ -1,5 +1,8 @@
 package media_control;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +13,7 @@ import javax.script.ScriptException;
 
 import media.MediaData;
 import media.MediaItem;
+import settings.SettingsHandler;
 
 public class MediaHandler {
 
@@ -106,6 +110,15 @@ public class MediaHandler {
 		allMediaData.put(p, md);
 	}
 	
+	// reloads media items and data in case any changes have been made
+	public static void refreshMediaFolder() {
+		setUpStorageFolder();
+		MediaLoader.init();
+		
+		allMediaItems = MediaLoader.getMediaItems();
+		allMediaData = MediaLoader.getMediaData();
+	}
+	
 	public static HashMap<Path, MediaData> getAllMediaData() {
 		return allMediaData;
 	}
@@ -121,6 +134,28 @@ public class MediaHandler {
 		se = sem.getEngineByName("JavaScript");
 
 	}
+	
+	public static void setUpStorageFolder() {
+		// creates storage directory if it doesn't exist
+		File rootStorageFolder = new File(SettingsHandler.getSetting("rootStorageFolderLoc"));
+		if(!rootStorageFolder.exists()) {
+			rootStorageFolder.mkdir();
+		}
+	}
+	
+	public static void setUpMediaStorageFile() {
+		// create a new media storage file by copying the default one
+		File mediaStorageFile = new File("mediaDataStorage.json");
+		if(!mediaStorageFile.exists()) {
+			File defaultMediaStorage = new File("res/DEFAULT_MEDIA_DATA_STORAGE.json");
+			try {
+				Files.copy(defaultMediaStorage.toPath(), mediaStorageFile.toPath());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 
 	
 	

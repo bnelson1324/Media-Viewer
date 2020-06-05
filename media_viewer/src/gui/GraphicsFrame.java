@@ -19,6 +19,12 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import java.awt.Color;
+import java.awt.GridLayout;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class GraphicsFrame extends JFrame {
 
@@ -26,7 +32,11 @@ public class GraphicsFrame extends JFrame {
 	
 	private JPanel contentPane;
 	private JTabbedPane tabbedPane;
+	
+	private JPanel panelMediaDisplayGrid;
+	
 	private JTextField textFieldRootStorageLoc;
+	private JTextField textFieldSearch;
 
 	/**
 	 * Launch the application.
@@ -58,10 +68,14 @@ public class GraphicsFrame extends JFrame {
 	private void addFinalListeners() {
 		tabbedPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				GUIHandler.loadDefaultValues();
-				textFieldRootStorageLoc.setText(defaultValues.get("settingsRootStorageLoc"));
+				updateDefaultValues();
 			}
 		});
+	}
+	
+	private void updateDefaultValues() {
+		GUIHandler.loadDefaultValues();
+		textFieldRootStorageLoc.setText(defaultValues.get("settingsRootStorageLoc"));
 	}
 
 	/**
@@ -83,7 +97,66 @@ public class GraphicsFrame extends JFrame {
 		
 		JPanel panelSearch = new JPanel();
 		panelSearch.setToolTipText("");
-		tabbedPane.addTab("Search", null, panelSearch, "Search for a media item");
+		tabbedPane.addTab("Search", null, panelSearch, "Search for media items by tag");
+		
+		JLabel lblSearch = new JLabel("Search by tag: ");
+		
+		textFieldSearch = new JTextField();
+		textFieldSearch.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					// searches query and displays results
+					panelMediaDisplayGrid.removeAll();
+					
+					for(JLabel label : GUIHandler.textFieldSearch(textFieldSearch.getText())) {
+						panelMediaDisplayGrid.add(label);
+					}
+					
+					panelMediaDisplayGrid.revalidate();
+					panelMediaDisplayGrid.repaint();
+				}
+			}
+		});
+		textFieldSearch.setColumns(10);
+		
+		JScrollPane scrollPaneMediaDisplay = new JScrollPane();
+		scrollPaneMediaDisplay.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPaneMediaDisplay.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		GroupLayout gl_panelSearch = new GroupLayout(panelSearch);
+		gl_panelSearch.setHorizontalGroup(
+			gl_panelSearch.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelSearch.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelSearch.createParallelGroup(Alignment.LEADING)
+						.addComponent(scrollPaneMediaDisplay, GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE)
+						.addGroup(gl_panelSearch.createSequentialGroup()
+							.addComponent(lblSearch)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(textFieldSearch, GroupLayout.PREFERRED_SIZE, 420, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
+		);
+		gl_panelSearch.setVerticalGroup(
+			gl_panelSearch.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelSearch.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelSearch.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblSearch)
+						.addComponent(textFieldSearch, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPaneMediaDisplay, GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		
+		panelMediaDisplayGrid = new JPanel();
+		panelMediaDisplayGrid.setBackground(Color.PINK);
+		scrollPaneMediaDisplay.setViewportView(panelMediaDisplayGrid);
+		panelMediaDisplayGrid.setLayout(new GridLayout(1, 0, 0, 0));
+		panelSearch.setLayout(gl_panelSearch);
+		
+		JPanel panelView = new JPanel();
+		tabbedPane.addTab("View", null, panelView, "View a media item");
 		
 		JPanel panelModifyTags = new JPanel();
 		tabbedPane.addTab("Modify Tags", null, panelModifyTags, "Change tags the of a media item");
@@ -107,6 +180,7 @@ public class GraphicsFrame extends JFrame {
 		btnResetSettings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GUIHandler.btnResetSettings();
+				updateDefaultValues();
 			}
 		});
 		GroupLayout gl_panelSettings = new GroupLayout(panelSettings);

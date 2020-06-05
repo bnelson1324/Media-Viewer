@@ -12,8 +12,6 @@ public class SettingsHandler {
 	
 	public static void modifySetting(String settingName, String newValue) {
 		settingsMap.put(settingName, newValue);
-		
-		// TODO: make the program reload allMediaItems to check the new folder in case rootStorageFolderLoc changes
 	}
 	
 	public static void init() {
