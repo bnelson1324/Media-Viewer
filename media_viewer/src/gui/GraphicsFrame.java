@@ -32,6 +32,8 @@ import javax.swing.event.ChangeListener;
 import misc.WrapLayout;
 import javax.swing.ScrollPaneConstants;
 import java.awt.Color;
+import javax.swing.JSeparator;
+import javax.swing.JTextArea;
 
 public class GraphicsFrame extends JFrame {
 
@@ -51,6 +53,13 @@ public class GraphicsFrame extends JFrame {
 	private JTextField textFieldModifyTagsFileLocation;
 	
 	private JScrollPane scrollPaneMediaDisplay;
+	private JTextField textFieldModName;
+	private JTextField textFieldModDateCreated;
+	private JTextField textFieldModDateAdded;
+	private JTextField textFieldModAuthorName;
+	private JTextField textFieldModAuthorLinks;
+	
+	private JTextArea textFieldModTags;
 
 	/**
 	 * Launch the application.
@@ -100,8 +109,14 @@ public class GraphicsFrame extends JFrame {
 		textFieldRootStorageLoc.setText(defaultValues.get("settingsRootStorageLoc"));
 		textFieldViewFileLocation.setText(defaultValues.get("selectedMediaItemFileLocation"));
 		textFieldModifyTagsFileLocation.setText(defaultValues.get("selectedMediaItemFileLocation"));
-		GUIHandler.updateMediaItemPanel(imgViewMedia, scrollPaneMediaDisplay.getSize());
-		GUIHandler.updateMediaItemPanel(imgModifyTagsMedia, scrollPaneMediaDisplay.getSize());
+		GUIHandler.updateMediaItemPanel(imgViewMedia, scrollPaneMediaDisplay.getWidth() - 16, scrollPaneMediaDisplay.getHeight() - 16);
+		GUIHandler.updateMediaItemPanel(imgModifyTagsMedia, scrollPaneMediaDisplay.getWidth() - 430, scrollPaneMediaDisplay.getHeight() - 180);
+		textFieldModName.setText(defaultValues.get("selectedMediaItemName"));
+		textFieldModDateCreated.setText(defaultValues.get("selectedMediaItemDateCreated"));
+		textFieldModDateAdded.setText(defaultValues.get("selectedMediaItemDateAdded"));
+		textFieldModAuthorName.setText(defaultValues.get("selectedMediaItemAuthorName"));
+		textFieldModAuthorLinks.setText(defaultValues.get("selectedMediaItemAuthorLinks"));
+		textFieldModTags.setText(defaultValues.get("selectedMediaItemTags"));
 	}
 
 	/**
@@ -196,6 +211,7 @@ public class GraphicsFrame extends JFrame {
 		
 		scrollPaneMediaDisplay = new JScrollPane();
 		scrollPaneMediaDisplay.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPaneMediaDisplay.getVerticalScrollBar().setUnitIncrement(16);
 		panelSearch.add(scrollPaneMediaDisplay, BorderLayout.CENTER);
 		
 		panelMediaDisplayGrid = new JPanel();
@@ -245,19 +261,70 @@ public class GraphicsFrame extends JFrame {
 		imgModifyTagsMedia = new JLabel("");
 		textFieldModifyTagsFileLocation = new MediaFileLocationTextBox(imgModifyTagsMedia, scrollPaneMediaDisplay);
 		
+		JLabel lblModName = new JLabel("Name:");
+		
+		JLabel lblModDateCreated = new JLabel("Date Created: ");
+		
+		textFieldModName = new JTextField();
+		textFieldModName.setColumns(10);
+		
+		textFieldModDateCreated = new JTextField();
+		textFieldModDateCreated.setColumns(10);
+		
+		JLabel lblModDateAdded = new JLabel("Date Added: ");
+		
+		JLabel lblModTags = new JLabel("Tags: ");
+		
+		JSeparator separator = new JSeparator();
+		
+		textFieldModDateAdded = new JTextField();
+		textFieldModDateAdded.setColumns(10);
+		
+		textFieldModAuthorName = new JTextField();
+		textFieldModAuthorName.setColumns(10);
+		
+		textFieldModAuthorLinks = new JTextField();
+		textFieldModAuthorLinks.setColumns(10);
+		
+		JLabel lblModAuthorName = new JLabel("Author Name: ");
+		
+		JLabel lblModAuthorLinks = new JLabel("Author Links: ");
+		
+		textFieldModTags = new JTextArea();
+		
 		GroupLayout gl_panelModifyTags = new GroupLayout(panelModifyTags);
 		gl_panelModifyTags.setHorizontalGroup(
 			gl_panelModifyTags.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelModifyTags.createSequentialGroup()
-					.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.LEADING, false)
+					.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panelModifyTags.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(lblModifyTagsFileLocation)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textFieldModifyTagsFileLocation, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE))
+							.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panelModifyTags.createSequentialGroup()
+									.addComponent(lblModifyTagsFileLocation)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(textFieldModifyTagsFileLocation, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panelModifyTags.createSequentialGroup()
+									.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(lblModAuthorName, GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
+										.addComponent(lblModDateAdded, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(lblModDateCreated, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(lblModName, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(lblModAuthorLinks, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(lblModTags, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.LEADING)
+										.addComponent(textFieldModTags, GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+										.addComponent(textFieldModName, GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+										.addComponent(textFieldModDateCreated, GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+										.addComponent(textFieldModDateAdded, GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+										.addComponent(textFieldModAuthorName, GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+										.addComponent(textFieldModAuthorLinks, GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE))
+									.addGap(18)
+									.addComponent(imgModifyTagsMedia, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))))
 						.addGroup(gl_panelModifyTags.createSequentialGroup()
-							.addContainerGap(241, Short.MAX_VALUE)
-							.addComponent(imgModifyTagsMedia, GroupLayout.PREFERRED_SIZE, 358, GroupLayout.PREFERRED_SIZE)))
+							.addGap(70)
+							.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		gl_panelModifyTags.setVerticalGroup(
@@ -267,9 +334,38 @@ public class GraphicsFrame extends JFrame {
 					.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblModifyTagsFileLocation)
 						.addComponent(textFieldModifyTagsFileLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addComponent(imgModifyTagsMedia, GroupLayout.PREFERRED_SIZE, 343, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 6, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelModifyTags.createSequentialGroup()
+							.addComponent(imgModifyTagsMedia, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+							.addGap(184))
+						.addGroup(gl_panelModifyTags.createSequentialGroup()
+							.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblModName)
+								.addComponent(textFieldModName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(12)
+							.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblModDateCreated)
+								.addComponent(textFieldModDateCreated, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblModDateAdded)
+								.addComponent(textFieldModDateAdded, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.BASELINE)
+								.addComponent(textFieldModAuthorName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblModAuthorName))
+							.addGap(15)
+							.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.BASELINE)
+								.addComponent(textFieldModAuthorLinks, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblModAuthorLinks))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblModTags)
+								.addComponent(textFieldModTags, GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))
+							.addGap(80))))
 		);
 		panelModifyTags.setLayout(gl_panelModifyTags);
 		

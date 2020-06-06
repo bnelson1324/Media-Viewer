@@ -30,7 +30,7 @@ public class MediaFileLocationTextBox extends JTextField {
 				// TODO: stop image from cropping
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 					GUIHandler.selectedMediaItemPath = getMediaItem().getPath();
-					GUIHandler.updateMediaItemPanel(managedJLabel, sizeComponent.getSize());
+					GUIHandler.updateMediaItemPanel(managedJLabel, sizeComponent.getWidth(), sizeComponent.getHeight());
 					
 				}
 			}

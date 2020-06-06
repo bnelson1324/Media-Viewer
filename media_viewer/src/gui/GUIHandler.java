@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import media.MediaData;
 import media.MediaItem;
 import media_control.MediaHandler;
 import settings.SettingsHandler;
@@ -26,19 +27,34 @@ public class GUIHandler {
 	// path to selected media item, shown in view and modify tags
 	static Path selectedMediaItemPath;
 	
+	
 	/* -- All Panes -- */
-
 
 	public static HashMap<String, String> getDefaultValues() {
 		return defaultValues;
 	}
-
+	// TODO: add save method for tags page
+	
 	public static void loadDefaultValues() {
 		defaultValues.put("settingsRootStorageLoc", SettingsHandler.getSetting("rootStorageFolderLoc"));
 		if(selectedMediaItemPath != null) {
+			MediaData selectedMediaItemData = MediaHandler.getMediaDataByPath(selectedMediaItemPath);
 			defaultValues.put("selectedMediaItemFileLocation", selectedMediaItemPath.toString());
+			defaultValues.put("selectedMediaItemName", tagArrayListAsStr(selectedMediaItemData.getName(), ";"));
+			defaultValues.put("selectedMediaItemDateCreated", tagArrayListAsStr(selectedMediaItemData.getDateCreated(), ";"));
+			defaultValues.put("selectedMediaItemDateAdded", tagArrayListAsStr(selectedMediaItemData.getDateAdded(), ";"));
+			defaultValues.put("selectedMediaItemAuthorName", tagArrayListAsStr(selectedMediaItemData.getAuthorName(), ";"));
+			defaultValues.put("selectedMediaItemAuthorLinks", tagArrayListAsStr(selectedMediaItemData.getAuthorLinks(), ";"));
+			defaultValues.put("selectedMediaItemTags", tagArrayListAsStr(selectedMediaItemData.getGenericTags(), ";"));
+			
 		} else {
 			defaultValues.put("selectedMediaItemFileLocation", "");
+			defaultValues.put("selectedMediaItemName", "");
+			defaultValues.put("selectedMediaItemDateCreated", "");
+			defaultValues.put("selectedMediaItemDateAdded", "");
+			defaultValues.put("selectedMediaItemAuthorName", "");
+			defaultValues.put("selectedMediaItemAuthorLinks", "");
+			defaultValues.put("selectedMediaItemTags", "");
 		}
 	}
 	
@@ -90,13 +106,55 @@ public class GUIHandler {
 	
 	
 
-	public static void updateMediaItemPanel(JLabel mediaDisplayPanel, Dimension size) {
+	public static void updateMediaItemPanel(JLabel mediaDisplayPanel, int width, int height) {
 		if(selectedMediaItemPath != null) {
 			//System.out.println("jlabel size: " + mediaDisplayPanel.getSize());
-			mediaDisplayPanel.setIcon(GUIHandler.getMediaItemFullIcon(selectedMediaItemPath, size));
+			mediaDisplayPanel.setIcon(GUIHandler.getMediaItemFullIcon(selectedMediaItemPath, new Dimension(width, height)));
 			System.out.println();
 		}
 	}
+	
+	// TODO: make this scaling work in the modify tags page
+		public static ImageIcon scaleKeepingAspectRatio(BufferedImage img, Dimension constraints) {
+			double newWidth, newHeight;
+			
+			
+			
+			// scaled to width
+			double sWMultiplier = (((double)constraints.getWidth())/img.getWidth());
+
+			// scaled to height
+			double sHMultiplier = (((double)constraints.getHeight())/img.getHeight());
+			
+			// scale
+			if(sWMultiplier <= sHMultiplier) {	
+				// scale to width
+				newWidth = img.getWidth() * sWMultiplier;
+				newHeight = img.getHeight() * sWMultiplier;
+			} else {
+				// scale to height
+				newWidth = img.getWidth() * sHMultiplier;
+				newHeight = img.getHeight() * sHMultiplier;
+			}
+			
+			
+			Image resizedImg = img.getScaledInstance((int)newWidth, (int)newHeight, Image.SCALE_SMOOTH);
+			return new ImageIcon(resizedImg);
+		}
+		
+		// !! not sure this works
+		// converts arraylist to str separated by a regex
+		private static String tagArrayListAsStr(ArrayList a, String regex) {
+			if(a.size() == 0) {
+				return "";
+			}
+			String str = "";
+			for(Object obj : a) {
+				str += obj.toString();
+				str += regex;
+			}
+			return str.substring(0, str.length()-regex.length());
+		}
 
 	/* -- Settings -- */
 	
@@ -117,33 +175,6 @@ public class GUIHandler {
 	}
 	
 	/* -- Misc -- */
-	// TODO: make this scaling work in the modify tags page
-	public static ImageIcon scaleKeepingAspectRatio(BufferedImage img, Dimension constraints) {
-		double newWidth, newHeight;
-		
-		
-		
-		// scaled to width
-		double sWMultiplier = (((double)constraints.getWidth())/img.getWidth());
-
-		// scaled to height
-		double sHMultiplier = (((double)constraints.getHeight())/img.getHeight());
-		
-		// scale
-		if(sWMultiplier <= sHMultiplier) {	
-			// scale to width
-			newWidth = img.getWidth() * sWMultiplier;
-			newHeight = img.getHeight() * sWMultiplier;
-		} else {
-			// scale to height
-			newWidth = img.getWidth() * sHMultiplier;
-			newHeight = img.getHeight() * sHMultiplier;
-		}
-		
-		
-		Image resizedImg = img.getScaledInstance((int)newWidth, (int)newHeight, Image.SCALE_SMOOTH);
-		return new ImageIcon(resizedImg);
-	}
 	
 	
 	public static void init() {

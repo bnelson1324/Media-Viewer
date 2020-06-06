@@ -22,7 +22,7 @@ public class Main {
 		// !! test code below
 		
 
-		
+		/*
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		CommandConsole.takeInput("");
@@ -30,6 +30,7 @@ public class Main {
 			String input = sc.nextLine();
 			CommandConsole.takeInput(input);
 		}
+		*/
 	}
 	
 	private static void init() {
