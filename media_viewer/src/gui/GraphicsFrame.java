@@ -7,6 +7,8 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -47,6 +49,8 @@ public class GraphicsFrame extends JFrame {
 	private JTextField textFieldSearch;
 	private JTextField textFieldViewFileLocation;
 	private JTextField textFieldModifyTagsFileLocation;
+	
+	private JScrollPane scrollPaneMediaDisplay;
 
 	/**
 	 * Launch the application.
@@ -82,6 +86,12 @@ public class GraphicsFrame extends JFrame {
 				updateDefaultValues();
 			}
 		});
+		// updates values when changing page size
+		tabbedPane.addComponentListener(new ComponentAdapter() {
+		    public void componentResized(ComponentEvent componentEvent) {
+		        updateDefaultValues();
+		    }
+		});
 		
 	}
 	
@@ -89,8 +99,9 @@ public class GraphicsFrame extends JFrame {
 		GUIHandler.loadDefaultValues();
 		textFieldRootStorageLoc.setText(defaultValues.get("settingsRootStorageLoc"));
 		textFieldViewFileLocation.setText(defaultValues.get("selectedMediaItemFileLocation"));
-		GUIHandler.updateMediaItemPanel(imgViewMedia);
-		GUIHandler.updateMediaItemPanel(imgModifyTagsMedia);
+		textFieldModifyTagsFileLocation.setText(defaultValues.get("selectedMediaItemFileLocation"));
+		GUIHandler.updateMediaItemPanel(imgViewMedia, scrollPaneMediaDisplay.getSize());
+		GUIHandler.updateMediaItemPanel(imgModifyTagsMedia, scrollPaneMediaDisplay.getSize());
 	}
 
 	/**
@@ -128,7 +139,7 @@ public class GraphicsFrame extends JFrame {
 					// searches query and displays results
 					panelMediaDisplayGrid.removeAll();
 					
-					for(MediaItemPanel miPanel : GUIHandler.textFieldSearch(textFieldSearch.getText())) {
+					for(MediaItemSearchPanel miPanel : GUIHandler.textFieldSearch(textFieldSearch.getText())) {
 						panelMediaDisplayGrid.add(miPanel);
 						miPanel.getImageLabel().addMouseListener(new MouseListener() {
 
@@ -183,7 +194,7 @@ public class GraphicsFrame extends JFrame {
 		);
 		panelSearchBar.setLayout(gl_panelSearchBar);
 		
-		JScrollPane scrollPaneMediaDisplay = new JScrollPane();
+		scrollPaneMediaDisplay = new JScrollPane();
 		scrollPaneMediaDisplay.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		panelSearch.add(scrollPaneMediaDisplay, BorderLayout.CENTER);
 		
@@ -197,7 +208,7 @@ public class GraphicsFrame extends JFrame {
 		JLabel lblViewFileLocation = new JLabel("File Location: ");
 		
 		imgViewMedia = new JLabel("");
-		textFieldViewFileLocation = new MediaFileLocationTextBox(imgViewMedia);
+		textFieldViewFileLocation = new MediaFileLocationTextBox(imgViewMedia, scrollPaneMediaDisplay);
 		textFieldViewFileLocation.setColumns(10);
 		
 		
@@ -232,7 +243,7 @@ public class GraphicsFrame extends JFrame {
 		JLabel lblModifyTagsFileLocation = new JLabel("File Location: ");
 		
 		imgModifyTagsMedia = new JLabel("");
-		textFieldModifyTagsFileLocation = new MediaFileLocationTextBox(imgModifyTagsMedia);
+		textFieldModifyTagsFileLocation = new MediaFileLocationTextBox(imgModifyTagsMedia, scrollPaneMediaDisplay);
 		
 		GroupLayout gl_panelModifyTags = new GroupLayout(panelModifyTags);
 		gl_panelModifyTags.setHorizontalGroup(

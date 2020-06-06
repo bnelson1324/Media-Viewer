@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 import media.MediaItem;
 
-public class MediaItemPanel extends JPanel {
+public class MediaItemSearchPanel extends JPanel {
 
 	/* This class is used to display a file name and image in the search grid */
 	
@@ -20,7 +20,7 @@ public class MediaItemPanel extends JPanel {
 	
 	private Path displayedMediaItemPath;
 	
-	MediaItemPanel(Path displayedMediaItemPath) {
+	MediaItemSearchPanel(Path displayedMediaItemPath) {
 		this.displayedMediaItemPath = displayedMediaItemPath;
 		
 		nameLabel = new JLabel(displayedMediaItemPath.getFileName().toString());

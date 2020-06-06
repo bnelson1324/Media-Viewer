@@ -45,12 +45,12 @@ public class GUIHandler {
 	/* -- Search -- */
 	
 	// adds image icons to a grid
-	public static ArrayList<MediaItemPanel> textFieldSearch(String query) {
+	public static ArrayList<MediaItemSearchPanel> textFieldSearch(String query) {
 		ArrayList<MediaItem> passingItems = MediaHandler.getMediaItemsByTag(query);
-		ArrayList<MediaItemPanel> panelList = new ArrayList<MediaItemPanel>();
+		ArrayList<MediaItemSearchPanel> panelList = new ArrayList<MediaItemSearchPanel>();
 		for(MediaItem mi : passingItems) {
 			
-			MediaItemPanel miPanel = new MediaItemPanel(mi.getPath());
+			MediaItemSearchPanel miPanel = new MediaItemSearchPanel(mi.getPath());
 			panelList.add(miPanel);
 		}
 		
@@ -90,10 +90,10 @@ public class GUIHandler {
 	
 	
 
-	public static void updateMediaItemPanel(JLabel mediaDisplayPanel) {
+	public static void updateMediaItemPanel(JLabel mediaDisplayPanel, Dimension size) {
 		if(selectedMediaItemPath != null) {
-			System.out.println("jlabel size:" + mediaDisplayPanel.getSize());
-			mediaDisplayPanel.setIcon(GUIHandler.getMediaItemFullIcon(selectedMediaItemPath, mediaDisplayPanel.getSize()));
+			//System.out.println("jlabel size: " + mediaDisplayPanel.getSize());
+			mediaDisplayPanel.setIcon(GUIHandler.getMediaItemFullIcon(selectedMediaItemPath, size));
 			System.out.println();
 		}
 	}
@@ -120,10 +120,12 @@ public class GUIHandler {
 	// TODO: make it so size updates when resizing jframe
 	/* TODO: fix bug where image only scales up, never shrinks
 	 * 		if trying to scale down, new size is always the same as the image already is. for some reason current image size matters
-	 * 
+	 * 		>>> jlabel takes size of current image size, so it wont scale down
 	 */
 	public static ImageIcon scaleKeepingAspectRatio(BufferedImage img, Dimension constraints) {
 		double newWidth, newHeight;
+		
+		
 		
 		// scaled to width
 		double sWMultiplier = (((double)constraints.getWidth())/img.getWidth());
@@ -136,18 +138,21 @@ public class GUIHandler {
 			// scale to width
 			newWidth = img.getWidth() * sWMultiplier;
 			newHeight = img.getHeight() * sWMultiplier;
-			//System.out.println("w");
+			System.out.println("w");
 		} else {
 			// scale to height
 			newWidth = img.getWidth() * sHMultiplier;
 			newHeight = img.getHeight() * sHMultiplier;
-			//System.out.println("h");
+			System.out.println("h");
 		}
-		System.out.println("w: "+(int)newWidth + " h:" + (int)newHeight);
 		System.out.println("dw: "+(int)constraints.getWidth() + " dh:" + (int)constraints.getHeight());
+		System.out.println("ow: "+img.getWidth() + " oh:" + img.getHeight());
+		System.out.println("nw: "+(int)newWidth + " nh:" + (int)newHeight);
+		System.out.println("mw: " + sWMultiplier + " mh: " + sHMultiplier);
 		
 		
-		Image resizedImg = img.getScaledInstance((int)newWidth, (int)newHeight, Image.SCALE_SMOOTH);
+		
+		Image resizedImg = img.getScaledInstance((int)newWidth, (int)newHeight, Image.SCALE_DEFAULT);
 		return new ImageIcon(resizedImg);
 	}
 	
