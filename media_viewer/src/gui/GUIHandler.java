@@ -1,5 +1,9 @@
 package gui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -8,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -57,13 +62,19 @@ public class GUIHandler {
 	}
 	
 	// TODO
-	public static ArrayList<JLabel> textFieldSearch(String query) {
+	public static ArrayList<JPanel> textFieldSearch(String query) {
 		ArrayList<MediaItem> passingItems = MediaHandler.getMediaItemsByTag(query);
-		ArrayList<JLabel> panelList = new ArrayList<JLabel>();
+		ArrayList<JPanel> panelList = new ArrayList<JPanel>();
 		for(MediaItem mi : passingItems) {
-			JLabel label = new JLabel(prepareMediaItemForDisplay(mi));
+			JLabel nameLabel = new JLabel(mi.getPath().getFileName().toString());
+			nameLabel.setFont(new Font("Label.font", Font.PLAIN, 14));
+			JLabel imgLabel = new JLabel(prepareMediaItemForDisplay(mi));
 			
-			panelList.add(label);
+			JPanel pnl = new JPanel();
+			pnl.setLayout(new BorderLayout());
+			pnl.add(nameLabel, BorderLayout.NORTH);
+			pnl.add(imgLabel, BorderLayout.SOUTH);
+			panelList.add(pnl);
 		}
 		
 		return panelList;

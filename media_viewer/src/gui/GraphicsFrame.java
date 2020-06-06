@@ -25,6 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.FlowLayout;
 
 public class GraphicsFrame extends JFrame {
 
@@ -98,6 +99,10 @@ public class GraphicsFrame extends JFrame {
 		JPanel panelSearch = new JPanel();
 		panelSearch.setToolTipText("");
 		tabbedPane.addTab("Search", null, panelSearch, "Search for media items by tag");
+		panelSearch.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel = new JPanel();
+		panelSearch.add(panel, BorderLayout.NORTH);
 		
 		JLabel lblSearch = new JLabel("Search by tag: ");
 		
@@ -105,13 +110,12 @@ public class GraphicsFrame extends JFrame {
 		textFieldSearch.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				// TODO
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 					// searches query and displays results
 					panelMediaDisplayGrid.removeAll();
 					
-					for(JLabel label : GUIHandler.textFieldSearch(textFieldSearch.getText())) {
-						panelMediaDisplayGrid.add(label);
+					for(JPanel comp : GUIHandler.textFieldSearch(textFieldSearch.getText())) {
+						panelMediaDisplayGrid.add(comp);
 					}
 					
 					panelMediaDisplayGrid.revalidate();
@@ -120,40 +124,29 @@ public class GraphicsFrame extends JFrame {
 			}
 		});
 		textFieldSearch.setColumns(10);
-		
-		JScrollPane scrollPaneMediaDisplay = new JScrollPane();
-		scrollPaneMediaDisplay.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPaneMediaDisplay.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		GroupLayout gl_panelSearch = new GroupLayout(panelSearch);
-		gl_panelSearch.setHorizontalGroup(
-			gl_panelSearch.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelSearch.createSequentialGroup()
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panelSearch.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPaneMediaDisplay, GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE)
-						.addGroup(gl_panelSearch.createSequentialGroup()
-							.addComponent(lblSearch)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textFieldSearch, GroupLayout.PREFERRED_SIZE, 420, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap())
-		);
-		gl_panelSearch.setVerticalGroup(
-			gl_panelSearch.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelSearch.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panelSearch.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblSearch)
-						.addComponent(textFieldSearch, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addComponent(lblSearch)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPaneMediaDisplay, GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+					.addComponent(textFieldSearch, GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
 					.addContainerGap())
 		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(5)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblSearch, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textFieldSearch, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+		);
+		panel.setLayout(gl_panel);
 		
 		panelMediaDisplayGrid = new JPanel();
-		panelMediaDisplayGrid.setBackground(Color.PINK);
-		scrollPaneMediaDisplay.setViewportView(panelMediaDisplayGrid);
-		panelMediaDisplayGrid.setLayout(new GridLayout(1, 0, 0, 0));
-		panelSearch.setLayout(gl_panelSearch);
+		panelSearch.add(panelMediaDisplayGrid, BorderLayout.CENTER);
+		panelMediaDisplayGrid.setLayout(new FlowLayout(FlowLayout.LEADING, 32, 32));
 		
 		JPanel panelView = new JPanel();
 		tabbedPane.addTab("View", null, panelView, "View a media item");
