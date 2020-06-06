@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -24,8 +26,13 @@ import settings.SettingsSaver;
 
 public class GUIHandler {
 
+	// TODO: separate methods by which pane they are used in
+	
 	// default values for components in the graphics frame
 	private static HashMap<String, String> defaultValues;
+	
+	// selected media item, shown in view and modify tags
+	static MediaItem selectedMediaItem;
 	
 	public static void init() {
 		defaultValues = new HashMap<String, String>();
@@ -41,6 +48,11 @@ public class GUIHandler {
 
 	public static void loadDefaultValues() {
 		defaultValues.put("settingsRootStorageLoc", SettingsHandler.getSetting("rootStorageFolderLoc"));
+		if(selectedMediaItem != null) {
+			defaultValues.put("selectedMediaItemFileLocation", selectedMediaItem.getPath().toString());
+		} else {
+			defaultValues.put("selectedMediaItemFileLocation", "");
+		}
 	}
 	
 
@@ -60,40 +72,58 @@ public class GUIHandler {
 		
 		MediaHandler.refreshMediaFolder();
 	}
-	
-	// TODO
-	public static ArrayList<JPanel> textFieldSearch(String query) {
+
+	// TODO: add event listener to panels to view media item on clicking
+	// adds image icons to a grid
+	public static ArrayList<MediaItemPanel> textFieldSearch(String query) {
 		ArrayList<MediaItem> passingItems = MediaHandler.getMediaItemsByTag(query);
-		ArrayList<JPanel> panelList = new ArrayList<JPanel>();
+		ArrayList<MediaItemPanel> panelList = new ArrayList<MediaItemPanel>();
 		for(MediaItem mi : passingItems) {
 			JLabel nameLabel = new JLabel(mi.getPath().getFileName().toString());
-			nameLabel.setFont(new Font("Label.font", Font.PLAIN, 14));
-			JLabel imgLabel = new JLabel(prepareMediaItemForDisplay(mi));
+			nameLabel.setFont(new Font("Label.font", Font.PLAIN, 16));
+			JLabel imgLabel = new JLabel(getMediaItemGridIcon(mi));
 			
-			JPanel pnl = new JPanel();
-			pnl.setLayout(new BorderLayout());
-			pnl.add(nameLabel, BorderLayout.NORTH);
-			pnl.add(imgLabel, BorderLayout.SOUTH);
-			panelList.add(pnl);
+			MediaItemPanel miPanel = new MediaItemPanel(mi);
+			miPanel.setLayout(new BorderLayout());
+			miPanel.add(nameLabel, BorderLayout.NORTH);
+			miPanel.add(imgLabel, BorderLayout.SOUTH);
+			miPanel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
+			panelList.add(miPanel);
 		}
 		
 		return panelList;
 		
 	}
 	
-	// TODO
-	public static ImageIcon prepareMediaItemForDisplay(MediaItem mi) {
+	// TODO: add compatibility with non-image file formats
+	public static ImageIcon getMediaItemFullIcon(MediaItem mi) {
 		BufferedImage img;
 		try {
-
 			img = ImageIO.read(new File(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + mi.getPath().toString()));
-			Image resizedImg = img.getScaledInstance(256, 256, Image.SCALE_SMOOTH);
-			return new ImageIcon(resizedImg);
+			return new ImageIcon(img);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return null;
+	}
+	
+	// TODO: add compatibility with non-image file formats
+	public static ImageIcon getMediaItemGridIcon(MediaItem mi) {
+		BufferedImage img;
+		try {
+			img = ImageIO.read(new File(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + mi.getPath().toString()));
+			Image resizedImg = img.getScaledInstance(256, 256, Image.SCALE_FAST);
+			
+			return new ImageIcon(resizedImg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static void updateMediaDisplay(JLabel imgViewMedia) {
+		if(selectedMediaItem != null) {
+			imgViewMedia.setIcon(GUIHandler.getMediaItemFullIcon(selectedMediaItem));
+		}
 	}
 }

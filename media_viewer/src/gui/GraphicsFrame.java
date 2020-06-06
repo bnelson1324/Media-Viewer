@@ -1,10 +1,16 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 
 import javax.swing.GroupLayout;
@@ -13,19 +19,16 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import java.awt.Color;
-import java.awt.GridLayout;
-import javax.swing.JScrollPane;
+import javax.swing.event.ChangeListener;
+
+import misc.WrapLayout;
 import javax.swing.ScrollPaneConstants;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.FlowLayout;
 
 public class GraphicsFrame extends JFrame {
 
@@ -36,8 +39,11 @@ public class GraphicsFrame extends JFrame {
 	
 	private JPanel panelMediaDisplayGrid;
 	
+	private JLabel imgViewMedia;
+	
 	private JTextField textFieldRootStorageLoc;
 	private JTextField textFieldSearch;
+	private JTextField textFieldViewFileLocation;
 
 	/**
 	 * Launch the application.
@@ -67,16 +73,21 @@ public class GraphicsFrame extends JFrame {
 
 	// adds some listeners at the end to make sure all components are already created
 	private void addFinalListeners() {
+		// updates values when tab is changed
 		tabbedPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				updateDefaultValues();
 			}
 		});
+		
 	}
 	
 	private void updateDefaultValues() {
 		GUIHandler.loadDefaultValues();
 		textFieldRootStorageLoc.setText(defaultValues.get("settingsRootStorageLoc"));
+		textFieldViewFileLocation.setText(defaultValues.get("selectedMediaItemFileLocation"));
+		GUIHandler.updateMediaDisplay(imgViewMedia);
+		
 	}
 
 	/**
@@ -101,22 +112,50 @@ public class GraphicsFrame extends JFrame {
 		tabbedPane.addTab("Search", null, panelSearch, "Search for media items by tag");
 		panelSearch.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel = new JPanel();
-		panelSearch.add(panel, BorderLayout.NORTH);
+		JPanel panelSearchBar = new JPanel();
+		panelSearch.add(panelSearchBar, BorderLayout.NORTH);
 		
 		JLabel lblSearch = new JLabel("Search by tag: ");
 		
 		textFieldSearch = new JTextField();
 		textFieldSearch.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e) {
+			public void keyReleased(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 					// searches query and displays results
 					panelMediaDisplayGrid.removeAll();
 					
-					for(JPanel comp : GUIHandler.textFieldSearch(textFieldSearch.getText())) {
-						panelMediaDisplayGrid.add(comp);
+					for(MediaItemPanel miPanel : GUIHandler.textFieldSearch(textFieldSearch.getText())) {
+						panelMediaDisplayGrid.add(miPanel);
+						miPanel.addMouseListener(new MouseListener() {
+
+							@Override
+							public void mouseClicked(MouseEvent e) {
+								GUIHandler.selectedMediaItem = miPanel.getDisplayedMediaItem();
+								tabbedPane.setSelectedIndex(1);
+							}
+
+							@Override
+							public void mousePressed(MouseEvent e) {
+							}
+
+							@Override
+							public void mouseReleased(MouseEvent e) {
+							}
+
+							@Override
+							public void mouseEntered(MouseEvent e) {
+							}
+
+							@Override
+							public void mouseExited(MouseEvent e) {
+							}
+							
+						});
 					}
+					
+					System.out.println(panelMediaDisplayGrid.getComponents().length);
+					
 					
 					panelMediaDisplayGrid.revalidate();
 					panelMediaDisplayGrid.repaint();
@@ -124,35 +163,83 @@ public class GraphicsFrame extends JFrame {
 			}
 		});
 		textFieldSearch.setColumns(10);
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
+		GroupLayout gl_panelSearchBar = new GroupLayout(panelSearchBar);
+		gl_panelSearchBar.setHorizontalGroup(
+			gl_panelSearchBar.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelSearchBar.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblSearch)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textFieldSearch, GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
 					.addContainerGap())
 		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
+		gl_panelSearchBar.setVerticalGroup(
+			gl_panelSearchBar.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelSearchBar.createSequentialGroup()
 					.addGap(5)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_panelSearchBar.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblSearch, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textFieldSearch, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 		);
-		panel.setLayout(gl_panel);
+		panelSearchBar.setLayout(gl_panelSearchBar);
+		
+		JScrollPane scrollPaneMediaDisplay = new JScrollPane();
+		scrollPaneMediaDisplay.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		panelSearch.add(scrollPaneMediaDisplay, BorderLayout.CENTER);
 		
 		panelMediaDisplayGrid = new JPanel();
-		panelSearch.add(panelMediaDisplayGrid, BorderLayout.CENTER);
-		panelMediaDisplayGrid.setLayout(new FlowLayout(FlowLayout.LEADING, 32, 32));
+		scrollPaneMediaDisplay.setViewportView(panelMediaDisplayGrid);
+		panelMediaDisplayGrid.setLayout(new WrapLayout(3, 0, 0));
 		
 		JPanel panelView = new JPanel();
 		tabbedPane.addTab("View", null, panelView, "View a media item");
 		
+		JLabel lblViewFileLocation = new JLabel("File Location: ");
+		
+		imgViewMedia = new JLabel("");
+		textFieldViewFileLocation = new MediaFileLocationTextBox(imgViewMedia);
+		textFieldViewFileLocation.setColumns(10);
+		
+		
+		GroupLayout gl_panelView = new GroupLayout(panelView);
+		gl_panelView.setHorizontalGroup(
+			gl_panelView.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelView.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelView.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelView.createSequentialGroup()
+							.addComponent(imgViewMedia, GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE)
+							.addContainerGap())
+						.addGroup(gl_panelView.createSequentialGroup()
+							.addComponent(lblViewFileLocation)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(textFieldViewFileLocation, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE))))
+		);
+		gl_panelView.setVerticalGroup(
+			gl_panelView.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelView.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelView.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblViewFileLocation)
+						.addComponent(textFieldViewFileLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(imgViewMedia, GroupLayout.PREFERRED_SIZE, 216, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(147, Short.MAX_VALUE))
+		);
+		panelView.setLayout(gl_panelView);
+		
 		JPanel panelModifyTags = new JPanel();
 		tabbedPane.addTab("Modify Tags", null, panelModifyTags, "Change tags the of a media item");
+		GroupLayout gl_panelModifyTags = new GroupLayout(panelModifyTags);
+		gl_panelModifyTags.setHorizontalGroup(
+			gl_panelModifyTags.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 609, Short.MAX_VALUE)
+		);
+		gl_panelModifyTags.setVerticalGroup(
+			gl_panelModifyTags.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 403, Short.MAX_VALUE)
+		);
+		panelModifyTags.setLayout(gl_panelModifyTags);
 		
 		JPanel panelSettings = new JPanel();
 		tabbedPane.addTab("Settings", null, panelSettings, "Change settings");

@@ -123,6 +123,14 @@ public class MediaHandler {
 		return allMediaData;
 	}
 	
+	public static MediaItem getMediaItemByPath(Path path) {
+		for(MediaItem mi : allMediaItems) {
+			if(mi.getPath().equals(path)) {
+				return mi;
+			}
+		}
+		return null;
+	}
 	
 	public static void init() {
 		MediaLoader.init();
