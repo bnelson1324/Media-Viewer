@@ -111,6 +111,11 @@ public class GraphicsFrame extends JFrame {
 		textFieldModifyTagsFileLocation.setText(defaultValues.get("selectedMediaItemFileLocation"));
 		GUIHandler.updateMediaItemPanel(imgViewMedia, scrollPaneMediaDisplay.getWidth() - 16, scrollPaneMediaDisplay.getHeight() - 16);
 		GUIHandler.updateMediaItemPanel(imgModifyTagsMedia, scrollPaneMediaDisplay.getWidth() - 430, scrollPaneMediaDisplay.getHeight() - 180);
+		updateTags();
+	}
+	
+	// updates text in the tag text boxes
+	private void updateTags() {
 		textFieldModName.setText(defaultValues.get("selectedMediaItemName"));
 		textFieldModDateCreated.setText(defaultValues.get("selectedMediaItemDateCreated"));
 		textFieldModDateAdded.setText(defaultValues.get("selectedMediaItemDateAdded"));
@@ -260,6 +265,14 @@ public class GraphicsFrame extends JFrame {
 		
 		imgModifyTagsMedia = new JLabel("");
 		textFieldModifyTagsFileLocation = new MediaFileLocationTextBox(imgModifyTagsMedia, scrollPaneMediaDisplay);
+		textFieldModifyTagsFileLocation.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					updateDefaultValues();
+				}
+			}
+		});
 		
 		JLabel lblModName = new JLabel("Name:");
 		
@@ -292,6 +305,13 @@ public class GraphicsFrame extends JFrame {
 		
 		textFieldModTags = new JTextArea();
 		
+		JButton btnSaveTags = new JButton("Save Tags");
+		btnSaveTags.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GUIHandler.btnSaveTags(textFieldModName.getText(), textFieldModDateCreated.getText(), textFieldModDateAdded.getText(), textFieldModAuthorName.getText(), textFieldModAuthorLinks.getText(), textFieldModTags.getText());
+			}
+		});
+		
 		GroupLayout gl_panelModifyTags = new GroupLayout(panelModifyTags);
 		gl_panelModifyTags.setHorizontalGroup(
 			gl_panelModifyTags.createParallelGroup(Alignment.LEADING)
@@ -300,10 +320,6 @@ public class GraphicsFrame extends JFrame {
 						.addGroup(gl_panelModifyTags.createSequentialGroup()
 							.addContainerGap()
 							.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panelModifyTags.createSequentialGroup()
-									.addComponent(lblModifyTagsFileLocation)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textFieldModifyTagsFileLocation, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_panelModifyTags.createSequentialGroup()
 									.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.LEADING, false)
 										.addComponent(lblModAuthorName, GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
@@ -320,23 +336,36 @@ public class GraphicsFrame extends JFrame {
 										.addComponent(textFieldModDateAdded, GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
 										.addComponent(textFieldModAuthorName, GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
 										.addComponent(textFieldModAuthorLinks, GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE))
-									.addGap(18)
-									.addComponent(imgModifyTagsMedia, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))))
+									.addGap(18))
+								.addGroup(gl_panelModifyTags.createSequentialGroup()
+									.addComponent(lblModifyTagsFileLocation)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(textFieldModifyTagsFileLocation, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)
+									.addGap(91))))
 						.addGroup(gl_panelModifyTags.createSequentialGroup()
 							.addGap(70)
-							.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 378, Short.MAX_VALUE)))
+					.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.LEADING)
+						.addComponent(imgModifyTagsMedia, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+						.addGroup(gl_panelModifyTags.createSequentialGroup()
+							.addGap(38)
+							.addComponent(btnSaveTags)))
 					.addContainerGap())
 		);
 		gl_panelModifyTags.setVerticalGroup(
 			gl_panelModifyTags.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelModifyTags.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblModifyTagsFileLocation)
-						.addComponent(textFieldModifyTagsFileLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 6, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panelModifyTags.createSequentialGroup()
+							.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblModifyTagsFileLocation)
+								.addComponent(textFieldModifyTagsFileLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(separator, GroupLayout.PREFERRED_SIZE, 6, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnSaveTags))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panelModifyTags.createSequentialGroup()
 							.addComponent(imgModifyTagsMedia, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)

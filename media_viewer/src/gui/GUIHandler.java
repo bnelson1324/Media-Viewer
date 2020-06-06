@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -155,9 +156,23 @@ public class GUIHandler {
 			}
 			return str.substring(0, str.length()-regex.length());
 		}
+		
+		// !! not sure this works
+		// saves text in the modifyTags page as current tags
+		static void btnSaveTags(String name, String dateCreated, String dateAdded, String authorName, String authorLinks, String tags) {
+			ArrayList<String> aName = new ArrayList<String>(Arrays.asList(name.split(";")));
+			ArrayList<String> aDateCreated = new ArrayList<String>(Arrays.asList(dateCreated.split(";")));
+			ArrayList<String> aDateAdded = new ArrayList<String>(Arrays.asList(dateAdded.split(";")));
+			ArrayList<String> aAuthorName = new ArrayList<String>(Arrays.asList(authorName.split(";")));
+			ArrayList<String> aAuthorLinks = new ArrayList<String>(Arrays.asList(authorLinks.split(";")));
+			ArrayList<String> aTags = new ArrayList<String>(Arrays.asList(tags.split(";")));
+			
+			MediaData md = new MediaData(aName, aDateCreated, aDateAdded, aAuthorName, aAuthorLinks, aTags);
+			MediaHandler.pairMediaData(selectedMediaItemPath, md);
+		}
 
 	/* -- Settings -- */
-	
+	// TODO: add button in settings to save data to the json file
 	public static void btnSaveSettings(String rootStorageFolderLoc) {
 		SettingsHandler.modifySetting("rootStorageFolderLoc", rootStorageFolderLoc);
 		SettingsSaver.saveSettings();

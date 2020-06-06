@@ -103,10 +103,10 @@ public class MediaHandler {
 	
 	public static void addMedia(MediaItem mi, MediaData md) {
 		// pairs a media item its media data
-		addMediaData(mi.getPath(), md);
+		pairMediaData(mi.getPath(), md);
 	}
 	
-	public static void addMediaData(Path p, MediaData md) {
+	public static void pairMediaData(Path p, MediaData md) {
 		allMediaData.put(p, md);
 	}
 	
