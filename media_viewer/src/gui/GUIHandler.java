@@ -117,11 +117,7 @@ public class GUIHandler {
 	}
 	
 	/* -- Misc -- */
-	// TODO: make it so size updates when resizing jframe
-	/* TODO: fix bug where image only scales up, never shrinks
-	 * 		if trying to scale down, new size is always the same as the image already is. for some reason current image size matters
-	 * 		>>> jlabel takes size of current image size, so it wont scale down
-	 */
+	// TODO: make this scaling work in the modify tags page
 	public static ImageIcon scaleKeepingAspectRatio(BufferedImage img, Dimension constraints) {
 		double newWidth, newHeight;
 		
@@ -138,21 +134,14 @@ public class GUIHandler {
 			// scale to width
 			newWidth = img.getWidth() * sWMultiplier;
 			newHeight = img.getHeight() * sWMultiplier;
-			System.out.println("w");
 		} else {
 			// scale to height
 			newWidth = img.getWidth() * sHMultiplier;
 			newHeight = img.getHeight() * sHMultiplier;
-			System.out.println("h");
 		}
-		System.out.println("dw: "+(int)constraints.getWidth() + " dh:" + (int)constraints.getHeight());
-		System.out.println("ow: "+img.getWidth() + " oh:" + img.getHeight());
-		System.out.println("nw: "+(int)newWidth + " nh:" + (int)newHeight);
-		System.out.println("mw: " + sWMultiplier + " mh: " + sHMultiplier);
 		
 		
-		
-		Image resizedImg = img.getScaledInstance((int)newWidth, (int)newHeight, Image.SCALE_DEFAULT);
+		Image resizedImg = img.getScaledInstance((int)newWidth, (int)newHeight, Image.SCALE_SMOOTH);
 		return new ImageIcon(resizedImg);
 	}
 	
