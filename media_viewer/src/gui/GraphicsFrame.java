@@ -127,11 +127,11 @@ public class GraphicsFrame extends JFrame {
 					
 					for(MediaItemPanel miPanel : GUIHandler.textFieldSearch(textFieldSearch.getText())) {
 						panelMediaDisplayGrid.add(miPanel);
-						miPanel.addMouseListener(new MouseListener() {
+						miPanel.getImageLabel().addMouseListener(new MouseListener() {
 
 							@Override
 							public void mouseClicked(MouseEvent e) {
-								GUIHandler.selectedMediaItem = miPanel.getDisplayedMediaItem();
+								GUIHandler.selectedMediaItemPath = miPanel.getDisplayedMediaItemPath();
 								tabbedPane.setSelectedIndex(1);
 							}
 
@@ -153,8 +153,6 @@ public class GraphicsFrame extends JFrame {
 							
 						});
 					}
-					
-					System.out.println(panelMediaDisplayGrid.getComponents().length);
 					
 					
 					panelMediaDisplayGrid.revalidate();

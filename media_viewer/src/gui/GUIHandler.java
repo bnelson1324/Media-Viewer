@@ -1,23 +1,16 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Image;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import media.MediaItem;
 import media_control.MediaHandler;
@@ -26,13 +19,13 @@ import settings.SettingsSaver;
 
 public class GUIHandler {
 
-	// TODO: separate methods by which pane they are used in
+	// TODO: separate methods w/ comments by which pane they are used in
 	
 	// default values for components in the graphics frame
 	private static HashMap<String, String> defaultValues;
 	
-	// selected media item, shown in view and modify tags
-	static MediaItem selectedMediaItem;
+	// path to selected media item, shown in view and modify tags
+	static Path selectedMediaItemPath;
 	
 	public static void init() {
 		defaultValues = new HashMap<String, String>();
@@ -48,8 +41,8 @@ public class GUIHandler {
 
 	public static void loadDefaultValues() {
 		defaultValues.put("settingsRootStorageLoc", SettingsHandler.getSetting("rootStorageFolderLoc"));
-		if(selectedMediaItem != null) {
-			defaultValues.put("selectedMediaItemFileLocation", selectedMediaItem.getPath().toString());
+		if(selectedMediaItemPath != null) {
+			defaultValues.put("selectedMediaItemFileLocation", selectedMediaItemPath.toString());
 		} else {
 			defaultValues.put("selectedMediaItemFileLocation", "");
 		}
@@ -73,21 +66,13 @@ public class GUIHandler {
 		MediaHandler.refreshMediaFolder();
 	}
 
-	// TODO: add event listener to panels to view media item on clicking
 	// adds image icons to a grid
 	public static ArrayList<MediaItemPanel> textFieldSearch(String query) {
 		ArrayList<MediaItem> passingItems = MediaHandler.getMediaItemsByTag(query);
 		ArrayList<MediaItemPanel> panelList = new ArrayList<MediaItemPanel>();
 		for(MediaItem mi : passingItems) {
-			JLabel nameLabel = new JLabel(mi.getPath().getFileName().toString());
-			nameLabel.setFont(new Font("Label.font", Font.PLAIN, 16));
-			JLabel imgLabel = new JLabel(getMediaItemGridIcon(mi));
 			
-			MediaItemPanel miPanel = new MediaItemPanel(mi);
-			miPanel.setLayout(new BorderLayout());
-			miPanel.add(nameLabel, BorderLayout.NORTH);
-			miPanel.add(imgLabel, BorderLayout.SOUTH);
-			miPanel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
+			MediaItemPanel miPanel = new MediaItemPanel(mi.getPath());
 			panelList.add(miPanel);
 		}
 		
@@ -96,10 +81,10 @@ public class GUIHandler {
 	}
 	
 	// TODO: add compatibility with non-image file formats
-	public static ImageIcon getMediaItemFullIcon(MediaItem mi) {
+	public static ImageIcon getMediaItemFullIcon(Path path) {
 		BufferedImage img;
 		try {
-			img = ImageIO.read(new File(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + mi.getPath().toString()));
+			img = ImageIO.read(new File(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + path.toString()));
 			return new ImageIcon(img);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -108,10 +93,10 @@ public class GUIHandler {
 	}
 	
 	// TODO: add compatibility with non-image file formats
-	public static ImageIcon getMediaItemGridIcon(MediaItem mi) {
+	public static ImageIcon getMediaItemGridIcon(Path path) {
 		BufferedImage img;
 		try {
-			img = ImageIO.read(new File(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + mi.getPath().toString()));
+			img = ImageIO.read(new File(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + path.toString()));
 			Image resizedImg = img.getScaledInstance(256, 256, Image.SCALE_FAST);
 			
 			return new ImageIcon(resizedImg);
@@ -122,8 +107,8 @@ public class GUIHandler {
 	}
 
 	public static void updateMediaDisplay(JLabel imgViewMedia) {
-		if(selectedMediaItem != null) {
-			imgViewMedia.setIcon(GUIHandler.getMediaItemFullIcon(selectedMediaItem));
+		if(selectedMediaItemPath != null) {
+			imgViewMedia.setIcon(GUIHandler.getMediaItemFullIcon(selectedMediaItemPath));
 		}
 	}
 }
