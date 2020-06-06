@@ -29,21 +29,24 @@ import javax.swing.event.ChangeListener;
 
 import misc.WrapLayout;
 import javax.swing.ScrollPaneConstants;
+import java.awt.Color;
 
 public class GraphicsFrame extends JFrame {
 
 	private static HashMap<String, String> defaultValues;
 	
 	private JPanel contentPane;
-	private JTabbedPane tabbedPane;
-	
 	private JPanel panelMediaDisplayGrid;
 	
+	private JTabbedPane tabbedPane;
+	
 	private JLabel imgViewMedia;
+	private JLabel imgModifyTagsMedia;
 	
 	private JTextField textFieldRootStorageLoc;
 	private JTextField textFieldSearch;
 	private JTextField textFieldViewFileLocation;
+	private JTextField textFieldModifyTagsFileLocation;
 
 	/**
 	 * Launch the application.
@@ -86,8 +89,8 @@ public class GraphicsFrame extends JFrame {
 		GUIHandler.loadDefaultValues();
 		textFieldRootStorageLoc.setText(defaultValues.get("settingsRootStorageLoc"));
 		textFieldViewFileLocation.setText(defaultValues.get("selectedMediaItemFileLocation"));
-		GUIHandler.updateMediaDisplay(imgViewMedia);
-		
+		GUIHandler.updateMediaItemPanel(imgViewMedia);
+		GUIHandler.updateMediaItemPanel(imgModifyTagsMedia);
 	}
 
 	/**
@@ -154,7 +157,6 @@ public class GraphicsFrame extends JFrame {
 						});
 					}
 					
-					
 					panelMediaDisplayGrid.revalidate();
 					panelMediaDisplayGrid.repaint();
 				}
@@ -205,9 +207,7 @@ public class GraphicsFrame extends JFrame {
 				.addGroup(gl_panelView.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panelView.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelView.createSequentialGroup()
-							.addComponent(imgViewMedia, GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE)
-							.addContainerGap())
+						.addComponent(imgViewMedia, GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
 						.addGroup(gl_panelView.createSequentialGroup()
 							.addComponent(lblViewFileLocation)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -221,21 +221,44 @@ public class GraphicsFrame extends JFrame {
 						.addComponent(lblViewFileLocation)
 						.addComponent(textFieldViewFileLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(imgViewMedia, GroupLayout.PREFERRED_SIZE, 216, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(147, Short.MAX_VALUE))
+					.addComponent(imgViewMedia, GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		panelView.setLayout(gl_panelView);
 		
 		JPanel panelModifyTags = new JPanel();
 		tabbedPane.addTab("Modify Tags", null, panelModifyTags, "Change tags the of a media item");
+		
+		JLabel lblModifyTagsFileLocation = new JLabel("File Location: ");
+		
+		imgModifyTagsMedia = new JLabel("");
+		textFieldModifyTagsFileLocation = new MediaFileLocationTextBox(imgModifyTagsMedia);
+		
 		GroupLayout gl_panelModifyTags = new GroupLayout(panelModifyTags);
 		gl_panelModifyTags.setHorizontalGroup(
 			gl_panelModifyTags.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 609, Short.MAX_VALUE)
+				.addGroup(gl_panelModifyTags.createSequentialGroup()
+					.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(gl_panelModifyTags.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblModifyTagsFileLocation)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(textFieldModifyTagsFileLocation, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelModifyTags.createSequentialGroup()
+							.addContainerGap(241, Short.MAX_VALUE)
+							.addComponent(imgModifyTagsMedia, GroupLayout.PREFERRED_SIZE, 358, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
 		);
 		gl_panelModifyTags.setVerticalGroup(
 			gl_panelModifyTags.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 403, Short.MAX_VALUE)
+				.addGroup(gl_panelModifyTags.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelModifyTags.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblModifyTagsFileLocation)
+						.addComponent(textFieldModifyTagsFileLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(imgModifyTagsMedia, GroupLayout.PREFERRED_SIZE, 343, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		panelModifyTags.setLayout(gl_panelModifyTags);
 		
