@@ -12,15 +12,14 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import media.MediaData;
-import media.MediaItem;
 import settings.SettingsHandler;
 
 public class MediaHandler {
 
 	/* This class handles all media */
 	
-	// all media items in the storage folder
-	private static ArrayList<MediaItem> allMediaItems;
+	// paths to all media items in the storage folder
+	private static ArrayList<Path> allMediaItems;
 	
 	// pairs file path with a media object
 	private static HashMap<Path, MediaData> allMediaData;
@@ -35,20 +34,20 @@ public class MediaHandler {
 	
 	
 
-	public static ArrayList<MediaItem> getMediaItemsByTag(String search) {
+	public static ArrayList<Path> getMediaItemsByTag(String search) {
 		// media items that pass the search
-		ArrayList<MediaItem> passingMediaItems = new ArrayList<MediaItem>();
+		ArrayList<Path> passingMediaItems = new ArrayList<Path>();
 		
-		ArrayList<MediaItem> allMediaItems = getAllMediaItems();
+		ArrayList<Path> allMediaItems = getAllMediaItems();
 		
-		for(MediaItem mi : allMediaItems) {
+		for(Path p : allMediaItems) {
 			// skips media items w/o media data
-			if(getMediaDataByPath(mi.getPath()) == null) {
+			if(getMediaDataByPath(p) == null) {
 				continue;
 			}
 			
 			// tags the current media item has
-			ArrayList<String> containedTags = getMediaDataByPath(mi.getPath()).getAllTags();
+			ArrayList<String> containedTags = getMediaDataByPath(p).getAllTags();
 			
 			// checks current media item has the desired tag
 			
@@ -83,7 +82,7 @@ public class MediaHandler {
 			// evaluate toEval in JavaScript
 			try {
 				if((boolean) se.eval(toEval)) {
-					passingMediaItems.add(mi);
+					passingMediaItems.add(p);
 				}
 			} catch (ScriptException e) {
 				e.printStackTrace();
@@ -93,7 +92,7 @@ public class MediaHandler {
 		return passingMediaItems;
 	}
 	
-	public static ArrayList<MediaItem> getAllMediaItems() {
+	public static ArrayList<Path> getAllMediaItems() {
 		return allMediaItems;
 	}
 	
@@ -101,9 +100,9 @@ public class MediaHandler {
 		return allMediaData.get(path);
 	}
 	
-	public static void addMedia(MediaItem mi, MediaData md) {
+	public static void addMedia(Path mi, MediaData md) {
 		// pairs a media item its media data
-		pairMediaData(mi.getPath(), md);
+		pairMediaData(mi, md);
 	}
 	
 	public static void pairMediaData(Path p, MediaData md) {
@@ -121,15 +120,6 @@ public class MediaHandler {
 	
 	public static HashMap<Path, MediaData> getAllMediaData() {
 		return allMediaData;
-	}
-	
-	public static MediaItem getMediaItemByPath(Path path) {
-		for(MediaItem mi : allMediaItems) {
-			if(mi.getPath().equals(path)) {
-				return mi;
-			}
-		}
-		return null;
 	}
 	
 	public static void init() {

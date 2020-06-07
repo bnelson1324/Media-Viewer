@@ -14,8 +14,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import gui.components.MediaItemSearchPanel;
 import media.MediaData;
-import media.MediaItem;
 import media_control.MediaHandler;
 import media_control.MediaSaver;
 import settings.SettingsHandler;
@@ -27,20 +27,20 @@ public class GUIHandler {
 	private static HashMap<String, String> defaultValues;
 	
 	// path to selected media item, shown in view and modify tags
-	static Path selectedMediaItemPath;
+	public static Path selectedMediaItem;
 	
 	
 	/* -- All Panes -- */
 
-	static HashMap<String, String> getDefaultValues() {
+	public static HashMap<String, String> getDefaultValues() {
 		return defaultValues;
 	}
 
-	static void loadDefaultValues() {
+	public static void loadDefaultValues() {
 		defaultValues.put("settingsRootStorageLoc", SettingsHandler.getSetting("rootStorageFolderLoc"));
-		if(selectedMediaItemPath != null) {
-			MediaData selectedMediaItemData = MediaHandler.getMediaDataByPath(selectedMediaItemPath);
-			defaultValues.put("selectedMediaItemFileLocation", selectedMediaItemPath.toString());
+		if(selectedMediaItem != null) {
+			MediaData selectedMediaItemData = MediaHandler.getMediaDataByPath(selectedMediaItem);
+			defaultValues.put("selectedMediaItemFileLocation", selectedMediaItem.toString());
 			defaultValues.put("selectedMediaItemName", tagArrayListAsStr(selectedMediaItemData.getName(), ";"));
 			defaultValues.put("selectedMediaItemDateCreated", tagArrayListAsStr(selectedMediaItemData.getDateCreated(), ";"));
 			defaultValues.put("selectedMediaItemDateAdded", tagArrayListAsStr(selectedMediaItemData.getDateAdded(), ";"));
@@ -62,12 +62,12 @@ public class GUIHandler {
 	/* -- Search -- */
 	
 	// adds image icons to a grid
-	static ArrayList<MediaItemSearchPanel> textFieldSearch(String query) {
-		ArrayList<MediaItem> passingItems = MediaHandler.getMediaItemsByTag(query);
+	public static ArrayList<MediaItemSearchPanel> textFieldSearch(String query) {
+		ArrayList<Path> passingItems = MediaHandler.getMediaItemsByTag(query);
 		ArrayList<MediaItemSearchPanel> panelList = new ArrayList<MediaItemSearchPanel>();
-		for(MediaItem mi : passingItems) {
+		for(Path p : passingItems) {
 			
-			MediaItemSearchPanel miPanel = new MediaItemSearchPanel(mi.getPath());
+			MediaItemSearchPanel miPanel = new MediaItemSearchPanel(p);
 			panelList.add(miPanel);
 		}
 		
@@ -76,23 +76,23 @@ public class GUIHandler {
 	}
 	
 	// TODO: add compatibility with non-image file formats
-		static ImageIcon getMediaItemGridIcon(Path path) {
-			BufferedImage img;
-			try {
-				img = ImageIO.read(new File(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + path.toString()));
-				Image resizedImg = img.getScaledInstance(256, 256, Image.SCALE_FAST);
-				
-				return new ImageIcon(resizedImg);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return null;
+	public static ImageIcon getMediaItemGridIcon(Path path) {
+		BufferedImage img;
+		try {
+			img = ImageIO.read(new File(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + path.toString()));
+			Image resizedImg = img.getScaledInstance(256, 256, Image.SCALE_FAST);
+			
+			return new ImageIcon(resizedImg);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		return null;
+	}
 	
 	/* -- View/Modify Tags -- */
 	
 	// TODO: add compatibility with non-image file formats
-	static ImageIcon getMediaItemFullIcon(Path path, Dimension constraints) {
+	public static ImageIcon getMediaItemFullIcon(Path path, Dimension constraints) {
 		BufferedImage img;
 		
 		try {
@@ -107,13 +107,13 @@ public class GUIHandler {
 	
 	
 
-	static void updateMediaItemPanel(JLabel mediaDisplayPanel, int width, int height) {
-		if(selectedMediaItemPath != null) {
-			mediaDisplayPanel.setIcon(GUIHandler.getMediaItemFullIcon(selectedMediaItemPath, new Dimension(width, height)));
+	public static void updateMediaItemPanel(JLabel mediaDisplayPanel, int width, int height) {
+		if(selectedMediaItem != null) {
+			mediaDisplayPanel.setIcon(GUIHandler.getMediaItemFullIcon(selectedMediaItem, new Dimension(width, height)));
 		}
 	}
 	
-	static ImageIcon scaleKeepingAspectRatio(BufferedImage img, Dimension constraints) {
+	public static ImageIcon scaleKeepingAspectRatio(BufferedImage img, Dimension constraints) {
 		double newWidth, newHeight;
 
 		// scaled to width
@@ -152,7 +152,7 @@ public class GUIHandler {
 	}
 	
 	// saves text in the modifyTags page as current tags, and saves media data to mediaDataStorage.json
-	static void btnSaveTags(String name, String dateCreated, String dateAdded, String authorName, String authorLinks, String tags) {
+	public static void btnSaveTags(String name, String dateCreated, String dateAdded, String authorName, String authorLinks, String tags) {
 		ArrayList<String> aName = new ArrayList<String>(Arrays.asList(name.split(";")));
 		ArrayList<String> aDateCreated = new ArrayList<String>(Arrays.asList(dateCreated.split(";")));
 		ArrayList<String> aDateAdded = new ArrayList<String>(Arrays.asList(dateAdded.split(";")));
@@ -161,20 +161,20 @@ public class GUIHandler {
 		ArrayList<String> aTags = new ArrayList<String>(Arrays.asList(tags.split(";")));
 		
 		MediaData md = new MediaData(aName, aDateCreated, aDateAdded, aAuthorName, aAuthorLinks, aTags);
-		MediaHandler.pairMediaData(selectedMediaItemPath, md);
+		MediaHandler.pairMediaData(selectedMediaItem, md);
 		
 		MediaSaver.saveMediaData();
 	}
 
 	/* -- Settings -- */
-	static void btnSaveSettings(String rootStorageFolderLoc) {
+	public static void btnSaveSettings(String rootStorageFolderLoc) {
 		SettingsHandler.modifySetting("rootStorageFolderLoc", rootStorageFolderLoc);
 		SettingsSaver.saveSettings();
 		System.out.println("Saved settings");
 		MediaHandler.refreshMediaFolder();
 	}
 
-	static void btnResetSettings() {
+	public static void btnResetSettings() {
 		File settingsFile = new File("settings/settings.cfg");
 		SettingsSaver.copyDefaultSettings(settingsFile);
 		// reloads settings

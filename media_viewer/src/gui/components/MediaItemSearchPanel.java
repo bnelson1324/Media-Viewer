@@ -1,4 +1,4 @@
-package gui;
+package gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
@@ -9,7 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import media.MediaItem;
+import gui.GUIHandler;
 
 public class MediaItemSearchPanel extends JPanel {
 
@@ -20,7 +20,7 @@ public class MediaItemSearchPanel extends JPanel {
 	
 	private Path displayedMediaItemPath;
 	
-	MediaItemSearchPanel(Path displayedMediaItemPath) {
+	public MediaItemSearchPanel(Path displayedMediaItemPath) {
 		this.displayedMediaItemPath = displayedMediaItemPath;
 		
 		nameLabel = new JLabel(displayedMediaItemPath.getFileName().toString());
@@ -37,7 +37,7 @@ public class MediaItemSearchPanel extends JPanel {
 		
 	}
 	
-	Path getDisplayedMediaItemPath() {
+	public Path getDisplayedMediaItemPath() {
 		return displayedMediaItemPath;
 	}
 	
@@ -45,7 +45,7 @@ public class MediaItemSearchPanel extends JPanel {
 		return nameLabel;
 	}
 	
-	JLabel getImageLabel() {
+	public JLabel getImageLabel() {
 		return imageLabel;
 	}
 	

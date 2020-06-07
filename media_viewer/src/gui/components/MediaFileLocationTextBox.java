@@ -1,15 +1,16 @@
-package gui;
+package gui.components;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import gui.GUIHandler;
 import media.MediaData;
-import media.MediaItem;
 import media_control.MediaHandler;
 
 public class MediaFileLocationTextBox extends JTextField {
@@ -28,15 +29,15 @@ public class MediaFileLocationTextBox extends JTextField {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					GUIHandler.selectedMediaItemPath = getMediaItem().getPath();
+					GUIHandler.selectedMediaItem = getMediaItem();
 					GUIHandler.updateMediaItemPanel(managedJLabel, sizeComponent.getWidth(), sizeComponent.getHeight());
 				}
 			}
 		});
 	}
 	
-	public MediaItem getMediaItem() {
-		return MediaHandler.getMediaItemByPath(Paths.get(this.getText()));
+	public Path getMediaItem() {
+		return Paths.get(this.getText());
 	}
 	
 	public MediaData getMediaData() {

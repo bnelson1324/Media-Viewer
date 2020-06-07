@@ -29,6 +29,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import gui.components.MediaFileLocationTextBox;
+import gui.components.MediaItemSearchPanel;
 import media_control.MediaSaver;
 import misc.WrapLayout;
 import javax.swing.ScrollPaneConstants;
@@ -76,7 +78,7 @@ public class GraphicsFrame extends JFrame {
 					frame.setVisible(true);
 					frame.addFinalListeners();
 					
-					// displays all images
+					// displays all images on startup
 					frame.addSearchGrid("untagged || !untagged");
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -438,7 +440,7 @@ public class GraphicsFrame extends JFrame {
 
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					GUIHandler.selectedMediaItemPath = miPanel.getDisplayedMediaItemPath();
+					GUIHandler.selectedMediaItem = miPanel.getDisplayedMediaItemPath();
 					tabbedPane.setSelectedIndex(1);
 				}
 
