@@ -37,6 +37,7 @@ import javax.swing.ScrollPaneConstants;
 import java.awt.Color;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
+import java.awt.event.MouseAdapter;
 
 public class GraphicsFrame extends JFrame {
 
@@ -211,6 +212,14 @@ public class GraphicsFrame extends JFrame {
 		textFieldViewFileLocation = new MediaFileLocationTextBox(imgViewMedia, scrollPaneMediaDisplay);
 		textFieldViewFileLocation.setColumns(10);
 		
+		JButton btnOpenSelectedFileLocation = new JButton("Open File Location");
+		btnOpenSelectedFileLocation.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				GUIHandler.btnOpenSelectedFileLocation();
+			}
+		});
+		
 		
 		GroupLayout gl_panelView = new GroupLayout(panelView);
 		gl_panelView.setHorizontalGroup(
@@ -222,7 +231,10 @@ public class GraphicsFrame extends JFrame {
 						.addGroup(gl_panelView.createSequentialGroup()
 							.addComponent(lblViewFileLocation)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textFieldViewFileLocation, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE))))
+							.addComponent(textFieldViewFileLocation, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)
+							.addGap(51)
+							.addComponent(btnOpenSelectedFileLocation, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())))
 		);
 		gl_panelView.setVerticalGroup(
 			gl_panelView.createParallelGroup(Alignment.LEADING)
@@ -230,7 +242,8 @@ public class GraphicsFrame extends JFrame {
 					.addContainerGap()
 					.addGroup(gl_panelView.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblViewFileLocation)
-						.addComponent(textFieldViewFileLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textFieldViewFileLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnOpenSelectedFileLocation))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(imgViewMedia, GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
 					.addContainerGap())

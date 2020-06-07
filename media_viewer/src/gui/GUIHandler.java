@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -23,6 +24,8 @@ import settings.SettingsSaver;
 
 public class GUIHandler {
 
+	// TODO: save the selected media item's image as a field so it doesn't have to be reacquired every time
+	
 	// default values for components in the graphics frame
 	private static HashMap<String, String> defaultValues;
 	
@@ -32,6 +35,7 @@ public class GUIHandler {
 	
 	/* -- All Panes -- */
 
+	
 	public static HashMap<String, String> getDefaultValues() {
 		return defaultValues;
 	}
@@ -60,6 +64,7 @@ public class GUIHandler {
 	}
 	
 	/* -- Search -- */
+	
 	
 	// adds image icons to a grid
 	public static ArrayList<MediaItemSearchPanel> textFieldSearch(String query) {
@@ -90,6 +95,7 @@ public class GUIHandler {
 	}
 	
 	/* -- View/Modify Tags -- */
+	
 	
 	// TODO: add compatibility with non-image file formats
 	public static ImageIcon getMediaItemFullIcon(Path path, Dimension constraints) {
@@ -165,8 +171,19 @@ public class GUIHandler {
 		
 		MediaSaver.saveMediaData();
 	}
+	
+	public static void btnOpenSelectedFileLocation() {
+		try {
+			int lengthOfPathWithoutMediaItem = selectedMediaItem.toString().length()-selectedMediaItem.getFileName().toString().length();
+			Desktop.getDesktop().open(new File(SettingsHandler.getSetting("rootStorageFolderLoc") + "//" + selectedMediaItem.toString().substring(0, lengthOfPathWithoutMediaItem)));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/* -- Settings -- */
+	
+	
 	public static void btnSaveSettings(String rootStorageFolderLoc) {
 		SettingsHandler.modifySetting("rootStorageFolderLoc", rootStorageFolderLoc);
 		SettingsSaver.saveSettings();
