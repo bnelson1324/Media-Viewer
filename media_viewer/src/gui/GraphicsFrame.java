@@ -29,6 +29,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import media_control.MediaSaver;
 import misc.WrapLayout;
 import javax.swing.ScrollPaneConstants;
 import java.awt.Color;
@@ -65,10 +66,6 @@ public class GraphicsFrame extends JFrame {
 	 * Launch the application.
 	 */
 	
-	/*public static void main(String[] args) {
-		loadFrame();
-	}*/
-	
 	public static void runFrame() {
 		defaultValues = GUIHandler.getDefaultValues();
 		
@@ -78,6 +75,9 @@ public class GraphicsFrame extends JFrame {
 					GraphicsFrame frame = new GraphicsFrame();
 					frame.setVisible(true);
 					frame.addFinalListeners();
+					
+					// displays all images
+					frame.addSearchGrid("untagged || !untagged");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -159,34 +159,9 @@ public class GraphicsFrame extends JFrame {
 					// searches query and displays results
 					panelMediaDisplayGrid.removeAll();
 					
-					for(MediaItemSearchPanel miPanel : GUIHandler.textFieldSearch(textFieldSearch.getText())) {
-						panelMediaDisplayGrid.add(miPanel);
-						miPanel.getImageLabel().addMouseListener(new MouseListener() {
-
-							@Override
-							public void mouseClicked(MouseEvent e) {
-								GUIHandler.selectedMediaItemPath = miPanel.getDisplayedMediaItemPath();
-								tabbedPane.setSelectedIndex(1);
-							}
-
-							@Override
-							public void mousePressed(MouseEvent e) {
-							}
-
-							@Override
-							public void mouseReleased(MouseEvent e) {
-							}
-
-							@Override
-							public void mouseEntered(MouseEvent e) {
-							}
-
-							@Override
-							public void mouseExited(MouseEvent e) {
-							}
-							
-						});
-					}
+					addSearchGrid(textFieldSearch.getText());
+					
+					
 					
 					panelMediaDisplayGrid.revalidate();
 					panelMediaDisplayGrid.repaint();
@@ -215,11 +190,13 @@ public class GraphicsFrame extends JFrame {
 		panelSearchBar.setLayout(gl_panelSearchBar);
 		
 		scrollPaneMediaDisplay = new JScrollPane();
+		scrollPaneMediaDisplay.setViewportBorder(null);
 		scrollPaneMediaDisplay.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPaneMediaDisplay.getVerticalScrollBar().setUnitIncrement(16);
 		panelSearch.add(scrollPaneMediaDisplay, BorderLayout.CENTER);
 		
 		panelMediaDisplayGrid = new JPanel();
+		panelMediaDisplayGrid.setBorder(null);
 		scrollPaneMediaDisplay.setViewportView(panelMediaDisplayGrid);
 		panelMediaDisplayGrid.setLayout(new WrapLayout(3, 0, 0));
 		
@@ -451,5 +428,37 @@ public class GraphicsFrame extends JFrame {
 					.addContainerGap(316, Short.MAX_VALUE))
 		);
 		panelSettings.setLayout(gl_panelSettings);
+	}
+	
+	// adds search grid for a certain query
+	private void addSearchGrid(String query) {
+		for(MediaItemSearchPanel miPanel : GUIHandler.textFieldSearch(query)) {
+			panelMediaDisplayGrid.add(miPanel);
+			miPanel.getImageLabel().addMouseListener(new MouseListener() {
+
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					GUIHandler.selectedMediaItemPath = miPanel.getDisplayedMediaItemPath();
+					tabbedPane.setSelectedIndex(1);
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+				}
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+				}
+				
+			});
+		}
 	}
 }

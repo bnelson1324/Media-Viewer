@@ -12,8 +12,6 @@ import settings.*;
 
 public class Main {
 	
-	/* TODO: when the program starts, detect if any media items are untagged
-	 */
 	
 	public static void main(String[] args) {
 	

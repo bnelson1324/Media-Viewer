@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import media.MediaData;
 import media.MediaItem;
 import media_control.MediaHandler;
+import media_control.MediaSaver;
 import settings.SettingsHandler;
 import settings.SettingsSaver;
 
@@ -31,12 +32,11 @@ public class GUIHandler {
 	
 	/* -- All Panes -- */
 
-	public static HashMap<String, String> getDefaultValues() {
+	static HashMap<String, String> getDefaultValues() {
 		return defaultValues;
 	}
-	// TODO: add save method for tags page
-	
-	public static void loadDefaultValues() {
+
+	static void loadDefaultValues() {
 		defaultValues.put("settingsRootStorageLoc", SettingsHandler.getSetting("rootStorageFolderLoc"));
 		if(selectedMediaItemPath != null) {
 			MediaData selectedMediaItemData = MediaHandler.getMediaDataByPath(selectedMediaItemPath);
@@ -62,7 +62,7 @@ public class GUIHandler {
 	/* -- Search -- */
 	
 	// adds image icons to a grid
-	public static ArrayList<MediaItemSearchPanel> textFieldSearch(String query) {
+	static ArrayList<MediaItemSearchPanel> textFieldSearch(String query) {
 		ArrayList<MediaItem> passingItems = MediaHandler.getMediaItemsByTag(query);
 		ArrayList<MediaItemSearchPanel> panelList = new ArrayList<MediaItemSearchPanel>();
 		for(MediaItem mi : passingItems) {
@@ -76,7 +76,7 @@ public class GUIHandler {
 	}
 	
 	// TODO: add compatibility with non-image file formats
-		public static ImageIcon getMediaItemGridIcon(Path path) {
+		static ImageIcon getMediaItemGridIcon(Path path) {
 			BufferedImage img;
 			try {
 				img = ImageIO.read(new File(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + path.toString()));
@@ -92,7 +92,7 @@ public class GUIHandler {
 	/* -- View/Modify Tags -- */
 	
 	// TODO: add compatibility with non-image file formats
-	public static ImageIcon getMediaItemFullIcon(Path path, Dimension constraints) {
+	static ImageIcon getMediaItemFullIcon(Path path, Dimension constraints) {
 		BufferedImage img;
 		
 		try {
@@ -107,80 +107,74 @@ public class GUIHandler {
 	
 	
 
-	public static void updateMediaItemPanel(JLabel mediaDisplayPanel, int width, int height) {
+	static void updateMediaItemPanel(JLabel mediaDisplayPanel, int width, int height) {
 		if(selectedMediaItemPath != null) {
-			//System.out.println("jlabel size: " + mediaDisplayPanel.getSize());
 			mediaDisplayPanel.setIcon(GUIHandler.getMediaItemFullIcon(selectedMediaItemPath, new Dimension(width, height)));
-			System.out.println();
 		}
 	}
 	
-	// TODO: make this scaling work in the modify tags page
-		public static ImageIcon scaleKeepingAspectRatio(BufferedImage img, Dimension constraints) {
-			double newWidth, newHeight;
-			
-			
-			
-			// scaled to width
-			double sWMultiplier = (((double)constraints.getWidth())/img.getWidth());
+	static ImageIcon scaleKeepingAspectRatio(BufferedImage img, Dimension constraints) {
+		double newWidth, newHeight;
 
-			// scaled to height
-			double sHMultiplier = (((double)constraints.getHeight())/img.getHeight());
-			
-			// scale
-			if(sWMultiplier <= sHMultiplier) {	
-				// scale to width
-				newWidth = img.getWidth() * sWMultiplier;
-				newHeight = img.getHeight() * sWMultiplier;
-			} else {
-				// scale to height
-				newWidth = img.getWidth() * sHMultiplier;
-				newHeight = img.getHeight() * sHMultiplier;
-			}
-			
-			
-			Image resizedImg = img.getScaledInstance((int)newWidth, (int)newHeight, Image.SCALE_SMOOTH);
-			return new ImageIcon(resizedImg);
+		// scaled to width
+		double sWMultiplier = (((double)constraints.getWidth())/img.getWidth());
+
+		// scaled to height
+		double sHMultiplier = (((double)constraints.getHeight())/img.getHeight());
+		
+		// scale
+		if(sWMultiplier <= sHMultiplier) {	
+			// scale to width
+			newWidth = img.getWidth() * sWMultiplier;
+			newHeight = img.getHeight() * sWMultiplier;
+		} else {
+			// scale to height
+			newWidth = img.getWidth() * sHMultiplier;
+			newHeight = img.getHeight() * sHMultiplier;
 		}
 		
-		// !! not sure this works
-		// converts arraylist to str separated by a regex
-		private static String tagArrayListAsStr(ArrayList a, String regex) {
-			if(a.size() == 0) {
-				return "";
-			}
-			String str = "";
-			for(Object obj : a) {
-				str += obj.toString();
-				str += regex;
-			}
-			return str.substring(0, str.length()-regex.length());
-		}
 		
-		// !! not sure this works
-		// saves text in the modifyTags page as current tags
-		static void btnSaveTags(String name, String dateCreated, String dateAdded, String authorName, String authorLinks, String tags) {
-			ArrayList<String> aName = new ArrayList<String>(Arrays.asList(name.split(";")));
-			ArrayList<String> aDateCreated = new ArrayList<String>(Arrays.asList(dateCreated.split(";")));
-			ArrayList<String> aDateAdded = new ArrayList<String>(Arrays.asList(dateAdded.split(";")));
-			ArrayList<String> aAuthorName = new ArrayList<String>(Arrays.asList(authorName.split(";")));
-			ArrayList<String> aAuthorLinks = new ArrayList<String>(Arrays.asList(authorLinks.split(";")));
-			ArrayList<String> aTags = new ArrayList<String>(Arrays.asList(tags.split(";")));
-			
-			MediaData md = new MediaData(aName, aDateCreated, aDateAdded, aAuthorName, aAuthorLinks, aTags);
-			MediaHandler.pairMediaData(selectedMediaItemPath, md);
+		Image resizedImg = img.getScaledInstance((int)newWidth, (int)newHeight, Image.SCALE_SMOOTH);
+		return new ImageIcon(resizedImg);
+	}
+	
+	// converts arraylist to str separated by a regex
+	private static String tagArrayListAsStr(ArrayList a, String regex) {
+		if(a.size() == 0) {
+			return "";
 		}
+		String str = "";
+		for(Object obj : a) {
+			str += obj.toString();
+			str += regex;
+		}
+		return str.substring(0, str.length()-regex.length());
+	}
+	
+	// saves text in the modifyTags page as current tags, and saves media data to mediaDataStorage.json
+	static void btnSaveTags(String name, String dateCreated, String dateAdded, String authorName, String authorLinks, String tags) {
+		ArrayList<String> aName = new ArrayList<String>(Arrays.asList(name.split(";")));
+		ArrayList<String> aDateCreated = new ArrayList<String>(Arrays.asList(dateCreated.split(";")));
+		ArrayList<String> aDateAdded = new ArrayList<String>(Arrays.asList(dateAdded.split(";")));
+		ArrayList<String> aAuthorName = new ArrayList<String>(Arrays.asList(authorName.split(";")));
+		ArrayList<String> aAuthorLinks = new ArrayList<String>(Arrays.asList(authorLinks.split(";")));
+		ArrayList<String> aTags = new ArrayList<String>(Arrays.asList(tags.split(";")));
+		
+		MediaData md = new MediaData(aName, aDateCreated, aDateAdded, aAuthorName, aAuthorLinks, aTags);
+		MediaHandler.pairMediaData(selectedMediaItemPath, md);
+		
+		MediaSaver.saveMediaData();
+	}
 
 	/* -- Settings -- */
-	// TODO: add button in settings to save data to the json file
-	public static void btnSaveSettings(String rootStorageFolderLoc) {
+	static void btnSaveSettings(String rootStorageFolderLoc) {
 		SettingsHandler.modifySetting("rootStorageFolderLoc", rootStorageFolderLoc);
 		SettingsSaver.saveSettings();
 		System.out.println("Saved settings");
 		MediaHandler.refreshMediaFolder();
 	}
 
-	public static void btnResetSettings() {
+	static void btnResetSettings() {
 		File settingsFile = new File("settings/settings.cfg");
 		SettingsSaver.copyDefaultSettings(settingsFile);
 		// reloads settings
@@ -195,8 +189,9 @@ public class GUIHandler {
 	public static void init() {
 		defaultValues = new HashMap<String, String>();
 		loadDefaultValues();
-		
+	
 		GraphicsFrame.runFrame();
+		
 		
 	}
 

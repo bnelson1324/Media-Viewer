@@ -24,13 +24,24 @@
   },
   {
     "fileLocation": "images\\desktop backgrounds\\sunflowers.jpg",
-    "name": [],
-    "dateCreated": [],
-    "dateAdded": [],
-    "authorName": [],
-    "authorLinks": [],
+    "name": [
+      "Sunflowers"
+    ],
+    "dateCreated": [
+      ""
+    ],
+    "dateAdded": [
+      "2020/05/30"
+    ],
+    "authorName": [
+      ""
+    ],
+    "authorLinks": [
+      ""
+    ],
     "tags": [
-      "untagged"
+      "outdoors",
+      "flowers"
     ]
   },
   {
@@ -57,35 +68,65 @@
   },
   {
     "fileLocation": "images\\desktop backgrounds\\plains.jpg",
-    "name": [],
-    "dateCreated": [],
-    "dateAdded": [],
-    "authorName": [],
-    "authorLinks": [],
+    "name": [
+      "Plains"
+    ],
+    "dateCreated": [
+      ""
+    ],
+    "dateAdded": [
+      "2020/05/30"
+    ],
+    "authorName": [
+      ""
+    ],
+    "authorLinks": [
+      ""
+    ],
     "tags": [
-      "untagged"
+      "outdoors"
     ]
   },
   {
     "fileLocation": "images\\desktop backgrounds\\mountains.jpg",
-    "name": [],
-    "dateCreated": [],
-    "dateAdded": [],
-    "authorName": [],
-    "authorLinks": [],
+    "name": [
+      "Mountain"
+    ],
+    "dateCreated": [
+      ""
+    ],
+    "dateAdded": [
+      "2020/05/30"
+    ],
+    "authorName": [
+      ""
+    ],
+    "authorLinks": [
+      ""
+    ],
     "tags": [
-      "untagged"
+      "outdoors"
     ]
   },
   {
     "fileLocation": "images\\desktop backgrounds\\ocean.jpg",
-    "name": [],
-    "dateCreated": [],
-    "dateAdded": [],
-    "authorName": [],
-    "authorLinks": [],
+    "name": [
+      "Ocean"
+    ],
+    "dateCreated": [
+      ""
+    ],
+    "dateAdded": [
+      "2020/05/30"
+    ],
+    "authorName": [
+      ""
+    ],
+    "authorLinks": [
+      ""
+    ],
     "tags": [
-      "untagged"
+      "outdoors"
     ]
   },
   {
