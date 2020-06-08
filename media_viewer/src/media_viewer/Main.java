@@ -11,8 +11,7 @@ import media_control.MediaLoader;
 import settings.*;
 
 public class Main {
-	// TODO: add button to view menu to open file location of selected media item
-	// TODO: make it the gui doesnt reload every image whenever changing tabs
+	// TODO: let the user right click the images and display a context menu, w/ options like copy
 	
 	
 	public static void main(String[] args) {

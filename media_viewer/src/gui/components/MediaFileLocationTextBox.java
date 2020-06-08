@@ -30,6 +30,7 @@ public class MediaFileLocationTextBox extends JTextField {
 			public void keyReleased(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 					GUIHandler.selectedMediaItem = getMediaItem();
+					GUIHandler.updateSelectedMediaItemImage();
 					GUIHandler.updateMediaItemPanel(managedJLabel, sizeComponent.getWidth(), sizeComponent.getHeight());
 				}
 			}

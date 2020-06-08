@@ -454,6 +454,7 @@ public class GraphicsFrame extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					GUIHandler.selectedMediaItem = miPanel.getDisplayedMediaItemPath();
+					GUIHandler.updateSelectedMediaItemImage();
 					tabbedPane.setSelectedIndex(1);
 				}
 

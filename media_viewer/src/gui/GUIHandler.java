@@ -32,6 +32,9 @@ public class GUIHandler {
 	// path to selected media item, shown in view and modify tags
 	public static Path selectedMediaItem;
 	
+	// image for selected media item
+	public static BufferedImage selectedMediaItemImage;
+	
 	
 	/* -- All Panes -- */
 
@@ -97,25 +100,25 @@ public class GUIHandler {
 	/* -- View/Modify Tags -- */
 	
 	
-	// TODO: add compatibility with non-image file formats
-	public static ImageIcon getMediaItemFullIcon(Path path, Dimension constraints) {
-		BufferedImage img;
+	public static ImageIcon getSelectedMediaItemFullIcon(Dimension constraints) {
+		return scaleKeepingAspectRatio(selectedMediaItemImage, constraints);
 		
+	}
+	
+	// TODO: add compatibility with non-image file formats
+	public static void updateSelectedMediaItemImage() {
 		try {
-			img = ImageIO.read(new File(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + path.toString()));
-			
-			return scaleKeepingAspectRatio(img, constraints);
+			selectedMediaItemImage = ImageIO.read(new File(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + selectedMediaItem.toString()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
 	}
 	
 	
 
 	public static void updateMediaItemPanel(JLabel mediaDisplayPanel, int width, int height) {
 		if(selectedMediaItem != null) {
-			mediaDisplayPanel.setIcon(GUIHandler.getMediaItemFullIcon(selectedMediaItem, new Dimension(width, height)));
+			mediaDisplayPanel.setIcon(getSelectedMediaItemFullIcon(new Dimension(width, height)));
 		}
 	}
 	
