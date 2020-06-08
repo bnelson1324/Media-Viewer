@@ -16,7 +16,7 @@ public class MediaItemSearchPanel extends JPanel {
 	/* This class is used to display a file name and image in the search grid */
 	
 	private JLabel nameLabel;
-	private JLabel imageLabel;
+	private MediaItemDisplayLabel imageLabel;
 	
 	private Path displayedMediaItemPath;
 	
@@ -25,16 +25,12 @@ public class MediaItemSearchPanel extends JPanel {
 		
 		nameLabel = new JLabel(displayedMediaItemPath.getFileName().toString());
 		nameLabel.setFont(new Font("Label.font", Font.PLAIN, 16));
-		imageLabel = new JLabel(GUIHandler.getMediaItemGridIcon(displayedMediaItemPath));
-		imageLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		imageLabel = new MediaItemDisplayLabel(GUIHandler.getMediaItemGridIcon(displayedMediaItemPath));
 		
 		this.setLayout(new BorderLayout());
 		this.add(nameLabel, BorderLayout.NORTH);
 		this.add(imageLabel, BorderLayout.SOUTH);
-		this.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
-		
-		
-		
+		this.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));	
 	}
 	
 	public Path getDisplayedMediaItemPath() {

@@ -30,6 +30,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import gui.components.MediaFileLocationTextBox;
+import gui.components.MediaItemDisplayLabel;
 import gui.components.MediaItemSearchPanel;
 import media_control.MediaSaver;
 import misc.WrapLayout;
@@ -208,7 +209,7 @@ public class GraphicsFrame extends JFrame {
 		
 		JLabel lblViewFileLocation = new JLabel("File Location: ");
 		
-		imgViewMedia = new JLabel("");
+		imgViewMedia = new MediaItemDisplayLabel(null);
 		textFieldViewFileLocation = new MediaFileLocationTextBox(imgViewMedia, scrollPaneMediaDisplay);
 		textFieldViewFileLocation.setColumns(10);
 		
@@ -255,7 +256,7 @@ public class GraphicsFrame extends JFrame {
 		
 		JLabel lblModifyTagsFileLocation = new JLabel("File Location: ");
 		
-		imgModifyTagsMedia = new JLabel("");
+		imgModifyTagsMedia = new MediaItemDisplayLabel(null);
 		textFieldModifyTagsFileLocation = new MediaFileLocationTextBox(imgModifyTagsMedia, scrollPaneMediaDisplay);
 		textFieldModifyTagsFileLocation.addKeyListener(new KeyAdapter() {
 			@Override
@@ -453,9 +454,11 @@ public class GraphicsFrame extends JFrame {
 
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					GUIHandler.selectedMediaItem = miPanel.getDisplayedMediaItemPath();
-					GUIHandler.updateSelectedMediaItemImage();
-					tabbedPane.setSelectedIndex(1);
+					if(e.getButton() == MouseEvent.BUTTON1) {
+						GUIHandler.selectedMediaItem = miPanel.getDisplayedMediaItemPath();
+						GUIHandler.updateSelectedMediaItemImage();
+						tabbedPane.setSelectedIndex(1);
+					}
 				}
 
 				@Override
@@ -476,5 +479,9 @@ public class GraphicsFrame extends JFrame {
 				
 			});
 		}
+	}
+	
+	public JTabbedPane getTabbedPane() {
+		return tabbedPane;
 	}
 }
