@@ -177,8 +177,7 @@ public class GUIHandler {
 	
 	public static void btnOpenSelectedFileLocation() {
 		try {
-			int lengthOfPathWithoutMediaItem = selectedMediaItem.toString().length()-selectedMediaItem.getFileName().toString().length();
-			Desktop.getDesktop().open(new File(SettingsHandler.getSetting("rootStorageFolderLoc") + "//" + selectedMediaItem.toString().substring(0, lengthOfPathWithoutMediaItem)));
+			Desktop.getDesktop().open(new File(MediaHandler.getFullRelativeFileLocation(selectedMediaItem).toString()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -9,14 +9,18 @@ import javax.swing.JMenuItem;
 
 public class MediaItemContextMenuChoice extends JMenuItem {
 	
-	MediaItemContextMenuChoice(String text) {
+	MediaItemContextMenu parentMenu;
+	
+	MediaItemContextMenuChoice(String text, MediaItemContextMenu parentMenu) {
 		super(text);
+		this.parentMenu = parentMenu;
 		
-		// highlights mouse when hovering over choice
 		MediaItemContextMenuChoice choice = this;
 		Color originalBGColor = choice.getBackground();
 		
-		this.addMouseListener(new MouseAdapter() {  
+		this.addMouseListener(new MouseAdapter() { 
+			// highlights mouse when hovering over choice
+			
             public void mouseEntered(MouseEvent e) {              
                 choice.setBackground(Color.WHITE);
             } 
@@ -24,6 +28,13 @@ public class MediaItemContextMenuChoice extends JMenuItem {
             public void mouseExited(MouseEvent e) {              
             	choice.setBackground(originalBGColor);
             } 
+            
+            
+            // closes menu after selecting a choice
+            
+            public void mouseClicked(MouseEvent e) {
+            	choice.parentMenu.setVisible(false);
+            }
          }); 
 	}
 	

@@ -11,25 +11,11 @@ import media_control.MediaLoader;
 import settings.*;
 
 public class Main {
-	// TODO: let the user right click the images and display a context menu, w/ options like copy
-	
 	
 	public static void main(String[] args) {
 	
 		init();
 		
-		// !! test code below
-		
-
-		/*
-		@SuppressWarnings("resource")
-		Scanner sc = new Scanner(System.in);
-		CommandConsole.takeInput("");
-		while(true) {
-			String input = sc.nextLine();
-			CommandConsole.takeInput(input);
-		}
-		*/
 	}
 	
 	private static void init() {

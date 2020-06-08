@@ -16,22 +16,23 @@ import media_control.MediaHandler;
 public class MediaFileLocationTextBox extends JTextField {
 
 	// jlabel that contains the image of the current media item
-	private JLabel managedJLabel;
+	private MediaItemDisplayLabel managedMediaItemDisplayLabel;
 	
 	// component that helps determine the size the managedJLabel should be
 	private JComponent sizeComponent;
 	
-	public MediaFileLocationTextBox(JLabel managedJLabel, JComponent sizeComponent) {
+	public MediaFileLocationTextBox(MediaItemDisplayLabel managedMediaItemDisplayLabel, JComponent sizeComponent) {
 		super();
-		this.managedJLabel = managedJLabel;
+		this.managedMediaItemDisplayLabel = managedMediaItemDisplayLabel;
 		this.sizeComponent = sizeComponent;
 		this.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 					GUIHandler.selectedMediaItem = getMediaItem();
+					managedMediaItemDisplayLabel.setMediaItem(getMediaItem());
 					GUIHandler.updateSelectedMediaItemImage();
-					GUIHandler.updateMediaItemPanel(managedJLabel, sizeComponent.getWidth(), sizeComponent.getHeight());
+					GUIHandler.updateMediaItemPanel(managedMediaItemDisplayLabel, sizeComponent.getWidth(), sizeComponent.getHeight());
 				}
 			}
 		});

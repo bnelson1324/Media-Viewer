@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
@@ -13,6 +14,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 import javax.swing.GroupLayout;
@@ -49,8 +51,8 @@ public class GraphicsFrame extends JFrame {
 	
 	private JTabbedPane tabbedPane;
 	
-	private JLabel imgViewMedia;
-	private JLabel imgModifyTagsMedia;
+	private MediaItemDisplayLabel imgViewMedia;
+	private MediaItemDisplayLabel imgModifyTagsMedia;
 	
 	private JTextField textFieldRootStorageLoc;
 	private JTextField textFieldSearch;
@@ -115,6 +117,8 @@ public class GraphicsFrame extends JFrame {
 		textFieldModifyTagsFileLocation.setText(defaultValues.get("selectedMediaItemFileLocation"));
 		GUIHandler.updateMediaItemPanel(imgViewMedia, scrollPaneMediaDisplay.getWidth() - 16, scrollPaneMediaDisplay.getHeight() - 16);
 		GUIHandler.updateMediaItemPanel(imgModifyTagsMedia, scrollPaneMediaDisplay.getWidth() - 430, scrollPaneMediaDisplay.getHeight() - 180);
+		imgViewMedia.setMediaItem(Paths.get(defaultValues.get("selectedMediaItemFileLocation")));
+		imgModifyTagsMedia.setMediaItem(Paths.get(defaultValues.get("selectedMediaItemFileLocation")));
 		updateTags();
 	}
 	
@@ -209,7 +213,7 @@ public class GraphicsFrame extends JFrame {
 		
 		JLabel lblViewFileLocation = new JLabel("File Location: ");
 		
-		imgViewMedia = new MediaItemDisplayLabel(null);
+		imgViewMedia = new MediaItemDisplayLabel(null, null);
 		textFieldViewFileLocation = new MediaFileLocationTextBox(imgViewMedia, scrollPaneMediaDisplay);
 		textFieldViewFileLocation.setColumns(10);
 		
@@ -256,7 +260,7 @@ public class GraphicsFrame extends JFrame {
 		
 		JLabel lblModifyTagsFileLocation = new JLabel("File Location: ");
 		
-		imgModifyTagsMedia = new MediaItemDisplayLabel(null);
+		imgModifyTagsMedia = new MediaItemDisplayLabel(null, null);
 		textFieldModifyTagsFileLocation = new MediaFileLocationTextBox(imgModifyTagsMedia, scrollPaneMediaDisplay);
 		textFieldModifyTagsFileLocation.addKeyListener(new KeyAdapter() {
 			@Override
@@ -450,8 +454,11 @@ public class GraphicsFrame extends JFrame {
 	private void addSearchGrid(String query) {
 		for(MediaItemSearchPanel miPanel : GUIHandler.textFieldSearch(query)) {
 			panelMediaDisplayGrid.add(miPanel);
+			miPanel.getImageLabel().setCursor(new Cursor(Cursor.HAND_CURSOR));
+			miPanel.getImageLabel().setMediaItem(miPanel.getDisplayedMediaItemPath());
 			miPanel.getImageLabel().addMouseListener(new MouseListener() {
-
+				
+			
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if(e.getButton() == MouseEvent.BUTTON1) {

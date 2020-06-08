@@ -1,9 +1,11 @@
 package media_control;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -154,7 +156,14 @@ public class MediaHandler {
 		}
 	}
 	
-
+	public static Path getFullRelativePath(Path mediaItem) {
+		return Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + mediaItem);
+	}
+	
+	public static Path getFullRelativeFileLocation(Path mediaItem) {
+		int lengthOfPathWithoutMediaItem = mediaItem.toString().length()-mediaItem.getFileName().toString().length();
+		return(Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc") + "//" + mediaItem.toString().substring(0, lengthOfPathWithoutMediaItem)));
+	}
 	
 	
 }

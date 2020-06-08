@@ -25,7 +25,7 @@ public class MediaItemSearchPanel extends JPanel {
 		
 		nameLabel = new JLabel(displayedMediaItemPath.getFileName().toString());
 		nameLabel.setFont(new Font("Label.font", Font.PLAIN, 16));
-		imageLabel = new MediaItemDisplayLabel(GUIHandler.getMediaItemGridIcon(displayedMediaItemPath));
+		imageLabel = new MediaItemDisplayLabel(GUIHandler.getMediaItemGridIcon(displayedMediaItemPath), displayedMediaItemPath);
 		
 		this.setLayout(new BorderLayout());
 		this.add(nameLabel, BorderLayout.NORTH);
@@ -41,7 +41,7 @@ public class MediaItemSearchPanel extends JPanel {
 		return nameLabel;
 	}
 	
-	public JLabel getImageLabel() {
+	public MediaItemDisplayLabel getImageLabel() {
 		return imageLabel;
 	}
 	

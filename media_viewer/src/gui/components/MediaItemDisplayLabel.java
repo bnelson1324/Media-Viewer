@@ -1,8 +1,9 @@
 package gui.components;
 
-import java.awt.Cursor;
+import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.nio.file.Path;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -13,14 +14,28 @@ public class MediaItemDisplayLabel extends JLabel {
 
 	/* This is a JLabel displaying a media item */
 	
+	private Path mediaItem;
 	
-	public MediaItemDisplayLabel(ImageIcon img) {
+	private MediaItemContextMenu contextMenu;
+	
+	public MediaItemDisplayLabel(ImageIcon img, Path mediaItem) {
 		super(img);
 		
-		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		
-		MediaItemContextMenu contextMenu = new MediaItemContextMenu();
+		contextMenu = new MediaItemContextMenu(null);
 		this.add(contextMenu);
+		
+		updateContextMenu();
+	
+	}
+	
+	public void setMediaItem(Path mi) {
+		this.mediaItem = mi;
+		updateContextMenu();
+	}
+	
+	private void updateContextMenu() {
+		removeExistingContextMenus();
+		contextMenu = new MediaItemContextMenu(mediaItem);
 		
 		this.addMouseListener(new MouseAdapter() {
 
@@ -43,7 +58,16 @@ public class MediaItemDisplayLabel extends JLabel {
 			
 			
 		});
+		
+		this.add(contextMenu);
+	}
 	
+	private void removeExistingContextMenus() {
+		for(Component c : this.getComponents()) {
+			if(c instanceof MediaItemContextMenu) {
+				this.remove(c);
+			}
+		}
 	}
 	
 }
