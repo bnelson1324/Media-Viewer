@@ -209,7 +209,7 @@ public class GUIHandler {
 		defaultValues = new HashMap<String, String>();
 		loadDefaultValues();
 	
-		GraphicsFrame.runFrame();
+		OldGraphicsFrame.runFrame();
 		
 		
 	}

@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.util.Scanner;
 
 import gui.GUIHandler;
-import gui.components.tabs.GraphicsFrame;
+import gui.GraphicsFrame;
 import media_control.MediaHandler;
 import media_control.MediaLoader;
 import settings.*;
