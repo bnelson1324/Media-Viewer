@@ -6,11 +6,14 @@ import java.nio.file.Files;
 import java.util.Scanner;
 
 import gui.GUIHandler;
+import gui.components.tabs.GraphicsFrame;
 import media_control.MediaHandler;
 import media_control.MediaLoader;
 import settings.*;
 
 public class Main {
+	
+	// TODO: completely redesign gui so that its organized
 	
 	public static void main(String[] args) {
 	
@@ -23,7 +26,7 @@ public class Main {
 		MediaHandler.setUpStorageFolder();
 		MediaHandler.setUpMediaStorageFile();
 		MediaHandler.init();
-		GUIHandler.init();
+		GraphicsFrame appFrame = GraphicsFrame.init();
 	}
 	
 	
