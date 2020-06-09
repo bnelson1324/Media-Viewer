@@ -1,6 +1,11 @@
 package media_control;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -8,17 +13,15 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import com.google.gson.JsonObject;
-
 import media.MediaData;
-import media.MediaItem;
+import settings.SettingsHandler;
 
 public class MediaHandler {
 
 	/* This class handles all media */
 	
-	// all media items in the storage folder
-	private static ArrayList<MediaItem> allMediaItems;
+	// paths to all media items in the storage folder
+	private static ArrayList<Path> allMediaItems;
 	
 	// pairs file path with a media object
 	private static HashMap<Path, MediaData> allMediaData;
@@ -33,20 +36,20 @@ public class MediaHandler {
 	
 	
 
-	public static ArrayList<MediaItem> getMediaItemsByTag(String search) {
+	public static ArrayList<Path> getMediaItemsByTag(String search) {
 		// media items that pass the search
-		ArrayList<MediaItem> passingMediaItems = new ArrayList<MediaItem>();
+		ArrayList<Path> passingMediaItems = new ArrayList<Path>();
 		
-		ArrayList<MediaItem> allMediaItems = getAllMediaItems();
+		ArrayList<Path> allMediaItems = getAllMediaItems();
 		
-		for(MediaItem mi : allMediaItems) {
+		for(Path p : allMediaItems) {
 			// skips media items w/o media data
-			if(getMediaDataByPath(mi.getPath()) == null) {
+			if(getMediaDataByPath(p) == null) {
 				continue;
 			}
 			
 			// tags the current media item has
-			ArrayList<String> containedTags = getMediaDataByPath(mi.getPath()).getAllTags();
+			ArrayList<String> containedTags = getMediaDataByPath(p).getAllTags();
 			
 			// checks current media item has the desired tag
 			
@@ -57,7 +60,6 @@ public class MediaHandler {
 			for(char ch : search.toCharArray()) {
 				if(ch == '&' || ch == '|' || ch == '!' || ch == '(' || ch == ')') {
 					// if char isn't part of the tag
-					
 					if(!nextTag.trim().equals("") ) {
 						// this runs when the full tag name is determined. this determines whether the tag is present in the MediaItem
 						boolean hasTag = containedTags.contains(nextTag.trim());
@@ -82,7 +84,7 @@ public class MediaHandler {
 			// evaluate toEval in JavaScript
 			try {
 				if((boolean) se.eval(toEval)) {
-					passingMediaItems.add(mi);
+					passingMediaItems.add(p);
 				}
 			} catch (ScriptException e) {
 				e.printStackTrace();
@@ -92,7 +94,7 @@ public class MediaHandler {
 		return passingMediaItems;
 	}
 	
-	public static ArrayList<MediaItem> getAllMediaItems() {
+	public static ArrayList<Path> getAllMediaItems() {
 		return allMediaItems;
 	}
 	
@@ -100,21 +102,31 @@ public class MediaHandler {
 		return allMediaData.get(path);
 	}
 	
-	public static void addMedia(MediaItem mi, MediaData md) {
+	public static void addMedia(Path mi, MediaData md) {
 		// pairs a media item its media data
-		addMediaData(mi.getPath(), md);
+		pairMediaData(mi, md);
 	}
 	
-	public static void addMediaData(Path p, MediaData md) {
+	public static void pairMediaData(Path p, MediaData md) {
 		allMediaData.put(p, md);
+	}
+	
+	// reloads media items and data in case any changes have been made
+	public static void refreshMediaFolder() {
+		setUpStorageFolder();
+		MediaLoader.init();
+		
+		allMediaItems = MediaLoader.getMediaItems();
+		allMediaData = MediaLoader.getMediaData();
 	}
 	
 	public static HashMap<Path, MediaData> getAllMediaData() {
 		return allMediaData;
 	}
 	
-	
 	public static void init() {
+		MediaLoader.init();
+		
 		allMediaItems = MediaLoader.getMediaItems();
 		allMediaData = MediaLoader.getMediaData();
 		
@@ -122,7 +134,36 @@ public class MediaHandler {
 		se = sem.getEngineByName("JavaScript");
 
 	}
-
+	
+	public static void setUpStorageFolder() {
+		// creates storage directory if it doesn't exist
+		File rootStorageFolder = new File(SettingsHandler.getSetting("rootStorageFolderLoc"));
+		if(!rootStorageFolder.exists()) {
+			rootStorageFolder.mkdir();
+		}
+	}
+	
+	public static void setUpMediaStorageFile() {
+		// create a new media storage file by copying the default one
+		File mediaStorageFile = new File("mediaDataStorage.json");
+		if(!mediaStorageFile.exists()) {
+			File defaultMediaStorage = new File("res/DEFAULT_MEDIA_DATA_STORAGE.json");
+			try {
+				Files.copy(defaultMediaStorage.toPath(), mediaStorageFile.toPath());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static Path getFullRelativePath(Path mediaItem) {
+		return Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + mediaItem);
+	}
+	
+	public static Path getFullRelativeFileLocation(Path mediaItem) {
+		int lengthOfPathWithoutMediaItem = mediaItem.toString().length()-mediaItem.getFileName().toString().length();
+		return(Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc") + "//" + mediaItem.toString().substring(0, lengthOfPathWithoutMediaItem)));
+	}
 	
 	
 }

@@ -3,6 +3,7 @@ package media_control;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,8 +17,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import media.MediaData;
-import media.MediaItem;
-import media_viewer.SettingsLoader;
+import settings.SettingsHandler;
 
 public class MediaLoader {
 
@@ -30,7 +30,7 @@ public class MediaLoader {
 
 	
 	// all media items in the storage folder
-	private static ArrayList<MediaItem> loaderAllMediaItems;
+	private static ArrayList<Path> loaderAllMediaItems;
 	
 	// pairs file path with a media object
 	private static HashMap<Path, MediaData> loaderAllMediaData;
@@ -38,16 +38,15 @@ public class MediaLoader {
 	private static void loadMediaItems() {
 		// finds every file from the root storage folder
 		
-		Path rootStorageFolder = Paths.get(SettingsLoader.getSetting("rootStorageFolderLoc"));
+		Path rootStorageFolder = Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc"));
 		ArrayList<Path> allFiles = new ArrayList<Path>();
 		fetchFiles(rootStorageFolder.toFile(), allFiles);
 		
 		for(Path f : allFiles) {
 			// removes root folder storage location from the path
-			String relativePath = f.toString().substring(rootStorageFolder.toString().length() + 1);
+			Path relativePath = Paths.get(f.toString().substring(rootStorageFolder.toString().length() + 1));
 			
-			MediaItem mi = new MediaItem(Paths.get(relativePath));
-			loaderAllMediaItems.add(mi);
+			loaderAllMediaItems.add(relativePath);
 		}
 	}
 
@@ -82,6 +81,12 @@ public class MediaLoader {
 			MediaData md = new MediaData(mdName, mdDateCreated, mdDateAdded, mdAuthorName, mdAuthorLink, mdTags);
 			loaderAllMediaData.put(Paths.get(mdPath), md);
 		}
+		try {
+			myReader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	
@@ -100,25 +105,25 @@ public class MediaLoader {
 
 	// adds 'untagged' tag to mediaItems without tag
 	private static void addUntaggedTag() {
-		ArrayList<MediaItem> untaggedMediaItems = new ArrayList<MediaItem>();
+		ArrayList<Path> untaggedMediaItems = new ArrayList<Path>();
 		
 		// finds all untagged media items
-		for(MediaItem mi : loaderAllMediaItems) {
-			if(loaderAllMediaData.get(mi.getPath()) == null) {
-				untaggedMediaItems.add(mi);
+		for(Path p : loaderAllMediaItems) {
+			if(loaderAllMediaData.get(p) == null) {
+				untaggedMediaItems.add(p);
 			}
 		}
 		
 		// adds 'untagged' tag to them
-		for(MediaItem mi : untaggedMediaItems) {
+		for(Path p : untaggedMediaItems) {
 			ArrayList<String> tags = new ArrayList<String>();
 			tags.add("untagged");
 			MediaData md = new MediaData(new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), tags);
-			loaderAllMediaData.put(mi.getPath(), md);
+			loaderAllMediaData.put(p, md);
 		}
 	}
 	
-	static ArrayList<MediaItem> getMediaItems() {
+	static ArrayList<Path> getMediaItems() {
 		return loaderAllMediaItems;
 	}
 	
@@ -127,7 +132,7 @@ public class MediaLoader {
 	}
 	
 	public static void init() {
-		loaderAllMediaItems = new ArrayList<MediaItem>();
+		loaderAllMediaItems = new ArrayList<Path>();
 		loaderAllMediaData = new HashMap<Path, MediaData>();
 		loadMediaItems();
 		loadMediaData();

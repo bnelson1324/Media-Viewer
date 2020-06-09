@@ -1,26 +1,21 @@
-package media_viewer;
+package settings;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.HashMap;
 
 public class SettingsLoader {
 
 	private static BufferedReader br;
 	
-	private static HashMap settingsMap = new HashMap<String, String>();
+	private static HashMap<String, String> loaderSettingsMap;
 	
-	public static String getSetting(String key) {
-		return (String) settingsMap.get(key);
-	}
 	
+	
+	// loads the Media Viewer's settings
 	public static void loadSettings() {
-		// loads the Media Viewer's settings
-		
 		// makes sure the settings directory exists
 		File settingsDirectory = new File("settings");
 		if(!settingsDirectory.exists()) {
@@ -32,33 +27,32 @@ public class SettingsLoader {
 
 		// makes sure settings file exists
 		if(!settingsFile.exists()) {
-			// create a new settings file by copying the default one
-			File defaultSettings = new File("res/DEFAULT_SETTINGS.cfg");
-			try {
-				Files.copy(defaultSettings.toPath(), settingsFile.toPath());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+			SettingsSaver.copyDefaultSettings(settingsFile);
+		} 
 		
 		// reading file
 		try {
 			 br = new BufferedReader(new FileReader(settingsFile));
-		} catch(FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		String line;
-		try {
-			while ((line = br.readLine()) != null) {
+			 String line;
+			 while ((line = br.readLine()) != null) {
 				// puts settings in settingsMap
 				String[] currentSetting = line.split("=");
-				settingsMap.put(currentSetting[0], currentSetting[1]);
-	        }
+				loaderSettingsMap.put(currentSetting[0], currentSetting[1]);
+			 }
+			 br.close();
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	
+
+	public static void init() {
+		loaderSettingsMap = new HashMap<String, String>();
+		loadSettings();
+	}
+	
+	static HashMap<String, String> getSettingsMap() {
+		return loaderSettingsMap;
+	}
 }
