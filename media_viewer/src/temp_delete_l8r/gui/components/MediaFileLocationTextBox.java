@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 
 import media.MediaData;
 import media_control.MediaHandler;
-import temp_delete_l8r.GUIHandler;
+import temp_delete_l8r.OldGUIHandler;
 
 public class MediaFileLocationTextBox extends JTextField {
 
@@ -29,10 +29,10 @@ public class MediaFileLocationTextBox extends JTextField {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					GUIHandler.selectedMediaItem = getMediaItem();
+					OldGUIHandler.selectedMediaItem = getMediaItem();
 					managedMediaItemDisplayLabel.setMediaItem(getMediaItem());
-					GUIHandler.updateSelectedMediaItemImage();
-					GUIHandler.updateMediaItemPanel(managedMediaItemDisplayLabel, sizeComponent.getWidth(), sizeComponent.getHeight());
+					OldGUIHandler.updateSelectedMediaItemImage();
+					OldGUIHandler.updateMediaItemPanel(managedMediaItemDisplayLabel, sizeComponent.getWidth(), sizeComponent.getHeight());
 				}
 			}
 		});

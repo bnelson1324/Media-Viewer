@@ -18,6 +18,8 @@ import settings.SettingsHandler;
 
 public class MediaHandler {
 
+	// TODO: organize this class's methods
+	
 	/* This class handles all media */
 	
 	// paths to all media items in the storage folder

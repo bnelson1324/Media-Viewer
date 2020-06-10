@@ -1,23 +1,25 @@
 package gui.components.tabs;
 
+import java.awt.BorderLayout;
+import java.awt.image.BufferedImage;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
+import gui.GUIManager;
 import gui.components.LabelMediaItemDisplay;
 import gui.components.TextBoxFileLocation;
-import javax.swing.JPanel;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.image.BufferedImage;
-import java.nio.file.Paths;
-
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class TabModifyTags extends Tab {
 
@@ -25,20 +27,14 @@ public class TabModifyTags extends Tab {
 	private JPanel pnlSelectedMediaDisplay;
 	private LabelMediaItemDisplay lblSelectedMediaDisplay;
 	
-	private JLabel lblNewLabel;
-	private JTextField textField;
-	private JLabel lblNewLabel_1;
-	private JTextField textField_1;
-	private JLabel lblNewLabel_2;
-	private JTextField textField_2;
-	private JLabel lblNewLabel_3;
-	private JTextField textField_3;
-	private JLabel lblNewLabel_4;
-	private JTextField textField_4;
-	private JLabel lblNewLabel_5;
-	private JTextArea textField_5;
-	private JButton btnSave;
-	private JLabel lblNewLabel_6;
+	private JTextField tfModName;
+	private JTextField tfModDateCreated;
+	private JTextField tfModDateAdded;
+	private JTextField tfModAuthorName;
+	private JTextField tfModAuthorLinks;
+	private JTextArea tfModTags;
+	
+	private JButton btnSaveTags;
 	
 	public TabModifyTags(HashMap<String, Object> defaultValues) {
 		super(defaultValues);
@@ -50,40 +46,48 @@ public class TabModifyTags extends Tab {
 		pnlSelectedMediaDisplay = new JPanel();
 		pnlSelectedMediaDisplay.setLayout(new BorderLayout(0, 0));
 		
-		lblNewLabel = new JLabel("Name: ");
+		JLabel lblModName = new JLabel("Name: ");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		tfModName = new JTextField();
+		tfModName.setColumns(10);
 		
-		lblNewLabel_1 = new JLabel("Date Created: ");
+		JLabel lblModDateCreated = new JLabel("Date Created: ");
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
+		tfModDateCreated = new JTextField();
+		tfModDateCreated.setColumns(10);
 		
-		lblNewLabel_2 = new JLabel("Date Added: ");
+		JLabel lblModDateAdded = new JLabel("Date Added: ");
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
+		tfModDateAdded = new JTextField();
+		tfModDateAdded.setColumns(10);
 		
-		lblNewLabel_3 = new JLabel("Author Name: ");
+		JLabel lblModAuthorName = new JLabel("Author Name: ");
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
+		tfModAuthorName = new JTextField();
+		tfModAuthorName.setColumns(10);
 		
-		lblNewLabel_4 = new JLabel("Author Links: ");
+		JLabel lblModAuthorLinks = new JLabel("Author Links: ");
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
+		tfModAuthorLinks = new JTextField();
+		tfModAuthorLinks.setColumns(10);
 		
-		lblNewLabel_5 = new JLabel("Tags: ");
+		JLabel lblModTags = new JLabel("Tags: ");
 		
-		textField_5 = new JTextArea();
-		textField_5.setRows(8);
-		textField_5.setColumns(10);
-		textField_5.setLineWrap(true);
-		textField_5.setWrapStyleWord(true);
+		tfModTags = new JTextArea();
+		tfModTags.setRows(8);
+		tfModTags.setColumns(10);
+		tfModTags.setLineWrap(true);
+		tfModTags.setWrapStyleWord(true);
 		
-		btnSave = new JButton("Save Tags");
+		btnSaveTags = new JButton("Save Tags");
+		btnSaveTags.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GUIManager.saveTags(tfModName.getText(), tfModDateCreated.getText(), tfModDateAdded.getText(), tfModAuthorName.getText(), tfModAuthorLinks.getText(), tfModTags.getText());
+				updateTags();
+			}
+		});
+		
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -95,33 +99,33 @@ public class TabModifyTags extends Tab {
 							.addGap(4)
 							.addComponent(tbFileLocation, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblModName, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
 							.addGap(4)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE))
+							.addComponent(tfModName, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblModDateCreated, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
 							.addGap(4)
-							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE))
+							.addComponent(tfModDateCreated, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblModDateAdded, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
 							.addGap(4)
-							.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE))
+							.addComponent(tfModDateAdded, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblModAuthorName, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
 							.addGap(4)
-							.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE))
+							.addComponent(tfModAuthorName, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblModAuthorLinks, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
 							.addGap(4)
-							.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE))
+							.addComponent(tfModAuthorLinks, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblModTags, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
 							.addGap(4)
-							.addComponent(textField_5, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(tfModTags, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)))
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(24)
-							.addComponent(btnSave)
+							.addComponent(btnSaveTags)
 							.addGap(21))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -141,45 +145,45 @@ public class TabModifyTags extends Tab {
 								.addComponent(tbFileLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(8)
-							.addComponent(btnSave)))
+							.addComponent(btnSaveTags)))
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGap(3)
-									.addComponent(lblNewLabel))
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addComponent(lblModName))
+								.addComponent(tfModName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGap(3)
-									.addComponent(lblNewLabel_1))
-								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addComponent(lblModDateCreated))
+								.addComponent(tfModDateCreated, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGap(3)
-									.addComponent(lblNewLabel_2))
-								.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addComponent(lblModDateAdded))
+								.addComponent(tfModDateAdded, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGap(3)
-									.addComponent(lblNewLabel_3))
-								.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addComponent(lblModAuthorName))
+								.addComponent(tfModAuthorName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGap(3)
-									.addComponent(lblNewLabel_4))
-								.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addComponent(lblModAuthorLinks))
+								.addComponent(tfModAuthorLinks, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGap(3)
-									.addComponent(lblNewLabel_5))
-								.addComponent(textField_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+									.addComponent(lblModTags))
+								.addComponent(tfModTags, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addComponent(pnlSelectedMediaDisplay, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addGap(93))
 		);
@@ -191,7 +195,6 @@ public class TabModifyTags extends Tab {
 	}
 
 	private void updateImage() {
-		// TODO: update size changes
 		int imgWidth, imgHeight;
 		imgWidth = this.getWidth() - 390;
 		imgHeight = this.getHeight() - 80;
@@ -200,10 +203,22 @@ public class TabModifyTags extends Tab {
 		lblSelectedMediaDisplay.setImageSize(imgWidth, imgHeight, true);
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	private void updateTags() {
+		tfModName.setText(GUIManager.unpackTagList((ArrayList<String>)(defaultValues.get("smiName")), ", "));
+		tfModDateCreated.setText(GUIManager.unpackTagList((ArrayList<String>)(defaultValues.get("smiDateCreated")), ", "));
+		tfModDateAdded.setText(GUIManager.unpackTagList((ArrayList<String>)(defaultValues.get("smiDateAdded")), ", "));
+		tfModAuthorName.setText(GUIManager.unpackTagList((ArrayList<String>)(defaultValues.get("smiAuthorName")), ", "));
+		tfModAuthorLinks.setText(GUIManager.unpackTagList((ArrayList<String>)(defaultValues.get("smiAuthorLinks")), ", "));
+		tfModTags.setText(GUIManager.unpackTagList((ArrayList<String>)(defaultValues.get("smiTags")), ", "));
+	}
+	
 	@Override
 	public void updateTab() {
-		// updates the text box and image
+		// updates the text boxes and image
 		tbFileLocation.setText(defaultValues.get("smi").toString());
+		updateTags();
 		updateImage();
 	}
 

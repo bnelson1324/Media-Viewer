@@ -76,7 +76,7 @@ public class OldGraphicsFrame extends JFrame {
 	 */
 	
 	public static void runFrame() {
-		defaultValues = GUIHandler.getDefaultValues();
+		defaultValues = OldGUIHandler.getDefaultValues();
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -114,12 +114,12 @@ public class OldGraphicsFrame extends JFrame {
 	}
 	
 	private void updateDefaultValues() {
-		GUIHandler.loadDefaultValues();
+		OldGUIHandler.loadDefaultValues();
 		textFieldRootStorageLoc.setText(defaultValues.get("settingsRootStorageLoc"));
 		textFieldViewFileLocation.setText(defaultValues.get("selectedMediaItemFileLocation"));
 		textFieldModifyTagsFileLocation.setText(defaultValues.get("selectedMediaItemFileLocation"));
-		GUIHandler.updateMediaItemPanel(imgViewMedia, scrollPaneMediaDisplay.getWidth() - 16, scrollPaneMediaDisplay.getHeight() - 16);
-		GUIHandler.updateMediaItemPanel(imgModifyTagsMedia, scrollPaneMediaDisplay.getWidth() - 430, scrollPaneMediaDisplay.getHeight() - 180);
+		OldGUIHandler.updateMediaItemPanel(imgViewMedia, scrollPaneMediaDisplay.getWidth() - 16, scrollPaneMediaDisplay.getHeight() - 16);
+		OldGUIHandler.updateMediaItemPanel(imgModifyTagsMedia, scrollPaneMediaDisplay.getWidth() - 430, scrollPaneMediaDisplay.getHeight() - 180);
 		imgViewMedia.setMediaItem(Paths.get(defaultValues.get("selectedMediaItemFileLocation")));
 		imgModifyTagsMedia.setMediaItem(Paths.get(defaultValues.get("selectedMediaItemFileLocation")));
 		updateTags();
@@ -224,7 +224,7 @@ public class OldGraphicsFrame extends JFrame {
 		btnOpenSelectedFileLocation.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				GUIHandler.btnOpenSelectedFileLocation();
+				OldGUIHandler.btnOpenSelectedFileLocation();
 			}
 		});
 		
@@ -308,7 +308,7 @@ public class OldGraphicsFrame extends JFrame {
 		JButton btnSaveTags = new JButton("Save Tags");
 		btnSaveTags.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GUIHandler.btnSaveTags(textFieldModName.getText(), textFieldModDateCreated.getText(), textFieldModDateAdded.getText(), textFieldModAuthorName.getText(), textFieldModAuthorLinks.getText(), textFieldModTags.getText());
+				OldGUIHandler.btnSaveTags(textFieldModName.getText(), textFieldModDateCreated.getText(), textFieldModDateAdded.getText(), textFieldModAuthorName.getText(), textFieldModAuthorLinks.getText(), textFieldModTags.getText());
 			}
 		});
 		
@@ -409,14 +409,14 @@ public class OldGraphicsFrame extends JFrame {
 		JButton btnSaveSettings = new JButton("Save settings");
 		btnSaveSettings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GUIHandler.btnSaveSettings(textFieldRootStorageLoc.getText());
+				OldGUIHandler.btnSaveSettings(textFieldRootStorageLoc.getText());
 			}
 		});
 		
 		JButton btnResetSettings = new JButton("Reset Settings");
 		btnResetSettings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GUIHandler.btnResetSettings();
+				OldGUIHandler.btnResetSettings();
 				updateDefaultValues();
 			}
 		});
@@ -455,7 +455,7 @@ public class OldGraphicsFrame extends JFrame {
 	
 	// adds search grid for a certain query
 	private void addSearchGrid(String query) {
-		for(MediaItemSearchPanel miPanel : GUIHandler.textFieldSearch(query)) {
+		for(MediaItemSearchPanel miPanel : OldGUIHandler.textFieldSearch(query)) {
 			panelMediaDisplayGrid.add(miPanel);
 			miPanel.getImageLabel().setCursor(new Cursor(Cursor.HAND_CURSOR));
 			miPanel.getImageLabel().setMediaItem(miPanel.getDisplayedMediaItemPath());
@@ -465,8 +465,8 @@ public class OldGraphicsFrame extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if(e.getButton() == MouseEvent.BUTTON1) {
-						GUIHandler.selectedMediaItem = miPanel.getDisplayedMediaItemPath();
-						GUIHandler.updateSelectedMediaItemImage();
+						OldGUIHandler.selectedMediaItem = miPanel.getDisplayedMediaItemPath();
+						OldGUIHandler.updateSelectedMediaItemImage();
 						tabbedPane.setSelectedIndex(1);
 					}
 				}

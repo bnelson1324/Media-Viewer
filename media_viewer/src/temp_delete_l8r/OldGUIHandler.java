@@ -22,7 +22,7 @@ import media_control.MediaSaver;
 import settings.SettingsHandler;
 import settings.SettingsSaver;
 
-public class GUIHandler {
+public class OldGUIHandler {
 
 	// TODO: save the selected media item's image as a field so it doesn't have to be reacquired every time
 	

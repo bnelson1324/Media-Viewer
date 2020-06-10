@@ -9,7 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import temp_delete_l8r.GUIHandler;
+import temp_delete_l8r.OldGUIHandler;
 
 public class MediaItemSearchPanel extends JPanel {
 
@@ -25,7 +25,7 @@ public class MediaItemSearchPanel extends JPanel {
 		
 		nameLabel = new JLabel(displayedMediaItemPath.getFileName().toString());
 		nameLabel.setFont(new Font("Label.font", Font.PLAIN, 16));
-		imageLabel = new MediaItemDisplayLabel(GUIHandler.getMediaItemGridIcon(displayedMediaItemPath), displayedMediaItemPath);
+		imageLabel = new MediaItemDisplayLabel(OldGUIHandler.getMediaItemGridIcon(displayedMediaItemPath), displayedMediaItemPath);
 		
 		this.setLayout(new BorderLayout());
 		this.add(nameLabel, BorderLayout.NORTH);

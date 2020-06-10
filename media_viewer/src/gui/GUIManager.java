@@ -4,6 +4,8 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -12,8 +14,11 @@ import javax.swing.ImageIcon;
 import gui.components.tabs.Tab;
 import media.MediaData;
 import media_control.MediaHandler;
+import media_control.MediaSaver;
 
 public class GUIManager {
+	
+	// TODO: organize this class, separating methods by which tab they are used in
 	
 	private static GraphicsFrame appFrame;
 	
@@ -52,16 +57,17 @@ public class GUIManager {
 			defaultValues.put("smiDateAdded", md.getDateAdded());
 			defaultValues.put("smiAuthorName", md.getAuthorName());
 			defaultValues.put("smiAuthorLinks", md.getAuthorLinks());
-			defaultValues.put("smiAuthorTags", md.getGenericTags());
+			defaultValues.put("smiTags", md.getGenericTags());	
 		} else {
 			defaultValues.put("smi", "");
 			defaultValues.put("smiImage", null);
-			defaultValues.put("smiName", "");
-			defaultValues.put("smiDateCreated", "");
-			defaultValues.put("smiDateAdded", "");
-			defaultValues.put("smiAuthorName", "");
-			defaultValues.put("smiAuthorLinks", "");
-			defaultValues.put("smiAuthorTags", "");
+			ArrayList<String> emptyArr = new ArrayList<String>();
+			defaultValues.put("smiName", emptyArr);
+			defaultValues.put("smiDateCreated", emptyArr);
+			defaultValues.put("smiDateAdded", emptyArr);
+			defaultValues.put("smiAuthorName", emptyArr);
+			defaultValues.put("smiAuthorLinks", emptyArr);
+			defaultValues.put("smiTags", emptyArr);
 		}
 	}
 	
@@ -93,6 +99,48 @@ public class GUIManager {
 
 	public static void updateSelectedTab() {
 		 appFrame.getSelectedTab().updateTab();
+	}
+	
+	
+	// converts arraylist of tags into a string
+	public static String unpackTagList(ArrayList<String> tagList, String regex) {
+		if(tagList.size() == 0) {
+			// so removing last regex doesn''t result in out of string index bounds exception
+			return "";
+		}
+		
+		String tagStr = "";
+		for(String tag : tagList) {
+			tagStr += tag + regex;
+		}
+		// removes last regex
+		return tagStr.substring(0, tagStr.length() - regex.length());
+	}
+	
+	// converts string into an arraylist of tags
+	public static ArrayList<String> packTagList(String tagStr, String regex) {
+		String[] tagArr = tagStr.split(regex);
+		return new ArrayList<String>(Arrays.asList(tagArr));
+	}
+
+	public static void saveTags(String name, String dateCreated, String dateAdded, String authorName, String authorLinks, String tags) {
+		if(selectedMediaItem == null) {
+			return;
+		}
+		ArrayList<String> aName = packTagList(name, ", ");
+		ArrayList<String> aDateCreated = packTagList(dateCreated, ", ");
+		ArrayList<String> aDateAdded = packTagList(dateAdded, ", ");
+		ArrayList<String> aAuthorName = packTagList(authorName, ", ");
+		ArrayList<String> aAuthorLinks = packTagList(authorLinks, ", ");
+		ArrayList<String> aTags = packTagList(tags, ", ");
+		System.out.println(aTags);
+		
+		MediaData md = new MediaData(aName, aDateCreated, aDateAdded, aAuthorName, aAuthorLinks, aTags);
+		MediaHandler.pairMediaData(selectedMediaItem, md);
+		
+		updateDefaultValues();
+		
+		MediaSaver.saveMediaData();
 	}
 	
 	
