@@ -1,4 +1,4 @@
-package gui;
+package temp_delete_l8r;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -31,9 +31,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import gui.components.MediaFileLocationTextBox;
-import gui.components.MediaItemDisplayLabel;
-import gui.components.MediaItemSearchPanel;
+import gui.components.TextBoxFileLocation;
+import temp_delete_l8r.gui.components.MediaItemDisplayLabel;
+import temp_delete_l8r.gui.components.MediaItemSearchPanel;
 import media_control.MediaSaver;
 import misc.WrapLayout;
 import javax.swing.ScrollPaneConstants;
@@ -44,6 +44,9 @@ import java.awt.event.MouseAdapter;
 
 public class OldGraphicsFrame extends JFrame {
 
+	// TODO: temporary, delete class later
+	
+	
 	private static HashMap<String, String> defaultValues;
 	
 	private JPanel contentPane;
@@ -214,7 +217,7 @@ public class OldGraphicsFrame extends JFrame {
 		JLabel lblViewFileLocation = new JLabel("File Location: ");
 		
 		imgViewMedia = new MediaItemDisplayLabel(null, null);
-		textFieldViewFileLocation = new MediaFileLocationTextBox(imgViewMedia, scrollPaneMediaDisplay);
+		textFieldViewFileLocation = new TextBoxFileLocation();
 		textFieldViewFileLocation.setColumns(10);
 		
 		JButton btnOpenSelectedFileLocation = new JButton("Open File Location");
@@ -261,7 +264,7 @@ public class OldGraphicsFrame extends JFrame {
 		JLabel lblModifyTagsFileLocation = new JLabel("File Location: ");
 		
 		imgModifyTagsMedia = new MediaItemDisplayLabel(null, null);
-		textFieldModifyTagsFileLocation = new MediaFileLocationTextBox(imgModifyTagsMedia, scrollPaneMediaDisplay);
+		textFieldModifyTagsFileLocation = new TextBoxFileLocation();
 		textFieldModifyTagsFileLocation.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {

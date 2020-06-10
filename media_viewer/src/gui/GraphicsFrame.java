@@ -1,11 +1,20 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import gui.components.tabs.Tab;
+import gui.components.tabs.TabModifyTags;
+import gui.components.tabs.TabSearch;
+import gui.components.tabs.TabSettings;
+import gui.components.tabs.TabView;
 
 public class GraphicsFrame extends JFrame {
 
@@ -13,17 +22,46 @@ public class GraphicsFrame extends JFrame {
 
 	/* Main JFrame for the app */
 
-	public GraphicsFrame() {
+	public GraphicsFrame(HashMap<String, Object> defaultValues) {
+		super("Media Viewer");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 640, 480);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		contentPane.add(tabbedPane, BorderLayout.CENTER);
+		
+		// updates currently selected tab
+		tabbedPane.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				GUIManager.updateDefaultValues();
+				Tab selectedTab = (Tab) tabbedPane.getComponents()[tabbedPane.getSelectedIndex()];
+				selectedTab.onSelect();
+			}
+		});
+		
+		TabSearch tabSearch = new TabSearch(defaultValues);
+		tabbedPane.addTab("Search", null, tabSearch, null);
+		
+		TabView tabView = new TabView(defaultValues);
+		tabbedPane.addTab("View", null, tabView, null);
+		
+		TabModifyTags tabModifyTags = new TabModifyTags(defaultValues);
+		tabbedPane.addTab("Modify Tags", null, tabModifyTags, null);
+		
+		TabSettings tabSettings = new TabSettings(defaultValues);
+		tabbedPane.addTab("Settings", null, tabSettings, null);
+		
 	}
 
-	public static GraphicsFrame init() {
-		return new GraphicsFrame();
+	public static GraphicsFrame init(HashMap<String, Object> defaultValues) {
+		GraphicsFrame frame = new GraphicsFrame(defaultValues);
+		frame.setVisible(true);
+		return frame;
 	}
 	
 }

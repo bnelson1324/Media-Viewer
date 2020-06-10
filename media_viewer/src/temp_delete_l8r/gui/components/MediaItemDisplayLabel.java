@@ -1,4 +1,4 @@
-package gui.components;
+package temp_delete_l8r.gui.components;
 
 import java.awt.Component;
 import java.awt.event.MouseAdapter;

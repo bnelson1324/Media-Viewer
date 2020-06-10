@@ -1,15 +1,8 @@
 package media_viewer;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.Scanner;
-
-import gui.GUIHandler;
-import gui.GraphicsFrame;
+import gui.GUIManager;
 import media_control.MediaHandler;
-import media_control.MediaLoader;
-import settings.*;
+import settings.SettingsHandler;
 
 public class Main {
 	
@@ -26,8 +19,9 @@ public class Main {
 		MediaHandler.setUpStorageFolder();
 		MediaHandler.setUpMediaStorageFile();
 		MediaHandler.init();
-		GraphicsFrame appFrame = GraphicsFrame.init();
+		GUIManager.init();
 	}
+	
 	
 	
 	

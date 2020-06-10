@@ -1,4 +1,4 @@
-package gui.components;
+package temp_delete_l8r.gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
@@ -9,7 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import gui.GUIHandler;
+import temp_delete_l8r.GUIHandler;
 
 public class MediaItemSearchPanel extends JPanel {
 

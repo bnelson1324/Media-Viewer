@@ -1,4 +1,4 @@
-package gui.components;
+package temp_delete_l8r.gui.components;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -9,9 +9,9 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import gui.GUIHandler;
 import media.MediaData;
 import media_control.MediaHandler;
+import temp_delete_l8r.GUIHandler;
 
 public class MediaFileLocationTextBox extends JTextField {
 
