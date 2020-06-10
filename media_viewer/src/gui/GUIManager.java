@@ -15,6 +15,8 @@ import gui.components.tabs.Tab;
 import media.MediaData;
 import media_control.MediaHandler;
 import media_control.MediaSaver;
+import settings.SettingsHandler;
+import settings.SettingsSaver;
 
 public class GUIManager {
 	
@@ -34,15 +36,12 @@ public class GUIManager {
 		defaultValues = new HashMap<String, Object>();
 		appFrame = GraphicsFrame.init(defaultValues);
 		updateDefaultValues();
+		defaultValues.put("currentSearch", "");
 	}
 	
 	public static void changeSelectedMediaItem(Path mi) {
 		selectedMediaItem = mi;
-		try {
-			selectedMediaItemImage = ImageIO.read(MediaHandler.getFullRelativePath(mi).toFile());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		selectedMediaItemImage = getMediaItemImage(mi);
 		updateDefaultValues();
 	}
 	
@@ -144,4 +143,17 @@ public class GUIManager {
 	}
 	
 	
+	// TODO: add compatibility for non image file formats
+	public static BufferedImage getMediaItemImage(Path mi) {
+		try {
+			return ImageIO.read(MediaHandler.getFullRelativePath(mi).toFile());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static void setSelectedTabIndex(int n) {
+		appFrame.setSelectedTabIndex(n);
+	}
 }

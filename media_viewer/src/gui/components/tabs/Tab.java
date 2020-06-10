@@ -22,9 +22,7 @@ public abstract class Tab extends JPanel {
 	public abstract void updateTab();
 	
 	// called by a specific tab when it is selected
-	public void onSelect() {
-		updateTab();
-	}
+	public abstract void onSelect();
 
 	// called by a specific tab when the tabbed pane is resized and it is selected
 	public abstract void onResize();

@@ -13,16 +13,16 @@ import javax.imageio.ImageIO;
 import javax.swing.JPopupMenu;
 
 import clipboard.ImageSelection;
-import gui.components.LabelMediaItemDisplay;
+import gui.components.MediaItemDisplayLabel;
 import media_control.MediaHandler;
 
 public class MediaItemContextMenu extends JPopupMenu {
 
 	/* Context menu when right clicking a media item */
 
-	private LabelMediaItemDisplay parentDisplay;
+	private MediaItemDisplayLabel parentDisplay;
 	
-	public MediaItemContextMenu(LabelMediaItemDisplay parentDisplay) {
+	public MediaItemContextMenu(MediaItemDisplayLabel parentDisplay) {
 		super("Context Menu");
 		this.parentDisplay = parentDisplay;
 		

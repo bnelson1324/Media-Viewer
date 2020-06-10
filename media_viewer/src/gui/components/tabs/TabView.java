@@ -9,7 +9,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import gui.components.LabelMediaItemDisplay;
+import gui.components.MediaItemDisplayLabel;
 import gui.components.TextBoxFileLocation;
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
@@ -19,7 +19,7 @@ public class TabView extends Tab {
 
 	private TextBoxFileLocation tbFileLocation;
 	private JPanel pnlSelectedMediaDisplay;
-	private LabelMediaItemDisplay lblSelectedMediaDisplay;
+	private MediaItemDisplayLabel lblSelectedMediaDisplay;
 	
 	public TabView(HashMap<String, Object> defaultValues) {
 		super(defaultValues);
@@ -57,7 +57,7 @@ public class TabView extends Tab {
 		);
 		pnlSelectedMediaDisplay.setLayout(new BorderLayout(0, 0));
 		
-		lblSelectedMediaDisplay = new LabelMediaItemDisplay();
+		lblSelectedMediaDisplay = new MediaItemDisplayLabel();
 		pnlSelectedMediaDisplay.add(lblSelectedMediaDisplay, BorderLayout.NORTH);
 		setLayout(groupLayout);
 
@@ -82,6 +82,11 @@ public class TabView extends Tab {
 	}
 
 
+	@Override
+	public void onSelect() {
+		updateTab();
+	}
+	
 	@Override
 	public void onResize() {
 		// updates image

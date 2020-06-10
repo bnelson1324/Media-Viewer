@@ -12,7 +12,6 @@ import javax.swing.JTextField;
 import gui.GUIManager;
 import media.MediaData;
 import media_control.MediaHandler;
-import temp_delete_l8r.OldGUIHandler;
 
 public class TextBoxFileLocation extends JTextField {
 	

@@ -13,16 +13,16 @@ import javax.swing.JLabel;
 import gui.GUIManager;
 import gui.components.context_menu.MediaItemContextMenu;
 
-public class LabelMediaItemDisplay extends JLabel {
+public class MediaItemDisplayLabel extends JLabel {
 	
-	/* JLabel containing a media item */
+	/* JLabel containing a media item's image */
 	
 	private Path mediaItem;
 	private BufferedImage mediaItemImage;
 	
 	private MediaItemContextMenu contextMenu;
 	
-	public LabelMediaItemDisplay() {
+	public MediaItemDisplayLabel() {
 		super();
 		
 		contextMenu = new MediaItemContextMenu(this);

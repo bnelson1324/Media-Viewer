@@ -1,5 +1,10 @@
 package gui.components.tabs;
 
+import java.awt.FlowLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.GroupLayout;
@@ -10,10 +15,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import gui.components.TextBoxFileLocation;
+import gui.components.MediaItemGridSquare;
+import media_control.MediaHandler;
 import misc.WrapLayout;
-
-import java.awt.GridLayout;
 
 public class TabSearch extends Tab {
 
@@ -29,8 +33,18 @@ public class TabSearch extends Tab {
 		JLabel lblFileLocation = new JLabel("Search By Tag:");
 		
 		tfSearchBox = new JTextField();
+		TabSearch thisTab = this;
+		tfSearchBox.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					thisTab.updateDisplayGrid();
+				}
+			}
+		});
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -60,19 +74,41 @@ public class TabSearch extends Tab {
 		
 		mediaDisplayGrid = new JPanel();
 		scrollPane.setViewportView(mediaDisplayGrid);
-		mediaDisplayGrid.setLayout(new WrapLayout());
+		mediaDisplayGrid.setLayout(new WrapLayout(FlowLayout.LEFT, 24, 16));
 		setLayout(groupLayout);
 
 	}
 
+	
+	private void updateDisplayGrid() {
+		ArrayList<Path> results;
+		if(!tfSearchBox.getText().equals("")) {
+			defaultValues.put("currentSearch", tfSearchBox.getText());
+			results = MediaHandler.getMediaItemsByTag(tfSearchBox.getText());
+		} else {
+			// if searching "", display every media item
+			results = MediaHandler.getMediaItemsByTag("untagged || !untagged");
+		}
+		mediaDisplayGrid.removeAll();
+		for(Path mi : results) {
+			MediaItemGridSquare migs = new MediaItemGridSquare(mi);
+			mediaDisplayGrid.add(migs);
+		}
+		mediaDisplayGrid.revalidate();
+	}
+	
+	
 	@Override
 	public void updateTab() {
-		// TODO
+		tfSearchBox.setText(defaultValues.get("currentSearch").toString());
+		updateDisplayGrid();
 	}
 
 	@Override
+	public void onSelect() {
+	}
+	
+	@Override
 	public void onResize() {
-		// TODO Auto-generated method stub
-		
 	}
 }

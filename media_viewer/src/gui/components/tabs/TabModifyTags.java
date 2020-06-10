@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import gui.GUIManager;
-import gui.components.LabelMediaItemDisplay;
+import gui.components.MediaItemDisplayLabel;
 import gui.components.TextBoxFileLocation;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -25,7 +25,7 @@ public class TabModifyTags extends Tab {
 
 	private TextBoxFileLocation tbFileLocation;
 	private JPanel pnlSelectedMediaDisplay;
-	private LabelMediaItemDisplay lblSelectedMediaDisplay;
+	private MediaItemDisplayLabel lblSelectedMediaDisplay;
 	
 	private JTextField tfModName;
 	private JTextField tfModDateCreated;
@@ -188,7 +188,7 @@ public class TabModifyTags extends Tab {
 					.addGap(93))
 		);
 		
-		lblSelectedMediaDisplay = new LabelMediaItemDisplay();
+		lblSelectedMediaDisplay = new MediaItemDisplayLabel();
 		pnlSelectedMediaDisplay.add(lblSelectedMediaDisplay, BorderLayout.NORTH);
 		setLayout(groupLayout);
 
@@ -222,6 +222,11 @@ public class TabModifyTags extends Tab {
 		updateImage();
 	}
 
+	@Override
+	public void onSelect() {
+		updateTab();
+	}
+	
 	@Override
 	public void onResize() {
 		// updates image
