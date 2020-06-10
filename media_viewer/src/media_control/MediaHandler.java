@@ -18,6 +18,8 @@ import settings.SettingsHandler;
 
 public class MediaHandler {
 
+	// TODO: organize this class's methods
+	
 	/* This class handles all media */
 	
 	// paths to all media items in the storage folder
@@ -162,7 +164,7 @@ public class MediaHandler {
 	
 	public static Path getFullRelativeFileLocation(Path mediaItem) {
 		int lengthOfPathWithoutMediaItem = mediaItem.toString().length()-mediaItem.getFileName().toString().length();
-		return(Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc") + "//" + mediaItem.toString().substring(0, lengthOfPathWithoutMediaItem)));
+		return(Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + mediaItem.toString().substring(0, lengthOfPathWithoutMediaItem)));
 	}
 	
 	

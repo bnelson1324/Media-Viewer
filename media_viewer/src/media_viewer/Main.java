@@ -1,16 +1,13 @@
 package media_viewer;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.Scanner;
-
-import gui.GUIHandler;
+import gui.GUIManager;
 import media_control.MediaHandler;
-import media_control.MediaLoader;
-import settings.*;
+import settings.SettingsHandler;
 
 public class Main {
+	
+	// TODO: completely redesign gui so that its organized
+	// TODO: create an error message if user makes a search/inputs a file that results in an error
 	
 	public static void main(String[] args) {
 	
@@ -23,8 +20,9 @@ public class Main {
 		MediaHandler.setUpStorageFolder();
 		MediaHandler.setUpMediaStorageFile();
 		MediaHandler.init();
-		GUIHandler.init();
+		GUIManager.init();
 	}
+	
 	
 	
 	

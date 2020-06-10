@@ -1,42 +1,34 @@
 package gui.components;
 
 import java.awt.Component;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import gui.GUIManager;
 import gui.components.context_menu.MediaItemContextMenu;
 
 public class MediaItemDisplayLabel extends JLabel {
-
-	/* This is a JLabel displaying a media item */
+	
+	/* JLabel containing a media item's image */
 	
 	private Path mediaItem;
+	private BufferedImage mediaItemImage;
 	
 	private MediaItemContextMenu contextMenu;
 	
-	public MediaItemDisplayLabel(ImageIcon img, Path mediaItem) {
-		super(img);
+	public MediaItemDisplayLabel() {
+		super();
 		
-		contextMenu = new MediaItemContextMenu(null);
+		contextMenu = new MediaItemContextMenu(this);
 		this.add(contextMenu);
 		
-		updateContextMenu();
-	
-	}
-	
-	public void setMediaItem(Path mi) {
-		this.mediaItem = mi;
-		updateContextMenu();
-	}
-	
-	private void updateContextMenu() {
-		removeExistingContextMenus();
-		contextMenu = new MediaItemContextMenu(mediaItem);
-		
+		// context menu listeners
 		this.addMouseListener(new MouseAdapter() {
 
 			// detects if should open context menu
@@ -54,20 +46,32 @@ public class MediaItemDisplayLabel extends JLabel {
 					contextMenu.setVisible(false);
 				}
 			}
-			
-			
-			
 		});
-		
-		this.add(contextMenu);
 	}
 	
-	private void removeExistingContextMenus() {
-		for(Component c : this.getComponents()) {
-			if(c instanceof MediaItemContextMenu) {
-				this.remove(c);
+	
+	public void setMediaItem(Path mi, BufferedImage miImg) {
+		this.mediaItem = mi;
+		this.mediaItemImage = miImg;
+		if(mediaItemImage != null) {
+			this.setIcon(new ImageIcon(mediaItemImage));
+		}
+	}
+	
+	public void setImageSize(int width, int height, boolean keepAspectRatio) {
+		if(mediaItemImage != null) {
+			if(keepAspectRatio) {
+				this.setIcon(GUIManager.scaleKeepingAspectRatio(mediaItemImage, width, height));
+			} else {
+				this.setIcon(new ImageIcon(mediaItemImage.getScaledInstance(width, height, Image.SCALE_SMOOTH)));
 			}
 		}
 	}
+	
+	public Path getMediaItem() {
+		return mediaItem;
+	}
+	
+
 	
 }
