@@ -25,8 +25,13 @@ public class TabSettings extends Tab {
 	}
 
 	@Override
-	public void onSelect() {
+	public void updateTab() {
+		// TODO
+	}
+	
+	@Override
+	public void onResize() {
 		// TODO Auto-generated method stub
-		System.out.println("d");
+		
 	}
 }

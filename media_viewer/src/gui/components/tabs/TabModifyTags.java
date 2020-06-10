@@ -12,14 +12,16 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class TabModifyTags extends Tab {
 
-	// TODO
+	// TODO: add image
+	
+	private TextBoxFileLocation tbFileLocation;
 	
 	public TabModifyTags(HashMap<String, Object> defaultValues) {
 		super(defaultValues);
 		
 		JLabel lblFileLocation = new JLabel("File Location: ");
 		
-		TextBoxFileLocation tfFileLocation = new TextBoxFileLocation();
+		tbFileLocation = new TextBoxFileLocation();
 		
 		JPanel lblSelectedMediaDisplay = new JPanel();
 		GroupLayout groupLayout = new GroupLayout(this);
@@ -31,7 +33,7 @@ public class TabModifyTags extends Tab {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(lblFileLocation, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
 							.addGap(4)
-							.addComponent(tfFileLocation, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE))
+							.addComponent(tbFileLocation, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE))
 						.addComponent(lblSelectedMediaDisplay, GroupLayout.PREFERRED_SIZE, 600, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
@@ -43,7 +45,7 @@ public class TabModifyTags extends Tab {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(3)
 							.addComponent(lblFileLocation))
-						.addComponent(tfFileLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(tbFileLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblSelectedMediaDisplay, GroupLayout.PREFERRED_SIZE, 367, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(19, Short.MAX_VALUE))
@@ -53,8 +55,13 @@ public class TabModifyTags extends Tab {
 	}
 
 	@Override
-	public void onSelect() {
+	public void updateTab() {
+		// TODO
+	}
+
+	@Override
+	public void onResize() {
 		// TODO Auto-generated method stub
-		System.out.println("c");
+		
 	}
 }

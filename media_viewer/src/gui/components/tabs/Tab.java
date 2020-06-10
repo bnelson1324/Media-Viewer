@@ -18,7 +18,15 @@ public abstract class Tab extends JPanel {
 		this.defaultValues = defaultValues;
 	}
 	
+	// updates the components on the tab
+	public abstract void updateTab();
+	
 	// called by a specific tab when it is selected
-	public abstract void onSelect();
+	public void onSelect() {
+		updateTab();
+	}
+
+	// called by a specific tab when the tabbed pane is resized and it is selected
+	public abstract void onResize();
 
 }

@@ -1,6 +1,8 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
@@ -19,7 +21,12 @@ import gui.components.tabs.TabView;
 public class GraphicsFrame extends JFrame {
 
 	private JPanel contentPane;
+	
+	private JTabbedPane tabbedPane;
 
+	// currently selected tab
+	private Tab selectedTab;
+	
 	/* Main JFrame for the app */
 
 	public GraphicsFrame(HashMap<String, Object> defaultValues) {
@@ -31,18 +38,10 @@ public class GraphicsFrame extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
-		// updates currently selected tab
-		tabbedPane.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				GUIManager.updateDefaultValues();
-				Tab selectedTab = (Tab) tabbedPane.getComponents()[tabbedPane.getSelectedIndex()];
-				selectedTab.onSelect();
-			}
-		});
+		
 		
 		TabSearch tabSearch = new TabSearch(defaultValues);
 		tabbedPane.addTab("Search", null, tabSearch, null);
@@ -57,11 +56,35 @@ public class GraphicsFrame extends JFrame {
 		tabbedPane.addTab("Settings", null, tabSettings, null);
 		
 	}
+	
+	// adds listeners to the components
+	public void addListeners() {
+		// updates currently selected tab
+		tabbedPane.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				selectedTab = (Tab) tabbedPane.getComponents()[tabbedPane.getSelectedIndex()];
+				selectedTab.onSelect();
+			}
+		});
+		
+		tabbedPane.addComponentListener(new ComponentAdapter() {
+		    public void componentResized(ComponentEvent componentEvent) {
+		    	selectedTab = (Tab) tabbedPane.getComponents()[tabbedPane.getSelectedIndex()];
+		    	selectedTab.onResize();
+		    }
+		});
+	}
 
 	public static GraphicsFrame init(HashMap<String, Object> defaultValues) {
 		GraphicsFrame frame = new GraphicsFrame(defaultValues);
 		frame.setVisible(true);
+		frame.addListeners();
 		return frame;
+	}
+	
+	public Tab getSelectedTab() {
+		return selectedTab;
 	}
 	
 }

@@ -7,6 +7,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import gui.components.TextBoxFileLocation;
@@ -16,7 +17,7 @@ import java.awt.GridLayout;
 
 public class TabSearch extends Tab {
 
-	private TextBoxFileLocation tfFileLocation;
+	private JTextField tfSearchBox;
 	
 	private JPanel mediaDisplayGrid;
 	
@@ -27,7 +28,7 @@ public class TabSearch extends Tab {
 		
 		JLabel lblFileLocation = new JLabel("Search By Tag:");
 		
-		tfFileLocation = new TextBoxFileLocation();
+		tfSearchBox = new JTextField();
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout groupLayout = new GroupLayout(this);
@@ -40,7 +41,7 @@ public class TabSearch extends Tab {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(lblFileLocation, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
 							.addGap(4)
-							.addComponent(tfFileLocation, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(tfSearchBox, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
@@ -51,7 +52,7 @@ public class TabSearch extends Tab {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(3)
 							.addComponent(lblFileLocation))
-						.addComponent(tfFileLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(tfSearchBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
 					.addContainerGap())
@@ -65,8 +66,13 @@ public class TabSearch extends Tab {
 	}
 
 	@Override
-	public void onSelect() {
+	public void updateTab() {
+		// TODO
+	}
+
+	@Override
+	public void onResize() {
 		// TODO Auto-generated method stub
-		System.out.println("a");
+		
 	}
 }
