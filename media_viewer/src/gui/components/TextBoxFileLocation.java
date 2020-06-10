@@ -15,7 +15,9 @@ import media_control.MediaHandler;
 import temp_delete_l8r.GUIHandler;
 
 public class TextBoxFileLocation extends JTextField {
-
+	
+	/* Text box for inputting file location */
+	
 	public TextBoxFileLocation() {
 		super();
 
@@ -23,7 +25,7 @@ public class TextBoxFileLocation extends JTextField {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					// changes selected media item
+					// changes selected media item and updates selected tab
 					GUIManager.changeSelectedMediaItem(getFileLocation());
 					GUIManager.updateSelectedTab();
 				}

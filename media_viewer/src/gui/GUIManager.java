@@ -42,7 +42,7 @@ public class GUIManager {
 	}
 	
 	// updates default values
-	public static void updateDefaultValues() {
+	private static void updateDefaultValues() {
 		if(selectedMediaItem != null) {
 			defaultValues.put("smi", selectedMediaItem);
 			defaultValues.put("smiImage", selectedMediaItemImage);
