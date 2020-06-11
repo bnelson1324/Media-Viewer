@@ -28,7 +28,7 @@ public class MediaItemGridSquare extends JPanel {
 		imageLabel = new MediaItemDisplayLabel();
 		add(imageLabel, BorderLayout.SOUTH);
 		
-		imageLabel.setMediaItem(mi, GUIManager.getMediaItemImage(mi));
+		imageLabel.setMediaItem(mi, MediaItemDisplayLabel.getMediaItemImage(mi));
 		imageLabel.setImageSize(256, 256, false);
 		
 		imageLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));

@@ -5,13 +5,16 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.nio.file.Path;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import gui.GUIManager;
 import gui.components.context_menu.MediaItemContextMenu;
+import media_control.MediaHandler;
 
 public class MediaItemDisplayLabel extends JLabel {
 	
@@ -70,6 +73,17 @@ public class MediaItemDisplayLabel extends JLabel {
 	
 	public Path getMediaItem() {
 		return mediaItem;
+	}
+
+
+	// TODO: add compatibility for non image file formats
+	public static BufferedImage getMediaItemImage(Path mi) {
+		try {
+			return ImageIO.read(MediaHandler.getFullRelativePath(mi).toFile());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 

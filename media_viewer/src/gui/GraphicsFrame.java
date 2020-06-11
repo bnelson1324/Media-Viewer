@@ -43,8 +43,6 @@ public class GraphicsFrame extends JFrame {
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
-		
-		
 		TabSearch tabSearch = new TabSearch(defaultValues);
 		tabbedPane.addTab("Search", null, tabSearch, null);
 		
@@ -56,7 +54,6 @@ public class GraphicsFrame extends JFrame {
 		
 		TabSettings tabSettings = new TabSettings(defaultValues);
 		tabbedPane.addTab("Settings", null, tabSettings, null);
-		
 	}
 	
 	// adds listeners to the components

@@ -17,8 +17,6 @@ import media.MediaData;
 import settings.SettingsHandler;
 
 public class MediaHandler {
-
-	// TODO: organize this class's methods
 	
 	/* This class handles all media */
 	
@@ -36,7 +34,19 @@ public class MediaHandler {
 	
 
 	
+	/* return: Path */
 	
+	public static Path getFullRelativePath(Path mediaItem) {
+		return Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + mediaItem);
+	}
+	
+	public static Path getFullRelativeFileLocation(Path mediaItem) {
+		int lengthOfPathWithoutMediaItem = mediaItem.toString().length()-mediaItem.getFileName().toString().length();
+		return(Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + mediaItem.toString().substring(0, lengthOfPathWithoutMediaItem)));
+	}
+	
+	
+	/* return: ArrayList of Paths */
 
 	public static ArrayList<Path> getMediaItemsByTag(String search) {
 		// media items that pass the search
@@ -100,17 +110,25 @@ public class MediaHandler {
 		return allMediaItems;
 	}
 	
+	/* return: MediaData */
+	
 	public static MediaData getMediaDataByPath(Path path) {
 		return allMediaData.get(path);
 	}
 	
-	public static void addMedia(Path mi, MediaData md) {
-		// pairs a media item its media data
-		pairMediaData(mi, md);
+	
+	/* return: HashMap */
+	
+	public static HashMap<Path, MediaData> getAllMediaData() {
+		return allMediaData;
 	}
 	
-	public static void pairMediaData(Path p, MediaData md) {
-		allMediaData.put(p, md);
+	
+	/* return: void */
+	
+	public static void pairMediaData(Path mi, MediaData md) {
+		// pairs a path its media data
+		allMediaData.put(mi, md);
 	}
 	
 	// reloads media items and data in case any changes have been made
@@ -120,21 +138,6 @@ public class MediaHandler {
 		
 		allMediaItems = MediaLoader.getMediaItems();
 		allMediaData = MediaLoader.getMediaData();
-	}
-	
-	public static HashMap<Path, MediaData> getAllMediaData() {
-		return allMediaData;
-	}
-	
-	public static void init() {
-		MediaLoader.init();
-		
-		allMediaItems = MediaLoader.getMediaItems();
-		allMediaData = MediaLoader.getMediaData();
-		
-		sem = new ScriptEngineManager();
-		se = sem.getEngineByName("JavaScript");
-
 	}
 	
 	public static void setUpStorageFolder() {
@@ -158,13 +161,15 @@ public class MediaHandler {
 		}
 	}
 	
-	public static Path getFullRelativePath(Path mediaItem) {
-		return Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + mediaItem);
-	}
-	
-	public static Path getFullRelativeFileLocation(Path mediaItem) {
-		int lengthOfPathWithoutMediaItem = mediaItem.toString().length()-mediaItem.getFileName().toString().length();
-		return(Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + mediaItem.toString().substring(0, lengthOfPathWithoutMediaItem)));
+	public static void init() {
+		MediaLoader.init();
+		
+		allMediaItems = MediaLoader.getMediaItems();
+		allMediaData = MediaLoader.getMediaData();
+		
+		sem = new ScriptEngineManager();
+		se = sem.getEngineByName("JavaScript");
+
 	}
 	
 	

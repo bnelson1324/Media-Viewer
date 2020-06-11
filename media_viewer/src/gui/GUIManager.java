@@ -2,15 +2,14 @@ package gui;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import gui.components.MediaItemDisplayLabel;
 import gui.components.tabs.Tab;
 import media.MediaData;
 import media_control.MediaHandler;
@@ -27,9 +26,10 @@ public class GUIManager {
 	// currently selected media item (for view and modify tags tab) (smi)
 	private static Path selectedMediaItem;
 	
+	// TODO: maybe make this a selected MediaItemDisplayGrid to incorporate things other than images
 	private static BufferedImage selectedMediaItemImage;
 	
-	// default values for certain fields in the gui
+	// default values for the selectedMediaItem
 	private static HashMap<String, Object> defaultValues;
 	
 	public static void init() {
@@ -41,7 +41,7 @@ public class GUIManager {
 	
 	public static void changeSelectedMediaItem(Path mi) {
 		selectedMediaItem = mi;
-		selectedMediaItemImage = getMediaItemImage(mi);
+		selectedMediaItemImage = MediaItemDisplayLabel.getMediaItemImage(mi);
 		updateDefaultValues();
 	}
 	
@@ -142,16 +142,6 @@ public class GUIManager {
 		MediaSaver.saveMediaData();
 	}
 	
-	
-	// TODO: add compatibility for non image file formats
-	public static BufferedImage getMediaItemImage(Path mi) {
-		try {
-			return ImageIO.read(MediaHandler.getFullRelativePath(mi).toFile());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
 	public static void setSelectedTabIndex(int n) {
 		appFrame.setSelectedTabIndex(n);
