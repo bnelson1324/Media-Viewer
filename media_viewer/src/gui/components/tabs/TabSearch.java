@@ -15,9 +15,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import com.wordpress.tips4java.WrapLayout;
+
 import gui.components.MediaItemGridSquare;
 import media_control.MediaHandler;
-import misc.WrapLayout;
 
 public class TabSearch extends Tab {
 

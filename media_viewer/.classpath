@@ -7,5 +7,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/gson-2.8.6.jar"/>
+	<classpathentry kind="lib" path="lib/wrap-layout.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
