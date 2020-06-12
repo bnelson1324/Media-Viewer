@@ -33,6 +33,7 @@ public class MediaItemContextMenuChoice extends JMenuItem {
             // closes menu after selecting a choice
             
             public void mouseClicked(MouseEvent e) {
+            	choice.setBackground(originalBGColor);
             	choice.parentMenu.setVisible(false);
             }
          }); 

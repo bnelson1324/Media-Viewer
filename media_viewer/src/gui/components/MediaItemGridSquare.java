@@ -9,6 +9,7 @@ import gui.GUIManager;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -23,9 +24,10 @@ public class MediaItemGridSquare extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		
 		nameLabel = new JLabel(mi.getFileName().toString());
+		nameLabel.setFont(new Font("Label.font", Font.PLAIN, 16));
 		add(nameLabel, BorderLayout.NORTH);
 		
-		displayLabel = MediaItemDisplayLabel.makeDisplayLabel(mi);
+		displayLabel = new MediaItemDisplayLabel(mi);
 		add(displayLabel, BorderLayout.SOUTH);
 		
 		displayLabel.setDisplaySize(256, 256, false);

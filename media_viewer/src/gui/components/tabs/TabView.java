@@ -71,7 +71,7 @@ public class TabView extends Tab {
 			return;
 		}
 		midl.setDisplaySize(imgWidth, imgHeight, true);
-		pnlSelectedMediaDisplay.add(midl);
+		pnlSelectedMediaDisplay.add(midl, BorderLayout.NORTH);
 	}
 	
 	@Override

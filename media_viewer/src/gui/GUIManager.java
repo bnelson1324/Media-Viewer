@@ -40,7 +40,7 @@ public class GUIManager {
 	
 	public static void changeSelectedMediaItem(Path mi) {
 		selectedMediaItem = mi;
-		selectedMediaItemDisplayLabel = MediaItemDisplayLabel.makeDisplayLabel(mi);
+		selectedMediaItemDisplayLabel = new MediaItemDisplayLabel(mi);
 		updateDefaultValues();
 	}
 	

@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import javax.imageio.ImageIO;
@@ -21,37 +22,36 @@ public class MediaItemDisplayLabel extends JLabel {
 	/* JLabel containing a media item's image */
 	
 	private Path mediaItem;
+	
+	private String fileType;
+	
+	
+	// TODO: try to remove mediaItemImage variable
 	private BufferedImage mediaItemImage;
+	
+	
 	
 	private MediaItemContextMenu contextMenu;
 	
-	private MediaItemDisplayLabel(Path mi) {
+	public MediaItemDisplayLabel(Path mi) {
 		super();
 		
 		this.mediaItem = mi;
 		
-		contextMenu = new MediaItemContextMenu(this);
-		this.add(contextMenu);
+		// finds the file type (image, audio, etc)
+		try {
+			fileType = Files.probeContentType(mi).split("//")[0];
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
-		// context menu listeners
-		this.addMouseListener(new MouseAdapter() {
-
-			// detects if should open context menu
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(e.getButton() == MouseEvent.BUTTON3) {
-					contextMenu.setVisible(true);
-					contextMenu.setLocation(e.getXOnScreen(), e.getYOnScreen());
-				} 
-			}
-			
-			// detects if should close context menu
-			@Override public void mouseEntered(MouseEvent e) {
-				if(!contextMenu.contains(e.getPoint())) {
-					contextMenu.setVisible(false);
-				}
-			}
-		});
+		// TODO: IF FILE IS IMAGE ONLY:
+		mediaItemImage = getMediaItemImage(mi);
+		if(mediaItemImage != null) {
+			setIcon(new ImageIcon(mediaItemImage));
+		}
+		
+		this.addContextMenu();
 	}
 	
 	
@@ -61,18 +61,7 @@ public class MediaItemDisplayLabel extends JLabel {
 	public Path getMediaItem() {
 		return mediaItem;
 	}
-	
-	// TODO: add compatibility for non image file formats
-	public static MediaItemDisplayLabel makeDisplayLabel(Path mi) {
-		MediaItemDisplayLabel midl = new MediaItemDisplayLabel(mi);
-		// TODO: IF FILE IS IMAGE ONLY:
-		midl.mediaItemImage = getMediaItemImage(mi);
-		if(midl.mediaItemImage != null) {
-			midl.setIcon(new ImageIcon(midl.mediaItemImage));
-		}
 
-		return midl;
-	}
 	
 	public void setDisplaySize(int width, int height, boolean keepAspectRatio) {
 		
@@ -97,6 +86,29 @@ public class MediaItemDisplayLabel extends JLabel {
 	}
 	
 	
+	private void addContextMenu() {
+		contextMenu = new MediaItemContextMenu(mediaItem);
+		this.add(contextMenu);
+		
+		// context menu listeners
+		this.addMouseListener(new MouseAdapter() {
 
+			// detects if should open context menu
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getButton() == MouseEvent.BUTTON3) {
+					contextMenu.setVisible(true);
+					contextMenu.setLocation(e.getXOnScreen(), e.getYOnScreen());
+				} 
+			}
+			
+			// detects if should close context menu
+			@Override public void mouseEntered(MouseEvent e) {
+				if(!contextMenu.contains(e.getPoint())) {
+					contextMenu.setVisible(false);
+				}
+			}
+		});
+	}
 	
 }

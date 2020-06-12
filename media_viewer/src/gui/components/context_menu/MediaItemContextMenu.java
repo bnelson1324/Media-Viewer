@@ -20,11 +20,11 @@ public class MediaItemContextMenu extends JPopupMenu {
 
 	/* Context menu when right clicking a media item */
 
-	private MediaItemDisplayLabel parentDisplay;
+	private Path mediaItem;
 	
-	public MediaItemContextMenu(MediaItemDisplayLabel parentDisplay) {
+	public MediaItemContextMenu(Path mediaItem) {
 		super("Context Menu");
-		this.parentDisplay = parentDisplay;
+		this.mediaItem = mediaItem;
 		
 		MediaItemContextMenuChoice cCopy = new MediaItemContextMenuChoice("Copy", this);
 		MediaItemContextMenuChoice cOpenFileLoc = new MediaItemContextMenuChoice("Open file location", this);
@@ -40,7 +40,7 @@ public class MediaItemContextMenu extends JPopupMenu {
             	
             	// copies image
 				try {
-					ImageSelection imgSel = new ImageSelection(ImageIO.read(new File(MediaHandler.getFullRelativePath(parentDisplay.getMediaItem()).toString())));
+					ImageSelection imgSel = new ImageSelection(ImageIO.read(new File(MediaHandler.getFullRelativePath(mediaItem).toString())));
 					clipboard.setContents(imgSel, null);
 					System.out.println("Copied file to clipboard"); 
 				} catch (IOException e1) {
@@ -53,7 +53,7 @@ public class MediaItemContextMenu extends JPopupMenu {
 		cOpenFileLoc.addMouseListener(new MouseAdapter() {  
             public void mouseClicked(MouseEvent e) {
             	try {
-					Desktop.getDesktop().open(new File(MediaHandler.getFullRelativeFileLocation(parentDisplay.getMediaItem()).toString()));
+					Desktop.getDesktop().open(new File(MediaHandler.getFullRelativeFileLocation(mediaItem).toString()));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
