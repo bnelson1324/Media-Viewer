@@ -26,8 +26,7 @@ public class GUIManager {
 	// currently selected media item (for view and modify tags tab) (smi)
 	private static Path selectedMediaItem;
 	
-	// TODO: maybe make this a selected MediaItemDisplayGrid to incorporate things other than images
-	private static BufferedImage selectedMediaItemImage;
+	private static MediaItemDisplayLabel selectedMediaItemDisplayLabel;
 	
 	// default values for the selectedMediaItem
 	private static HashMap<String, Object> defaultValues;
@@ -41,7 +40,7 @@ public class GUIManager {
 	
 	public static void changeSelectedMediaItem(Path mi) {
 		selectedMediaItem = mi;
-		selectedMediaItemImage = MediaItemDisplayLabel.getMediaItemImage(mi);
+		selectedMediaItemDisplayLabel = MediaItemDisplayLabel.makeDisplayLabel(mi);
 		updateDefaultValues();
 	}
 	
@@ -49,7 +48,7 @@ public class GUIManager {
 	private static void updateDefaultValues() {
 		if(selectedMediaItem != null) {
 			defaultValues.put("smi", selectedMediaItem);
-			defaultValues.put("smiImage", selectedMediaItemImage);
+			defaultValues.put("smiDisplayLabel", selectedMediaItemDisplayLabel);
 			MediaData md = MediaHandler.getMediaDataByPath(selectedMediaItem);
 			defaultValues.put("smiName", md.getName());
 			defaultValues.put("smiDateCreated", md.getDateCreated());

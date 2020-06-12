@@ -19,7 +19,6 @@ public class TabView extends Tab {
 
 	private TextBoxFileLocation tbFileLocation;
 	private JPanel pnlSelectedMediaDisplay;
-	private MediaItemDisplayLabel lblSelectedMediaDisplay;
 	
 	public TabView(HashMap<String, Object> defaultValues) {
 		super(defaultValues);
@@ -56,9 +55,6 @@ public class TabView extends Tab {
 					.addGap(9))
 		);
 		pnlSelectedMediaDisplay.setLayout(new BorderLayout(0, 0));
-		
-		lblSelectedMediaDisplay = new MediaItemDisplayLabel();
-		pnlSelectedMediaDisplay.add(lblSelectedMediaDisplay, BorderLayout.NORTH);
 		setLayout(groupLayout);
 
 	}
@@ -69,9 +65,13 @@ public class TabView extends Tab {
 		int imgWidth, imgHeight;
 		imgWidth = this.getWidth() - 32;
 		imgHeight = this.getHeight() - 64;
-		BufferedImage bImg = (BufferedImage) defaultValues.get("smiImage");
-		lblSelectedMediaDisplay.setMediaItem(Paths.get(defaultValues.get("smi").toString()), bImg);
-		lblSelectedMediaDisplay.setImageSize(imgWidth, imgHeight, true);
+		pnlSelectedMediaDisplay.removeAll();
+		MediaItemDisplayLabel midl = (MediaItemDisplayLabel) defaultValues.get("smiDisplayLabel");
+		if(midl == null) {
+			return;
+		}
+		midl.setDisplaySize(imgWidth, imgHeight, true);
+		pnlSelectedMediaDisplay.add(midl);
 	}
 	
 	@Override

@@ -25,7 +25,6 @@ public class TabModifyTags extends Tab {
 
 	private TextBoxFileLocation tbFileLocation;
 	private JPanel pnlSelectedMediaDisplay;
-	private MediaItemDisplayLabel lblSelectedMediaDisplay;
 	
 	private JTextField tfModName;
 	private JTextField tfModDateCreated;
@@ -188,8 +187,6 @@ public class TabModifyTags extends Tab {
 					.addGap(93))
 		);
 		
-		lblSelectedMediaDisplay = new MediaItemDisplayLabel();
-		pnlSelectedMediaDisplay.add(lblSelectedMediaDisplay, BorderLayout.NORTH);
 		setLayout(groupLayout);
 
 	}
@@ -198,9 +195,13 @@ public class TabModifyTags extends Tab {
 		int imgWidth, imgHeight;
 		imgWidth = this.getWidth() - 390;
 		imgHeight = this.getHeight() - 80;
-		BufferedImage bImg = (BufferedImage) defaultValues.get("smiImage");
-		lblSelectedMediaDisplay.setMediaItem(Paths.get(defaultValues.get("smi").toString()), bImg);
-		lblSelectedMediaDisplay.setImageSize(imgWidth, imgHeight, true);
+		pnlSelectedMediaDisplay.removeAll();
+		MediaItemDisplayLabel midl = (MediaItemDisplayLabel) defaultValues.get("smiDisplayLabel");
+		if(midl == null) {
+			return;
+		}
+		midl.setDisplaySize(imgWidth, imgHeight, true);
+		pnlSelectedMediaDisplay.add(midl, BorderLayout.NORTH);
 	}
 	
 	

@@ -25,8 +25,10 @@ public class MediaItemDisplayLabel extends JLabel {
 	
 	private MediaItemContextMenu contextMenu;
 	
-	public MediaItemDisplayLabel() {
+	private MediaItemDisplayLabel(Path mi) {
 		super();
+		
+		this.mediaItem = mi;
 		
 		contextMenu = new MediaItemContextMenu(this);
 		this.add(contextMenu);
@@ -53,15 +55,28 @@ public class MediaItemDisplayLabel extends JLabel {
 	}
 	
 	
-	public void setMediaItem(Path mi, BufferedImage miImg) {
-		this.mediaItem = mi;
-		this.mediaItemImage = miImg;
-		if(mediaItemImage != null) {
-			this.setIcon(new ImageIcon(mediaItemImage));
-		}
+	
+
+	
+	public Path getMediaItem() {
+		return mediaItem;
 	}
 	
-	public void setImageSize(int width, int height, boolean keepAspectRatio) {
+	// TODO: add compatibility for non image file formats
+	public static MediaItemDisplayLabel makeDisplayLabel(Path mi) {
+		MediaItemDisplayLabel midl = new MediaItemDisplayLabel(mi);
+		// TODO: IF FILE IS IMAGE ONLY:
+		midl.mediaItemImage = getMediaItemImage(mi);
+		if(midl.mediaItemImage != null) {
+			midl.setIcon(new ImageIcon(midl.mediaItemImage));
+		}
+
+		return midl;
+	}
+	
+	public void setDisplaySize(int width, int height, boolean keepAspectRatio) {
+		
+		// TODO: IF DISPLAYING IMAGE ONLY:
 		if(mediaItemImage != null) {
 			if(keepAspectRatio) {
 				this.setIcon(GUIManager.scaleKeepingAspectRatio(mediaItemImage, width, height));
@@ -70,13 +85,8 @@ public class MediaItemDisplayLabel extends JLabel {
 			}
 		}
 	}
-	
-	public Path getMediaItem() {
-		return mediaItem;
-	}
 
 
-	// TODO: add compatibility for non image file formats
 	public static BufferedImage getMediaItemImage(Path mi) {
 		try {
 			return ImageIO.read(MediaHandler.getFullRelativePath(mi).toFile());
@@ -85,6 +95,7 @@ public class MediaItemDisplayLabel extends JLabel {
 		}
 		return null;
 	}
+	
 	
 
 	
