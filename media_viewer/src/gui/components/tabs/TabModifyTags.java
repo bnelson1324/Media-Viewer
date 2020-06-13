@@ -1,8 +1,8 @@
 package gui.components.tabs;
 
 import java.awt.BorderLayout;
-import java.awt.image.BufferedImage;
-import java.nio.file.Paths;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,10 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import gui.GUIManager;
-import gui.components.MediaItemDisplayLabel;
 import gui.components.TextBoxFileLocation;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import gui.components.media_display.MediaDisplayPanel;
 
 public class TabModifyTags extends Tab {
 
@@ -196,12 +194,12 @@ public class TabModifyTags extends Tab {
 		imgWidth = this.getWidth() - 390;
 		imgHeight = this.getHeight() - 80;
 		pnlSelectedMediaDisplay.removeAll();
-		MediaItemDisplayLabel midl = (MediaItemDisplayLabel) defaultValues.get("smiDisplayLabel");
-		if(midl == null) {
+		MediaDisplayPanel mid = (MediaDisplayPanel) defaultValues.get("smiDisplay");
+		if(mid == null) {
 			return;
 		}
-		midl.setDisplaySize(imgWidth, imgHeight, true);
-		pnlSelectedMediaDisplay.add(midl, BorderLayout.NORTH);
+		mid.setDisplaySize(imgWidth, imgHeight, true);
+		pnlSelectedMediaDisplay.add(mid, BorderLayout.NORTH);
 	}
 	
 	

@@ -13,7 +13,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JPopupMenu;
 
 import clipboard.ImageSelection;
-import gui.components.MediaItemDisplayLabel;
 import media_control.MediaHandler;
 
 public class MediaItemContextMenu extends JPopupMenu {

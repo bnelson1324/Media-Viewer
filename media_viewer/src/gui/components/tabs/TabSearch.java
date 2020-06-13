@@ -17,7 +17,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import com.wordpress.tips4java.WrapLayout;
 
-import gui.components.MediaItemGridSquare;
+import gui.components.MediaGridSquare;
 import media_control.MediaHandler;
 
 public class TabSearch extends Tab {
@@ -92,8 +92,8 @@ public class TabSearch extends Tab {
 		}
 		mediaDisplayGrid.removeAll();
 		for(Path mi : results) {
-			MediaItemGridSquare migs = new MediaItemGridSquare(mi);
-			mediaDisplayGrid.add(migs);
+			MediaGridSquare mgs = new MediaGridSquare(mi);
+			mediaDisplayGrid.add(mgs);
 		}
 		mediaDisplayGrid.revalidate();
 	}

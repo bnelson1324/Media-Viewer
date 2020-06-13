@@ -1,12 +1,11 @@
-package gui.components;
+package gui.components.media_display;
 
-import java.awt.Component;
+import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import javax.imageio.ImageIO;
@@ -17,76 +16,45 @@ import gui.GUIManager;
 import gui.components.context_menu.MediaItemContextMenu;
 import media_control.MediaHandler;
 
-public class MediaItemDisplayLabel extends JLabel {
+public class ImageDisplay extends MediaDisplayPanel {
 	
-	/* JLabel containing a media item's image */
+	private JLabel imageLabel;
 	
-	private Path mediaItem;
-	
-	private String fileType;
-	
-	
-	// TODO: try to remove mediaItemImage variable
 	private BufferedImage mediaItemImage;
 	
-	
-	
-	private MediaItemContextMenu contextMenu;
-	
-	public MediaItemDisplayLabel(Path mi) {
-		super();
+	protected ImageDisplay(Path mi) {
+		super(mi, "image");
 		
-		this.mediaItem = mi;
+		imageLabel = new JLabel();
 		
-		// finds the file type (image, audio, etc)
 		try {
-			fileType = Files.probeContentType(mi).split("//")[0];
+			mediaItemImage = ImageIO.read(MediaHandler.getFullRelativePath(mi).toFile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		// TODO: IF FILE IS IMAGE ONLY:
-		mediaItemImage = getMediaItemImage(mi);
+
 		if(mediaItemImage != null) {
-			setIcon(new ImageIcon(mediaItemImage));
+			imageLabel.setIcon(new ImageIcon(mediaItemImage));
 		}
 		
-		this.addContextMenu();
+		this.add(imageLabel);
 	}
 	
-	
-	
-
-	
-	public Path getMediaItem() {
-		return mediaItem;
-	}
-
-	
+	@Override
 	public void setDisplaySize(int width, int height, boolean keepAspectRatio) {
-		
 		// TODO: IF DISPLAYING IMAGE ONLY:
 		if(mediaItemImage != null) {
 			if(keepAspectRatio) {
-				this.setIcon(GUIManager.scaleKeepingAspectRatio(mediaItemImage, width, height));
+				imageLabel.setIcon(GUIManager.scaleKeepingAspectRatio(mediaItemImage, width, height));
 			} else {
-				this.setIcon(new ImageIcon(mediaItemImage.getScaledInstance(width, height, Image.SCALE_SMOOTH)));
+				imageLabel.setIcon(new ImageIcon(mediaItemImage.getScaledInstance(width, height, Image.SCALE_SMOOTH)));
 			}
 		}
 	}
-
-
-	public static BufferedImage getMediaItemImage(Path mi) {
-		try {
-			return ImageIO.read(MediaHandler.getFullRelativePath(mi).toFile());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
 	
-	private void addContextMenu() {
+	@Override
+	public void addContextMenu() {
 		contextMenu = new MediaItemContextMenu(mediaItem);
 		this.add(contextMenu);
 		
@@ -110,5 +78,6 @@ public class MediaItemDisplayLabel extends JLabel {
 			}
 		});
 	}
+
 	
 }

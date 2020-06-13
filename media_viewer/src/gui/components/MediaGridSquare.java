@@ -1,33 +1,33 @@
 package gui.components;
 
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.nio.file.Path;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import gui.GUIManager;
+import gui.components.media_display.MediaDisplayPanel;
 
-import java.awt.BorderLayout;
-import java.awt.Cursor;
-import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class MediaItemGridSquare extends JPanel {
+public class MediaGridSquare extends JPanel {
 
 	/* JPanel representing one grid square in the search tab. Displays a file name and an image */
 	
 	private JLabel nameLabel;
-	private MediaItemDisplayLabel displayLabel;
+	private MediaDisplayPanel displayLabel;
 	
-	public MediaItemGridSquare(Path mi) {
+	public MediaGridSquare(Path mi) {
 		setLayout(new BorderLayout(0, 0));
 		
 		nameLabel = new JLabel(mi.getFileName().toString());
 		nameLabel.setFont(new Font("Label.font", Font.PLAIN, 16));
 		add(nameLabel, BorderLayout.NORTH);
 		
-		displayLabel = new MediaItemDisplayLabel(mi);
+		displayLabel = MediaDisplayPanel.makeMediaDisplayPanel(mi);
 		add(displayLabel, BorderLayout.SOUTH);
 		
 		displayLabel.setDisplaySize(256, 256, false);

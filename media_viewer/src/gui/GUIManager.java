@@ -9,13 +9,10 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
-import gui.components.MediaItemDisplayLabel;
-import gui.components.tabs.Tab;
+import gui.components.media_display.MediaDisplayPanel;
 import media.MediaData;
 import media_control.MediaHandler;
 import media_control.MediaSaver;
-import settings.SettingsHandler;
-import settings.SettingsSaver;
 
 public class GUIManager {
 	
@@ -26,7 +23,7 @@ public class GUIManager {
 	// currently selected media item (for view and modify tags tab) (smi)
 	private static Path selectedMediaItem;
 	
-	private static MediaItemDisplayLabel selectedMediaItemDisplayLabel;
+	private static MediaDisplayPanel selectedMediaDisplay;
 	
 	// default values for the selectedMediaItem
 	private static HashMap<String, Object> defaultValues;
@@ -40,7 +37,7 @@ public class GUIManager {
 	
 	public static void changeSelectedMediaItem(Path mi) {
 		selectedMediaItem = mi;
-		selectedMediaItemDisplayLabel = new MediaItemDisplayLabel(mi);
+		selectedMediaDisplay = MediaDisplayPanel.makeMediaDisplayPanel(mi);
 		updateDefaultValues();
 	}
 	
@@ -48,7 +45,7 @@ public class GUIManager {
 	private static void updateDefaultValues() {
 		if(selectedMediaItem != null) {
 			defaultValues.put("smi", selectedMediaItem);
-			defaultValues.put("smiDisplayLabel", selectedMediaItemDisplayLabel);
+			defaultValues.put("smiDisplay", selectedMediaDisplay);
 			MediaData md = MediaHandler.getMediaDataByPath(selectedMediaItem);
 			defaultValues.put("smiName", md.getName());
 			defaultValues.put("smiDateCreated", md.getDateCreated());
