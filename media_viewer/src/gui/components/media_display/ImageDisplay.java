@@ -33,22 +33,17 @@ public class ImageDisplay extends MediaDisplayPanel {
 			e.printStackTrace();
 		}
 
-		if(mediaItemImage != null) {
-			imageLabel.setIcon(new ImageIcon(mediaItemImage));
-		}
+		imageLabel.setIcon(new ImageIcon(mediaItemImage));	
 		
 		this.add(imageLabel);
 	}
 	
 	@Override
 	public void setDisplaySize(int width, int height, boolean keepAspectRatio) {
-		// TODO: IF DISPLAYING IMAGE ONLY:
-		if(mediaItemImage != null) {
-			if(keepAspectRatio) {
-				imageLabel.setIcon(GUIManager.scaleKeepingAspectRatio(mediaItemImage, width, height));
-			} else {
-				imageLabel.setIcon(new ImageIcon(mediaItemImage.getScaledInstance(width, height, Image.SCALE_SMOOTH)));
-			}
+		if(keepAspectRatio) {
+			imageLabel.setIcon(GUIManager.scaleKeepingAspectRatio(mediaItemImage, width, height));
+		} else {
+			imageLabel.setIcon(new ImageIcon(mediaItemImage.getScaledInstance(width, height, Image.SCALE_SMOOTH)));
 		}
 	}
 	

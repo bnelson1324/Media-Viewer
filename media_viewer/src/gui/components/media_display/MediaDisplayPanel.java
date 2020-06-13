@@ -11,13 +11,11 @@ import gui.components.context_menu.MediaItemContextMenu;
 
 public abstract class MediaDisplayPanel extends JPanel {
 	
-	
-	
 	/* JPanel displaying a media item */
 	
 	protected Path mediaItem;
 	
-	// fileType (audio, video, image, etc)
+	// fileType (image, audio, video, etc)
 	protected String fileType;
 	
 	protected MediaItemContextMenu contextMenu;
