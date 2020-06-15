@@ -16,13 +16,13 @@ import gui.GUIManager;
 import gui.components.context_menu.MediaItemContextMenu;
 import media_control.MediaHandler;
 
-public class ImageDisplay extends MediaDisplayPanel {
+public class ImageDisplayPanel extends MediaDisplayPanel {
 	
 	private JLabel imageLabel;
 	
 	private BufferedImage mediaItemImage;
 	
-	protected ImageDisplay(Path mi) {
+	protected ImageDisplayPanel(Path mi) {
 		super(mi, "image");
 		
 		imageLabel = new JLabel();

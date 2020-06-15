@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 
 import gui.GUIManager;
 
-public class UnknownDisplay extends MediaDisplayPanel {
+public class UnknownDisplayPanel extends MediaDisplayPanel {
 
 	private JLabel unknownImageLabel;
 	
@@ -20,7 +20,7 @@ public class UnknownDisplay extends MediaDisplayPanel {
 	
 	// TODO
 	
-	protected UnknownDisplay(Path mi) {
+	protected UnknownDisplayPanel(Path mi) {
 		super(mi, "unknown");
 		
 		unknownImageLabel = new JLabel();

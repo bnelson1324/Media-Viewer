@@ -13,6 +13,9 @@ public abstract class MediaDisplayPanel extends JPanel {
 	
 	/* JPanel displaying a media item */
 	
+	/* TODO: to implement copying for multiple formants in the context menu, create a variable (of the type transferable maybe) that is what the copy button
+	 * will fetch when it is pressed
+	*/
 	protected Path mediaItem;
 	
 	// fileType (image, audio, video, etc)
@@ -49,9 +52,9 @@ public abstract class MediaDisplayPanel extends JPanel {
 		switch(fileType) {
 			default:
 				System.out.println("unknown: " + fileType);
-				return new UnknownDisplay(mi);
+				return new UnknownDisplayPanel(mi);
 			case "image":
-				return new ImageDisplay(mi);
+				return new ImageDisplayPanel(mi);
 			/*case "video":
 				//TODO
 				return new VideoDisplay(mi);
