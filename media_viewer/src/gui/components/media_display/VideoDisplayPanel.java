@@ -45,7 +45,6 @@ public class VideoDisplayPanel extends MediaDisplayPanel {
 	
 	@Override
 	public void setDisplaySize(int width, int height, boolean keepAspectRatio) {
-		// TODO
 		VideoDisplayPanel thisPanel = this;
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override

@@ -27,18 +27,15 @@ public class EmbeddedMediaPlayer extends Group {
 		BorderPane bp = new BorderPane();
 		this.getChildren().add(bp);
 		
-		File f = MediaHandler.getFullRelativePath(mi).toFile();
+		//File f = MediaHandler.getFullRelativePath(mi).toFile();
 		// test code below for Test.java, replace above
-		//File f = new File(mi.toString());
+		File f = new File(mi.toString());
 		
 		media = new Media(f.toURI().toString());
 		mp = new MediaPlayer(media);
 		mv = new MediaView(mp);
 		
 		mp.setVolume(0.5);
-		// !!TEMP
-		mp.setAutoPlay(true);
-		
 		
 		bp.setCenter(mv);
 		bp.setBottom(new ControlBar(mp));
