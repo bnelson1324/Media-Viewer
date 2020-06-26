@@ -26,7 +26,7 @@ public class UnknownDisplayPanel extends MediaDisplayPanel {
 		unknownImageLabel = new JLabel();
 		
 		try {
-			unknownImage = ImageIO.read(new File("res/unknown_display_img.png"));
+			unknownImage = ImageIO.read(new File("res/image/unknown_display_img.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

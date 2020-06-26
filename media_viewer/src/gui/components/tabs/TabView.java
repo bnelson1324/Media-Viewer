@@ -62,14 +62,23 @@ public class TabView extends Tab {
 		int imgWidth, imgHeight;
 		imgWidth = this.getWidth() - 32;
 		imgHeight = this.getHeight() - 64;
-		pnlSelectedMediaDisplay.removeAll();
-		MediaDisplayPanel mid = (MediaDisplayPanel) defaultValues.get("smiDisplay");
-		if(mid == null) {
+		
+		MediaDisplayPanel mdp = (MediaDisplayPanel) defaultValues.get("smiDisplay");
+		if(mdp == null) {
 			return;
 		}
-		mid.setDisplaySize(imgWidth, imgHeight, true);
 		
-		pnlSelectedMediaDisplay.add(mid, BorderLayout.NORTH);
+		// adds mdp the first time
+		if(pnlSelectedMediaDisplay.getComponents().length == 0) {
+			pnlSelectedMediaDisplay.add(mdp, BorderLayout.NORTH);
+		}
+		
+		// replaces mdp if it is different, first parameter only makes sure array isn't accessed at 0 length
+		if(pnlSelectedMediaDisplay.getComponents().length != 0 && mdp != pnlSelectedMediaDisplay.getComponents()[0]) {
+			pnlSelectedMediaDisplay.removeAll();
+			pnlSelectedMediaDisplay.add(mdp, BorderLayout.NORTH);
+		}
+		mdp.setDisplaySize(imgWidth, imgHeight, true);
 	}
 	
 	@Override

@@ -16,6 +16,8 @@ import media_control.MediaSaver;
 
 public class GUIManager {
 	
+	// TODO: BUG: inputting file in "view" or "modify tags" does not load picture until resizing frame
+	
 	// TODO: organize this class, separating methods by which tab they are used in
 	
 	private static GraphicsFrame appFrame;
@@ -37,7 +39,7 @@ public class GUIManager {
 	
 	public static void changeSelectedMediaItem(Path mi) {
 		selectedMediaItem = mi;
-		selectedMediaDisplay = MediaDisplayPanel.makeMediaDisplayPanel(mi);
+		selectedMediaDisplay = MediaDisplayPanel.makeMediaDisplayPanel(mi, false);
 		updateDefaultValues();
 	}
 	

@@ -40,7 +40,7 @@ public abstract class MediaDisplayPanel extends JPanel {
 	
 	protected abstract void addContextMenu();
 
-	public static MediaDisplayPanel makeMediaDisplayPanel(Path mi) {
+	public static MediaDisplayPanel makeMediaDisplayPanel(Path mi, boolean preview) {
 		String fileType;
 		
 		try {
@@ -51,15 +51,20 @@ public abstract class MediaDisplayPanel extends JPanel {
 		}
 		switch(fileType) {
 			default:
-				System.out.println("unknown: " + fileType);
+				System.out.println("unknown type: " + fileType);
 				return new UnknownDisplayPanel(mi);
 			case "image":
 				return new ImageDisplayPanel(mi);
-			/*case "video":
+			case "video":
 				//TODO
-				return new VideoDisplay(mi);
-			*/
+				if(!preview) {
+					return new VideoDisplayPanel(mi);
+				} else {
+					// TODO: temp code below, make a new object for previews
+					return new VideoDisplayPanel(mi);
+				}
 		}
+		
 
 	}
 	

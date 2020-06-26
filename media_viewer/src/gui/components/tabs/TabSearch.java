@@ -26,8 +26,6 @@ public class TabSearch extends Tab {
 	
 	private JPanel mediaDisplayGrid;
 	
-	// TODO
-	
 	public TabSearch(HashMap<String, Object> defaultValues) {
 		super(defaultValues);
 		
