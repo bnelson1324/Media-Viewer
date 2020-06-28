@@ -69,7 +69,7 @@ public class GUIManager {
 	// scales an image keeping the aspect ratio
 	public static ImageIcon scaleKeepingAspectRatio(BufferedImage img, int width, int height) {
 		double newWidth, newHeight;
-
+		System.out.println("scale");
 		// scaled to width
 		double sWMultiplier = (((double)width)/img.getWidth());
 

@@ -16,16 +16,15 @@ public abstract class MediaDisplayPanel extends JPanel {
 	/* TODO: to implement copying for multiple formants in the context menu, create a variable (of the type transferable maybe) that is what the copy button
 	 * will fetch when it is pressed
 	*/
-	protected Path mediaItem;
 	
-	// fileType (image, audio, video, etc)
-	protected String fileType;
+	
+	
+	protected Path mediaItem;
 	
 	protected MediaItemContextMenu contextMenu;
 		
-	
-	protected MediaDisplayPanel(Path mi, String fileType) {
-		this.mediaItem = mi;
+	protected MediaDisplayPanel(Path mediaItem) {
+		this.mediaItem = mediaItem;
 		this.setLayout(new BorderLayout());
 		this.addContextMenu();
 		
@@ -40,25 +39,25 @@ public abstract class MediaDisplayPanel extends JPanel {
 	
 	protected abstract void addContextMenu();
 
-	public static MediaDisplayPanel makeMediaDisplayPanel(Path mi) {
+	public static MediaDisplayPanel makeMediaDisplayPanel(Path mediaItem) {
 		String fileType;
 		
 		try {
-			fileType = Files.probeContentType(mi).split("/")[0];
+			fileType = Files.probeContentType(mediaItem).split("/")[0];
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}
 		switch(fileType) {
+		// TODO: make a preview version of VideoDisplayPanel 
 			default:
-				System.out.println("unknown: " + fileType);
-				return new UnknownDisplayPanel(mi);
+				System.out.println("unknown: " + mediaItem);
+				return new UnknownDisplayPanel(mediaItem);
 			case "image":
-				return new ImageDisplayPanel(mi);
-			/*case "video":
-				//TODO
-				return new VideoDisplay(mi);
-			*/
+				return new ImageDisplayPanel(mediaItem, true);
+			case "video":
+				return new VideoDisplayPanel(mediaItem);
+			
 		}
 
 	}

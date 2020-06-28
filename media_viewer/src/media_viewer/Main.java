@@ -8,6 +8,8 @@ public class Main {
 	
 	// TODO: create an error message if user makes a search/inputs a file that results in an error
 	
+	// TODO: bug: inputting file directly into view pane doesn't update the display panel
+	
 	public static void main(String[] args) {
 	
 		init();

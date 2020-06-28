@@ -12,28 +12,18 @@ import javax.swing.JLabel;
 
 import gui.GUIManager;
 
-public class UnknownDisplayPanel extends MediaDisplayPanel {
-
-	private JLabel unknownImageLabel;
+public class UnknownDisplayPanel extends ImageDisplayPanel {
 	
-	private BufferedImage unknownImage;
-	
-	// TODO
-	
-	protected UnknownDisplayPanel(Path mi) {
-		super(mi, "unknown");
-		
-		unknownImageLabel = new JLabel();
+	protected UnknownDisplayPanel(Path mediaItem) {
+		super(mediaItem, false);
 		
 		try {
-			unknownImage = ImageIO.read(new File("res/unknown_display_img.png"));
+			mediaItemImage = ImageIO.read(new File("res/unknown_display_img.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		unknownImageLabel.setIcon(new ImageIcon());
-		
-		this.add(unknownImageLabel);
+		imageLabel.setIcon(new ImageIcon());
 	}
 
 	@Override
@@ -47,16 +37,16 @@ public class UnknownDisplayPanel extends MediaDisplayPanel {
 		}
 		
 		if(keepAspectRatio) {
-			unknownImageLabel.setIcon(GUIManager.scaleKeepingAspectRatio(unknownImage, width, height));
+			imageLabel.setIcon(GUIManager.scaleKeepingAspectRatio(mediaItemImage, width, height));
 		} else {
-			unknownImageLabel.setIcon(new ImageIcon(unknownImage.getScaledInstance(width, height, Image.SCALE_SMOOTH)));
+			imageLabel.setIcon(new ImageIcon(mediaItemImage.getScaledInstance(width, height, Image.SCALE_SMOOTH)));
 		}
 	}
 
 	@Override
-	protected void addContextMenu() {
+	public void addContextMenu() {
 		// TODO Auto-generated method stub
-		
+		// have open file location button but not copy button
 	}
 
 }
