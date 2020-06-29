@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 
 import gui.components.media_display.MediaDisplayPanel;
 import media.MediaData;
@@ -18,7 +19,7 @@ public class GUIManager {
 	
 	// TODO: organize this class, separating methods by which tab they are used in
 	
-	private static GraphicsFrame appFrame;
+	public static GraphicsFrame appFrame;
 	
 	// currently selected media item (for view and modify tags tab) (smi)
 	private static Path selectedMediaItem;
@@ -37,7 +38,7 @@ public class GUIManager {
 	
 	public static void changeSelectedMediaItem(Path mi) {
 		selectedMediaItem = mi;
-		selectedMediaDisplay = MediaDisplayPanel.makeMediaDisplayPanel(mi);
+		selectedMediaDisplay = MediaDisplayPanel.makeMediaDisplayPanel(mi, false);
 		updateDefaultValues();
 	}
 	
@@ -69,7 +70,7 @@ public class GUIManager {
 	// scales an image keeping the aspect ratio
 	public static ImageIcon scaleKeepingAspectRatio(BufferedImage img, int width, int height) {
 		double newWidth, newHeight;
-		System.out.println("scale");
+		
 		// scaled to width
 		double sWMultiplier = (((double)width)/img.getWidth());
 
@@ -93,7 +94,9 @@ public class GUIManager {
 	}
 
 	public static void updateSelectedTab() {
-		 appFrame.getSelectedTab().updateTab();
+		SwingUtilities.invokeLater( () -> {
+			appFrame.getSelectedTab().updateTab();
+		});
 	}
 	
 	

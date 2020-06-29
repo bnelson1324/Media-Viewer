@@ -27,7 +27,7 @@ public class MediaGridSquare extends JPanel {
 		nameLabel.setFont(new Font("Label.font", Font.PLAIN, 16));
 		add(nameLabel, BorderLayout.NORTH);
 		
-		displayLabel = MediaDisplayPanel.makeMediaDisplayPanel(mi);
+		displayLabel = MediaDisplayPanel.makeMediaDisplayPanel(mi, true);
 		add(displayLabel, BorderLayout.SOUTH);
 		
 		displayLabel.setDisplaySize(256, 256, false);

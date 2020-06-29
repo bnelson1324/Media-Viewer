@@ -17,9 +17,9 @@ public abstract class MediaDisplayPanel extends JPanel {
 	 * will fetch when it is pressed
 	*/
 	
-	
-	
 	protected Path mediaItem;
+	
+
 	
 	protected MediaItemContextMenu contextMenu;
 		
@@ -39,7 +39,7 @@ public abstract class MediaDisplayPanel extends JPanel {
 	
 	protected abstract void addContextMenu();
 
-	public static MediaDisplayPanel makeMediaDisplayPanel(Path mediaItem) {
+	public static MediaDisplayPanel makeMediaDisplayPanel(Path mediaItem, boolean preview) {
 		String fileType;
 		
 		try {
@@ -56,7 +56,11 @@ public abstract class MediaDisplayPanel extends JPanel {
 			case "image":
 				return new ImageDisplayPanel(mediaItem, true);
 			case "video":
-				return new VideoDisplayPanel(mediaItem);
+				if(!preview) {
+					return new VideoDisplayPanel(mediaItem);
+				} else {
+					return new VideoDisplayPanelPreview(mediaItem);
+				}
 			
 		}
 

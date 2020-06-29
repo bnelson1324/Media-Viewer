@@ -9,6 +9,7 @@ import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -63,14 +64,19 @@ public class GraphicsFrame extends JFrame {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				selectedTab = (Tab) tabbedPane.getComponents()[tabbedPane.getSelectedIndex()];
-				selectedTab.onSelect();
+				SwingUtilities.invokeLater( () -> {
+		    		selectedTab.onSelect();
+		    	});
 			}
 		});
 		
 		tabbedPane.addComponentListener(new ComponentAdapter() {
 		    public void componentResized(ComponentEvent componentEvent) {
 		    	selectedTab = (Tab) tabbedPane.getComponents()[tabbedPane.getSelectedIndex()];
-		    	selectedTab.onResize();
+		    	SwingUtilities.invokeLater( () -> {
+		    		selectedTab.onResize();
+		    	});
+		    	
 		    }
 		});
 	}
