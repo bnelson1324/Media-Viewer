@@ -18,29 +18,22 @@ public class UnknownDisplayPanel extends ImageDisplayPanel {
 		super(mediaItem, false);
 		
 		try {
-			mediaItemImage = ImageIO.read(new File("res/unknown_display_img.png"));
+			mediaItemImage = ImageIO.read(new File("res/image/unknown_display_img.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		imageLabel.setIcon(new ImageIcon());
+		readyToRender = true;
 	}
 
 	@Override
 	public void setDisplaySize(int width, int height, boolean keepAspectRatio) {
 		// sets max size as 256x256
-		if(width > 256) {
-			width = 256;
-		}
-		if(height > 256) {
-			height = 256;
-		}
+		int newWidth = Math.min(width, 256);
+		int newHeight = Math.min(height, 256);
 		
-		if(keepAspectRatio) {
-			imageLabel.setIcon(GUIManager.scaleKeepingAspectRatio(mediaItemImage, width, height));
-		} else {
-			imageLabel.setIcon(new ImageIcon(mediaItemImage.getScaledInstance(width, height, Image.SCALE_SMOOTH)));
-		}
+		super.setDisplaySize(newWidth, newHeight, keepAspectRatio);
 	}
 
 	@Override

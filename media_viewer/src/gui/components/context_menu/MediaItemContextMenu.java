@@ -3,6 +3,7 @@ package gui.components.context_menu;
 import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.Transferable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -20,35 +21,36 @@ public class MediaItemContextMenu extends JPopupMenu {
 	/* Context menu when right clicking a media item */
 
 	private Path mediaItem;
+	private Transferable copyItem;
 	
-	public MediaItemContextMenu(Path mediaItem) {
+	public MediaItemContextMenu(Path mediaItem, Transferable copyItem) {
 		super("Context Menu");
 		this.mediaItem = mediaItem;
+		this.copyItem = copyItem;
 		
-		MediaItemContextMenuChoice cCopy = new MediaItemContextMenuChoice("Copy", this);
-		MediaItemContextMenuChoice cOpenFileLoc = new MediaItemContextMenuChoice("Open file location", this);
-		
-		// menu choices' listeners
-		
-		// copy file
 		// TODO: add compatibility for more than just images
+	
+	}
+	
+	// copy file
+	public void addChoiceCopy() {
+		MediaItemContextMenuChoice cCopy = new MediaItemContextMenuChoice("Copy", this);
 		cCopy.addMouseListener(new MouseAdapter() {  
             public void mouseClicked(MouseEvent e) {
             	Toolkit tk = Toolkit.getDefaultToolkit();
             	Clipboard clipboard = tk.getSystemClipboard();
             	
-            	// copies image
-				try {
-					ImageSelection imgSel = new ImageSelection(ImageIO.read(new File(MediaHandler.getFullRelativePath(mediaItem).toString())));
-					clipboard.setContents(imgSel, null);
-					System.out.println("Copied file to clipboard"); 
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}         
+            	// copies copyItem to clipboard
+				clipboard.setContents(copyItem, null);
+				System.out.println("Copied file to clipboard");         
             }                 
-         });  
-		
-		// open file location
+         });
+		this.add(cCopy);
+	}
+	
+	// open file location
+	public void addChoiceOpenFileLoc() {
+		MediaItemContextMenuChoice cOpenFileLoc = new MediaItemContextMenuChoice("Open file location", this);
 		cOpenFileLoc.addMouseListener(new MouseAdapter() {  
             public void mouseClicked(MouseEvent e) {
             	try {
@@ -57,10 +59,7 @@ public class MediaItemContextMenu extends JPopupMenu {
 					e1.printStackTrace();
 				}
             }                 
-         });  
-		
-		
-		this.add(cCopy);
+         });
 		this.add(cOpenFileLoc);
 	}
 

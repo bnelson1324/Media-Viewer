@@ -1,6 +1,9 @@
 package gui.components.media_display;
 
 import java.awt.BorderLayout;
+import java.awt.datatransfer.Transferable;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,16 +16,17 @@ public abstract class MediaDisplayPanel extends JPanel {
 	
 	/* JPanel displaying a media item */
 	
-	/* TODO: to implement copying for multiple formants in the context menu, create a variable (of the type transferable maybe) that is what the copy button
-	 * will fetch when it is pressed
-	*/
-	
 	protected Path mediaItem;
 	
-
+	// read only values for width and height, and keepAspectRatio
+	protected int currentWidth, currentHeight;
+	protected boolean currentKeepAspectRatio;
 	
 	protected MediaItemContextMenu contextMenu;
 		
+	// what is copied when selecting copy from the context menu
+	protected Transferable copyItem;
+	
 	protected MediaDisplayPanel(Path mediaItem) {
 		this.mediaItem = mediaItem;
 		this.setLayout(new BorderLayout());
@@ -35,9 +39,43 @@ public abstract class MediaDisplayPanel extends JPanel {
 		return mediaItem;
 	}
 
-	public abstract void setDisplaySize(int width, int height, boolean keepAspectRatio);
 	
-	protected abstract void addContextMenu();
+	public void setDisplaySize(int width, int height, boolean keepAspectRatio) {
+		currentWidth = width;
+		currentHeight = height;
+		currentKeepAspectRatio = keepAspectRatio;
+	}
+	
+	protected void addContextMenu() {
+		createCopyItem();
+		contextMenu = new MediaItemContextMenu(mediaItem, copyItem);
+		this.add(contextMenu);
+		
+		// context menu listeners
+		if(contextMenu != null) {
+			this.addMouseListener(new MouseAdapter() {
+	
+				// detects if should open context menu
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if(e.getButton() == MouseEvent.BUTTON3) {
+						contextMenu.setVisible(true);
+						contextMenu.setLocation(e.getXOnScreen(), e.getYOnScreen());
+					} 
+				}
+				
+				// detects if should close context menu
+				@Override public void mouseEntered(MouseEvent e) {
+					if(!contextMenu.contains(e.getPoint())) {
+						contextMenu.setVisible(false);
+					}
+				}
+			});
+		}
+	}
+	
+	// creates copyItem for the context menu
+	protected abstract void createCopyItem();
 
 	public static MediaDisplayPanel makeMediaDisplayPanel(Path mediaItem, boolean preview) {
 		String fileType;
@@ -49,7 +87,6 @@ public abstract class MediaDisplayPanel extends JPanel {
 			return null;
 		}
 		switch(fileType) {
-		// TODO: make a preview version of VideoDisplayPanel 
 			default:
 				System.out.println("unknown: " + mediaItem);
 				return new UnknownDisplayPanel(mediaItem);
@@ -61,6 +98,8 @@ public abstract class MediaDisplayPanel extends JPanel {
 				} else {
 					return new VideoDisplayPanelPreview(mediaItem);
 				}
+			case "audio":
+				return new AudioDisplayPanel(mediaItem);
 			
 		}
 

@@ -54,7 +54,7 @@
     ]
   },
   {
-    "fileLocation": "video\\green screen\\campfire.mp4",
+    "fileLocation": "audio\\numa numa.mp3",
     "name": [],
     "dateCreated": [],
     "dateAdded": [],
@@ -62,6 +62,31 @@
     "authorLinks": [],
     "tags": [
       "untagged"
+    ]
+  },
+  {
+    "fileLocation": "video\\green screen\\campfire.mp4",
+    "name": [
+      "campfire"
+    ],
+    "dateCreated": [
+      ""
+    ],
+    "dateAdded": [
+      "2020/06/27"
+    ],
+    "authorName": [
+      ""
+    ],
+    "authorLinks": [
+      ""
+    ],
+    "tags": [
+      "campfire",
+      "green screen",
+      "fire",
+      "animation",
+      "hot"
     ]
   },
   {
@@ -123,13 +148,26 @@
   },
   {
     "fileLocation": "video\\green screen\\flag US.mp4",
-    "name": [],
-    "dateCreated": [],
-    "dateAdded": [],
-    "authorName": [],
-    "authorLinks": [],
+    "name": [
+      "us flag"
+    ],
+    "dateCreated": [
+      ""
+    ],
+    "dateAdded": [
+      "2020/06/12"
+    ],
+    "authorName": [
+      ""
+    ],
+    "authorLinks": [
+      ""
+    ],
     "tags": [
-      "untagged"
+      "flag",
+      "america",
+      "patriotic",
+      "green screen"
     ]
   },
   {

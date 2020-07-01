@@ -21,10 +21,6 @@ import media_control.MediaHandler;
 
 public class VideoDisplayPanel extends ImageDisplayPanel {
 
-	
-	/* !! BUG: display panel is finicky if there is anything in the search query or if there is a selected media item
-	 * but if there are neither of these, the display panels appear more consistently, yet still sometimes finicky
-	*/
 	protected MediaPlayer mp;
 	protected MediaView mv;
 	
@@ -32,15 +28,11 @@ public class VideoDisplayPanel extends ImageDisplayPanel {
 		super(mediaItem, false);
 		
 		// creates jfxpanel to initialize jfx toolkit
-		new JFXPanel();
-		
-		
+		new JFXPanel();	
 			prepareMedia();
 			mp.setOnReady( () -> {
 				prepareSnapshot();
 			});
-
-		
 	}
 	
 	protected void prepareMedia() {
@@ -49,14 +41,6 @@ public class VideoDisplayPanel extends ImageDisplayPanel {
 		mv = new MediaView(mp);
 	}
 	
-	/* !! bugs
-	 *
-	 * video display panel doesnt properly resize after loading in view/modify tags tab, must manually resize tab to update the panel
-	 * also, videos arent being resized at all in the search tab
-	 * 
-	 * 
-	 * also, mp.seek only sometimes works. sometimes it fails and this only shows the thumbnail of the start of the video
-	 */
 	// prepares thumbnail of video
 	protected void prepareSnapshot() {
 		// sets media player to the middle of the media
@@ -65,18 +49,22 @@ public class VideoDisplayPanel extends ImageDisplayPanel {
 		
 	
 		// delay to let mv prepare for snapshot (i think)
-		PauseTransition pt = new PauseTransition(new Duration(50));
+		PauseTransition pt = new PauseTransition(new Duration(1000));
 		pt.setOnFinished( (e) -> {
 			WritableImage wi = new WritableImage(mp.getMedia().getWidth(), mp.getMedia().getHeight());
 			mv.snapshot(new SnapshotParameters(), wi);
 			
 			mediaItemImage = SwingFXUtils.fromFXImage(wi, null);
 			imageLabel.setIcon(new ImageIcon(mediaItemImage));
+
+			this.setDisplaySize(currentWidth, currentHeight, currentKeepAspectRatio);
+			
+			readyToRender = true;
 		});
 		pt.play();
 		
 		
-		readyToRender = true;
+		
 	}
 	
 	@Override
@@ -88,8 +76,8 @@ public class VideoDisplayPanel extends ImageDisplayPanel {
 	}
 	
 	@Override
-	public void addContextMenu() {
-		//TODO
+	protected void createCopyItem() {
+		// TODO
 	}
-
+	
 }

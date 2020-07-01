@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -12,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import clipboard.ImageSelection;
 import gui.GUIManager;
 import gui.components.context_menu.MediaItemContextMenu;
 import media_control.MediaHandler;
@@ -47,6 +49,7 @@ public class ImageDisplayPanel extends MediaDisplayPanel {
 	
 	@Override
 	public void setDisplaySize(int width, int height, boolean keepAspectRatio) {
+		super.setDisplaySize(width, height, keepAspectRatio);
 		if(readyToRender) {
 			if(keepAspectRatio) {
 				imageLabel.setIcon(GUIManager.scaleKeepingAspectRatio(mediaItemImage, width, height));
@@ -56,32 +59,21 @@ public class ImageDisplayPanel extends MediaDisplayPanel {
 		}
 	}
 	
-	
 	@Override
-	public void addContextMenu() {
-		contextMenu = new MediaItemContextMenu(mediaItem);
-		this.add(contextMenu);
+	protected void addContextMenu() {
+		super.addContextMenu();
 		
-		// context menu listeners
-		this.addMouseListener(new MouseAdapter() {
-
-			// detects if should open context menu
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(e.getButton() == MouseEvent.BUTTON3) {
-					contextMenu.setVisible(true);
-					contextMenu.setLocation(e.getXOnScreen(), e.getYOnScreen());
-				} 
-			}
-			
-			// detects if should close context menu
-			@Override public void mouseEntered(MouseEvent e) {
-				if(!contextMenu.contains(e.getPoint())) {
-					contextMenu.setVisible(false);
-				}
-			}
-		});
+		contextMenu.addChoiceCopy();
+		contextMenu.addChoiceOpenFileLoc();
 	}
 
+	@Override
+	protected void createCopyItem() {
+		try {
+			copyItem = new ImageSelection(ImageIO.read(new File(MediaHandler.getFullRelativePath(mediaItem).toString())));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }

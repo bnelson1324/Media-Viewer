@@ -15,12 +15,12 @@ public class MediaItemContextMenuChoice extends JMenuItem {
 		super(text);
 		this.parentMenu = parentMenu;
 		
-		MediaItemContextMenuChoice choice = this;
-		Color originalBGColor = choice.getBackground();
+		Color originalBGColor = this.getBackground();
 		
+		MediaItemContextMenuChoice choice = this;
 		this.addMouseListener(new MouseAdapter() { 
-			// highlights mouse when hovering over choice
 			
+			// highlights mouse when hovering over choice
             public void mouseEntered(MouseEvent e) {              
                 choice.setBackground(Color.WHITE);
             } 
@@ -31,7 +31,6 @@ public class MediaItemContextMenuChoice extends JMenuItem {
             
             
             // closes menu after selecting a choice
-            
             public void mouseClicked(MouseEvent e) {
             	choice.setBackground(originalBGColor);
             	choice.parentMenu.setVisible(false);

@@ -17,8 +17,6 @@ import media_control.MediaSaver;
 
 public class GUIManager {
 	
-	// TODO: organize this class, separating methods by which tab they are used in
-	
 	public static GraphicsFrame appFrame;
 	
 	// currently selected media item (for view and modify tags tab) (smi)
@@ -118,20 +116,23 @@ public class GUIManager {
 	// converts string into an arraylist of tags
 	public static ArrayList<String> packTagList(String tagStr, String regex) {
 		String[] tagArr = tagStr.split(regex);
-		return new ArrayList<String>(Arrays.asList(tagArr));
+		ArrayList<String> trimmedTagArr = new ArrayList<String>();
+		for(String tag : tagArr) {
+			trimmedTagArr.add(tag.trim());
+		}
+		return trimmedTagArr;
 	}
 
 	public static void saveTags(String name, String dateCreated, String dateAdded, String authorName, String authorLinks, String tags) {
 		if(selectedMediaItem == null) {
 			return;
 		}
-		ArrayList<String> aName = packTagList(name, ", ");
-		ArrayList<String> aDateCreated = packTagList(dateCreated, ", ");
-		ArrayList<String> aDateAdded = packTagList(dateAdded, ", ");
-		ArrayList<String> aAuthorName = packTagList(authorName, ", ");
-		ArrayList<String> aAuthorLinks = packTagList(authorLinks, ", ");
-		ArrayList<String> aTags = packTagList(tags, ", ");
-		System.out.println(aTags);
+		ArrayList<String> aName = packTagList(name, ",");
+		ArrayList<String> aDateCreated = packTagList(dateCreated, ",");
+		ArrayList<String> aDateAdded = packTagList(dateAdded, ",");
+		ArrayList<String> aAuthorName = packTagList(authorName, ",");
+		ArrayList<String> aAuthorLinks = packTagList(authorLinks, ",");
+		ArrayList<String> aTags = packTagList(tags, ",");
 		
 		MediaData md = new MediaData(aName, aDateCreated, aDateAdded, aAuthorName, aAuthorLinks, aTags);
 		MediaHandler.pairMediaData(selectedMediaItem, md);

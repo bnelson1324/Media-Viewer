@@ -8,6 +8,7 @@ module learn_javafx {
 	requires java.scripting;
 	requires wrap.layout;
 	requires com.google.gson;
+	requires java.datatransfer;
 	
 	exports media_viewer;
 }
