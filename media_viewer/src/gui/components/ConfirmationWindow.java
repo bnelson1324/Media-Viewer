@@ -76,6 +76,10 @@ public class ConfirmationWindow extends JFrame {
 		this.setVisible(true);
 	}
 	
+	public ConfirmationWindow(String description) {
+		this("Alert", description, "Yes", "No");
+	}
+	
 	public void setOnChoice(Runnable r) {
 		this.onChoice = r;
 	}

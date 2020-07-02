@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import gui.GUIManager;
+import gui.components.ConfirmationWindow;
 import media_control.MediaHandler;
 import settings.SettingsHandler;
 import settings.SettingsSaver;
@@ -31,14 +32,24 @@ public class TabSettings extends Tab {
 		btnSaveSettings = new JButton("Save Settings");
 		btnSaveSettings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				saveSettings(tfRootStorageFolderLoc.getText());
+				ConfirmationWindow cw = new ConfirmationWindow("Are you sure you would like to save these settings?");
+				cw.setOnChoice( () -> {
+					if(cw.choice) {
+						saveSettings(tfRootStorageFolderLoc.getText());
+					}
+				});
 			}
 		});
 		
 		btnResetSettings = new JButton("Reset Settings");
 		btnResetSettings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				resetSettings();
+				ConfirmationWindow cw = new ConfirmationWindow("Are you sure you would like to reset the settings?");
+				cw.setOnChoice( () -> {
+					if(cw.choice) {
+						resetSettings();
+					}
+				});
 			}
 		});
 		

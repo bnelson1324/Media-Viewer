@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import gui.GUIManager;
+import gui.components.ConfirmationWindow;
 import gui.components.TextBoxFileLocation;
 import gui.components.media_display.MediaDisplayPanel;
 
@@ -79,8 +80,13 @@ public class TabModifyTags extends Tab {
 		btnSaveTags = new JButton("Save Tags");
 		btnSaveTags.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GUIManager.saveTags(tfModName.getText(), tfModDateCreated.getText(), tfModDateAdded.getText(), tfModAuthorName.getText(), tfModAuthorLinks.getText(), tfModTags.getText());
-				updateTags();
+				ConfirmationWindow cw = new ConfirmationWindow("Are you sure you would like to save these tags?");
+				cw.setOnChoice( () -> {
+					if(cw.choice) {
+						GUIManager.saveTags(tfModName.getText(), tfModDateCreated.getText(), tfModDateAdded.getText(), tfModAuthorName.getText(), tfModAuthorLinks.getText(), tfModTags.getText());
+						updateTags();
+					}
+				});
 			}
 		});
 		
