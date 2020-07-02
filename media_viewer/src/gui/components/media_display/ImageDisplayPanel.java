@@ -60,14 +60,6 @@ public class ImageDisplayPanel extends MediaDisplayPanel {
 	}
 	
 	@Override
-	protected void addContextMenu() {
-		super.addContextMenu();
-		
-		contextMenu.addChoiceCopy();
-		contextMenu.addChoiceOpenFileLoc();
-	}
-
-	@Override
 	protected void createCopyItem() {
 		try {
 			copyItem = new ImageSelection(ImageIO.read(new File(MediaHandler.getFullRelativePath(mediaItem).toString())));
@@ -75,5 +67,13 @@ public class ImageDisplayPanel extends MediaDisplayPanel {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	protected void createContextMenuChoices() {
+		contextMenu.addChoiceCopy();
+		contextMenu.addChoiceOpenFileLoc();
+	}
+
+	
 	
 }

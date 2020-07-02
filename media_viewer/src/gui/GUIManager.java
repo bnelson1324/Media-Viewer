@@ -4,7 +4,6 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
@@ -16,7 +15,7 @@ import media_control.MediaHandler;
 import media_control.MediaSaver;
 
 public class GUIManager {
-	
+
 	public static GraphicsFrame appFrame;
 	
 	// currently selected media item (for view and modify tags tab) (smi)

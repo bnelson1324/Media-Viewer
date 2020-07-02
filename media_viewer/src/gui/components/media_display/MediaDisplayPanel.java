@@ -72,10 +72,14 @@ public abstract class MediaDisplayPanel extends JPanel {
 				}
 			});
 		}
+		createContextMenuChoices();
 	}
 	
-	// creates copyItem for the context menu
+	// creates copy item
 	protected abstract void createCopyItem();
+	
+	// creates choices for the context menu and copyItem
+	protected abstract void createContextMenuChoices();
 
 	public static MediaDisplayPanel makeMediaDisplayPanel(Path mediaItem, boolean preview) {
 		String fileType;

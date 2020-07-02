@@ -27,8 +27,6 @@ public class MediaItemContextMenu extends JPopupMenu {
 		super("Context Menu");
 		this.mediaItem = mediaItem;
 		this.copyItem = copyItem;
-		
-		// TODO: add compatibility for more than just images
 	
 	}
 	

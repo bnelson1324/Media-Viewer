@@ -77,7 +77,12 @@ public class VideoDisplayPanel extends ImageDisplayPanel {
 	
 	@Override
 	protected void createCopyItem() {
-		// TODO
+		copyItem = null;
+	}
+	
+	@Override
+	protected void createContextMenuChoices() {
+		contextMenu.addChoiceOpenFileLoc();
 	}
 	
 }

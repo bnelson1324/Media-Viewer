@@ -45,7 +45,6 @@ public class MediaLoader {
 		for(Path f : allFiles) {
 			// removes root folder storage location from the path
 			Path relativePath = Paths.get(f.toString().substring(rootStorageFolder.toString().length() + 1));
-			
 			loaderAllMediaItems.add(relativePath);
 		}
 	}

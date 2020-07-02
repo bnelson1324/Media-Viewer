@@ -27,7 +27,12 @@ public class AudioDisplayPanel extends ImageDisplayPanel {
 	
 	@Override
 	protected void createCopyItem() {
-		// TODO
+		copyItem = null;
+	}
+	
+	@Override
+	protected void createContextMenuChoices() {
+		contextMenu.addChoiceOpenFileLoc();
 	}
 	
 }
