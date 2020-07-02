@@ -1,14 +1,11 @@
 package gui.components.media_display;
 
-import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-
-import gui.GUIManager;
 
 public class AudioDisplayPanel extends ImageDisplayPanel {
 

@@ -1,9 +1,6 @@
 package gui.components.media_display;
 
-import java.awt.BorderLayout;
 import java.awt.Image;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +12,6 @@ import javax.swing.JLabel;
 
 import clipboard.ImageSelection;
 import gui.GUIManager;
-import gui.components.context_menu.MediaItemContextMenu;
 import media_control.MediaHandler;
 
 public class ImageDisplayPanel extends MediaDisplayPanel {

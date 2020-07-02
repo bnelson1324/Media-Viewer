@@ -1,10 +1,7 @@
 package gui.components.media_display;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
