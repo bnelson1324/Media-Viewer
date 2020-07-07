@@ -18,9 +18,7 @@ import settings.SettingsHandler;
 import settings.SettingsSaver;
 
 public class TabSettings extends Tab {
-	// TODO
-	
-	
+
 	private JTextField tfRootStorageFolderLoc;
 
 	private JButton btnSaveSettings;

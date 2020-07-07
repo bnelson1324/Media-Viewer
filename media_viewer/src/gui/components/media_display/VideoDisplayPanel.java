@@ -59,17 +59,13 @@ public class VideoDisplayPanel extends ImageDisplayPanel {
 			readyToRender = true;
 		});
 		pt.play();
-		
-		
-		
 	}
 	
 	@Override
 	public void setDisplaySize(int width, int height, boolean keepAspectRatio) {
 		SwingUtilities.invokeLater( () -> {
 			super.setDisplaySize(width, height, keepAspectRatio);
-		});
-		
+		});	
 	}
 	
 	@Override

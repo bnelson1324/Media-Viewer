@@ -31,8 +31,6 @@ public abstract class MediaDisplayPanel extends JPanel {
 		this.mediaItem = mediaItem;
 		this.setLayout(new BorderLayout());
 		this.addContextMenu();
-		
-
 	}
 	
 	public Path getMediaItem() {
@@ -106,8 +104,5 @@ public abstract class MediaDisplayPanel extends JPanel {
 				return new AudioDisplayPanel(mediaItem);
 			
 		}
-
-	}
-	
-	
+	}	
 }
