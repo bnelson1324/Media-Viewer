@@ -133,7 +133,7 @@ public class GUIManager {
 		ArrayList<String> aAuthorLinks = packTagList(authorLinks, ",");
 		ArrayList<String> aTags = packTagList(tags, ",");
 		
-		MediaData md = new MediaData(aName, aDateCreated, aDateAdded, aAuthorName, aAuthorLinks, aTags);
+		MediaData md = new MediaData(selectedMediaItem, aName, aDateCreated, aDateAdded, aAuthorName, aAuthorLinks, aTags);
 		MediaHandler.pairMediaData(selectedMediaItem, md);
 		
 		updateDefaultValues();

@@ -12,8 +12,7 @@ public class SettingsLoader {
 	
 	private static HashMap<String, String> loaderSettingsMap;
 	
-	
-	
+
 	// loads the Media Viewer's settings
 	public static void loadSettings() {
 		// makes sure the settings directory exists
@@ -21,7 +20,6 @@ public class SettingsLoader {
 		if(!settingsDirectory.exists()) {
 			settingsDirectory.mkdir();
 		}
-		
 		
 		File settingsFile = new File("settings/settings.cfg");
 
@@ -44,8 +42,6 @@ public class SettingsLoader {
 			e.printStackTrace();
 		}
 	}
-	
-	
 
 	public static void init() {
 		loaderSettingsMap = new HashMap<String, String>();

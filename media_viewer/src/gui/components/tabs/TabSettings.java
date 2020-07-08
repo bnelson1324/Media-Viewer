@@ -1,6 +1,4 @@
 package gui.components.tabs;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.HashMap;
 
@@ -11,15 +9,17 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import gui.GUIManager;
 import gui.components.ConfirmationWindow;
+import media.MediaData;
 import media_control.MediaHandler;
 import settings.SettingsHandler;
 import settings.SettingsSaver;
+import javax.swing.JComboBox;
 
 public class TabSettings extends Tab {
 
 	private JTextField tfRootStorageFolderLoc;
+	private JTextField tfDateFormat;
 
 	private JButton btnSaveSettings;
 	private JButton btnResetSettings;
@@ -28,33 +28,37 @@ public class TabSettings extends Tab {
 		super(defaultValues);
 		
 		btnSaveSettings = new JButton("Save Settings");
-		btnSaveSettings.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ConfirmationWindow cw = new ConfirmationWindow("Are you sure you would like to save these settings?");
-				cw.setOnChoice( () -> {
-					if(cw.choice) {
-						saveSettings(tfRootStorageFolderLoc.getText());
-					}
-				});
-			}
+		btnSaveSettings.addActionListener( (e) -> {
+			ConfirmationWindow cw = new ConfirmationWindow("Are you sure you would like to save these settings?");
+			cw.setOnChoice( () -> {
+				if(cw.choice) {
+					saveSettings(tfRootStorageFolderLoc.getText(), tfDateFormat.getText());
+				}
+			});
 		});
 		
 		btnResetSettings = new JButton("Reset Settings");
-		btnResetSettings.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ConfirmationWindow cw = new ConfirmationWindow("Are you sure you would like to reset the settings?");
-				cw.setOnChoice( () -> {
-					if(cw.choice) {
-						resetSettings();
-					}
-				});
-			}
+		btnResetSettings.addActionListener( (e) -> {
+			ConfirmationWindow cw = new ConfirmationWindow("Are you sure you would like to reset the settings?");
+			cw.setOnChoice( () -> {
+				if(cw.choice) {
+					resetSettings();
+				}
+			});
 		});
+		
 		
 		JLabel lblRootStorageFolderLoc = new JLabel("Root Storage Folder Location: ");
 		
 		tfRootStorageFolderLoc = new JTextField();
 		tfRootStorageFolderLoc.setColumns(10);
+		
+		JLabel lblDateFormat = new JLabel("Date Format: ");
+		
+		String[] cbDateFormatChoices = {"Month first", "Day first"};
+		
+		tfDateFormat = new JTextField();
+		tfDateFormat.setColumns(10);
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -69,7 +73,11 @@ public class TabSettings extends Tab {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(btnSaveSettings)
 							.addGap(178)
-							.addComponent(btnResetSettings)))
+							.addComponent(btnResetSettings))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblDateFormat, GroupLayout.PREFERRED_SIZE, 198, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfDateFormat, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap(167, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
@@ -83,18 +91,16 @@ public class TabSettings extends Tab {
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblRootStorageFolderLoc)
 						.addComponent(tfRootStorageFolderLoc, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(321, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblDateFormat)
+						.addComponent(tfDateFormat, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(287, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);
 
 	}
 	
-	private void saveSettings(String rootStorageFolderLoc) {
-		SettingsHandler.modifySetting("rootStorageFolderLoc", rootStorageFolderLoc);
-		SettingsSaver.saveSettings();
-		System.out.println("Saved settings");
-		MediaHandler.refreshMediaFolder();
-	}
 
 	// resets settings to default values
 	private void resetSettings() {
@@ -106,9 +112,22 @@ public class TabSettings extends Tab {
 		updateTab();
 	}
 	
+	
+	// saves settings based on settings selectors' values
+	private void saveSettings(String rootStorageFolderLoc, String dateFormat) {
+		SettingsHandler.modifySetting("rootStorageFolderLoc", rootStorageFolderLoc);
+		SettingsHandler.modifySetting("dateFormat", dateFormat);
+		SettingsSaver.saveSettings();
+		System.out.println("Saved settings");
+		MediaHandler.refreshMediaFolder();
+		MediaData.createDateFormat();
+	}
+	
+	// updates settings selectors' values based on current settings
 	@Override
 	public void updateTab() {
 		tfRootStorageFolderLoc.setText(SettingsHandler.getSetting("rootStorageFolderLoc"));
+		tfDateFormat.setText(SettingsHandler.getSetting("dateFormat"));
 	}
 	
 	@Override

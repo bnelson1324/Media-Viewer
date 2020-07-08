@@ -162,6 +162,7 @@ public class MediaHandler {
 	}
 	
 	public static void init() {
+		MediaData.init();
 		MediaLoader.init();
 		
 		allMediaItems = MediaLoader.getMediaItems();
