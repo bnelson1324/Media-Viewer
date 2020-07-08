@@ -97,6 +97,7 @@ public class MediaData {
 			allTags.add(s);
 		}
 		
+		// adds implicit tags
 		addTagFileFormat(allTags);
 		addTagMediaType(allTags);
 		addTagDates(allTags);
@@ -131,7 +132,7 @@ public class MediaData {
 	}
 	
 	
-	/* helper methods for creating allTags */
+	/* helper methods for creating implicit tags */
 	
 	// adds file format (mp3, txt, etc)
 	private void addTagFileFormat(ArrayList<String> allTags) {
@@ -168,7 +169,6 @@ public class MediaData {
 		}
 		for(String date : dateAdded) {
 			try {
-				System.out.println(date);
 				Date userDate = dateFormat.parse(date);
 				GregorianCalendar calendar = new GregorianCalendar();
 				calendar.setTime(userDate);
@@ -182,6 +182,7 @@ public class MediaData {
 			}
 		}
 	}
+	
 	
 	public static void init() {
 		createDateFormat();

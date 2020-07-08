@@ -24,6 +24,7 @@ public class TabSettings extends Tab {
 	private JButton btnSaveSettings;
 	private JButton btnResetSettings;
 	
+	
 	public TabSettings(HashMap<String, Object> defaultValues) {
 		super(defaultValues);
 		
@@ -100,7 +101,6 @@ public class TabSettings extends Tab {
 		setLayout(groupLayout);
 
 	}
-	
 
 	// resets settings to default values
 	private void resetSettings() {

@@ -56,7 +56,6 @@ public class TabView extends Tab {
 
 	}
 	
-	
 	// updates the selected media item's image
 	private void updateImage() {
 		int imgWidth, imgHeight;

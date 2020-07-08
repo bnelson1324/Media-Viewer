@@ -7,7 +7,6 @@ import settings.SettingsHandler;
 public class Main {
 	
 	// TODO: create an error message if user makes a search/inputs a file that results in an error
-	// TODO: bug: when inputting a search that has no results, it doesnt update the current search pane automatically, so it doesnt clear the screen like it should w/ no results
 	
 	public static void main(String[] args) {
 	

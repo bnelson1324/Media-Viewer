@@ -34,6 +34,7 @@ public class TabModifyTags extends Tab {
 	
 	private JButton btnSaveTags;
 	
+	
 	public TabModifyTags(HashMap<String, Object> defaultValues) {
 		super(defaultValues);
 		

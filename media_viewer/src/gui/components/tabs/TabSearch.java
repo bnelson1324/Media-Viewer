@@ -26,7 +26,6 @@ public class TabSearch extends Tab {
 	
 	private JPanel mediaDisplayGrid;
 	
-	// TODO
 	
 	public TabSearch(HashMap<String, Object> defaultValues) {
 		super(defaultValues);
@@ -34,12 +33,12 @@ public class TabSearch extends Tab {
 		JLabel lblFileLocation = new JLabel("Search By Tag:");
 		
 		tfSearchBox = new JTextField();
-		TabSearch thisTab = this;
 		tfSearchBox.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					thisTab.updateDisplayGrid();
+					TabSearch.this.updateDisplayGrid();
+					repaint();
 				}
 			}
 		});
@@ -103,6 +102,7 @@ public class TabSearch extends Tab {
 	public void updateTab() {
 		tfSearchBox.setText(defaultValues.get("currentSearch").toString());
 		updateDisplayGrid();
+		repaint();
 	}
 
 	@Override
