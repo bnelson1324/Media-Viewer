@@ -56,26 +56,26 @@ public class TabView extends Tab {
 
 	}
 	
-	// updates the selected media item's image
-	private void updateImage() {
-		int imgWidth, imgHeight;
-		imgWidth = this.getWidth() - 32;
-		imgHeight = this.getHeight() - 64;
+	// updates the selected media item's display panel
+	private void updateDisplayPanel() {
+		int pnlWidth, pnlHeight;
+		pnlWidth = this.getWidth() - 32;
+		pnlHeight = this.getHeight() - 64;
 		pnlSelectedMediaDisplay.removeAll();
-		MediaDisplayPanel mid = (MediaDisplayPanel) defaultValues.get("smiDisplay");
-		if(mid == null) {
+		MediaDisplayPanel mdp = (MediaDisplayPanel) defaultValues.get("smiDisplay");
+		if(mdp == null) {
 			return;
 		}
-		mid.setDisplaySize(imgWidth, imgHeight, true);
+		mdp.setDisplaySize(pnlWidth, pnlHeight, true);
 		
-		pnlSelectedMediaDisplay.add(mid, BorderLayout.NORTH);
+		pnlSelectedMediaDisplay.add(mdp, BorderLayout.NORTH);
 	}
 	
 	@Override
 	public void updateTab() {
 		// updates the text box and image
 		tbFileLocation.setText(defaultValues.get("smi").toString());
-		updateImage();
+		updateDisplayPanel();
 	}
 
 
@@ -87,6 +87,6 @@ public class TabView extends Tab {
 	@Override
 	public void onResize() {
 		// updates image
-		updateImage();
+		updateDisplayPanel();
 	}
 }

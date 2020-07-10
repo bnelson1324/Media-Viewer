@@ -44,31 +44,14 @@ public abstract class MediaDisplayPanel extends JPanel {
 		currentKeepAspectRatio = keepAspectRatio;
 	}
 	
-	protected void addContextMenu() {
+	private void addContextMenu() {
 		createCopyItem();
 		contextMenu = new MediaItemContextMenu(mediaItem, copyItem);
 		this.add(contextMenu);
 		
 		// context menu listeners
 		if(contextMenu != null) {
-			this.addMouseListener(new MouseAdapter() {
-	
-				// detects if should open context menu
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if(e.getButton() == MouseEvent.BUTTON3) {
-						contextMenu.setVisible(true);
-						contextMenu.setLocation(e.getXOnScreen(), e.getYOnScreen());
-					} 
-				}
-				
-				// detects if should close context menu
-				@Override public void mouseEntered(MouseEvent e) {
-					if(!contextMenu.contains(e.getPoint())) {
-						contextMenu.setVisible(false);
-					}
-				}
-			});
+			this.addMouseListener(contextMenu.contextMenuOpener);
 		}
 		createContextMenuChoices();
 	}
@@ -88,21 +71,37 @@ public abstract class MediaDisplayPanel extends JPanel {
 			e.printStackTrace();
 			return null;
 		}
+		
+		MediaDisplayPanel mdpToReturn;
+		
 		switch(fileType) {
 			default:
 				System.out.println("unknown: " + mediaItem);
-				return new UnknownDisplayPanel(mediaItem);
+				mdpToReturn = new UnknownDisplayPanel(mediaItem);
+				break;
 			case "image":
-				return new ImageDisplayPanel(mediaItem, true);
+				mdpToReturn = new ImageDisplayPanel(mediaItem, true);
+				break;
 			case "video":
 				if(!preview) {
-					return new VideoDisplayPanel(mediaItem);
+					mdpToReturn = new VideoDisplayPanel(mediaItem);
 				} else {
-					return new VideoDisplayPanelPreview(mediaItem);
+					mdpToReturn = new VideoDisplayPanelPreview(mediaItem);
 				}
+				break;
 			case "audio":
-				return new AudioDisplayPanel(mediaItem);
+				mdpToReturn = new AudioDisplayPanel(mediaItem);
+				break;
+			case "text":
+				if(!preview) {
+					mdpToReturn = new TextDisplayPanel(mediaItem);
+				} else {
+					mdpToReturn = new UnknownDisplayPanel(mediaItem); // TODO new TextDisplayPanelPreview(mediaItem);
+				}
+				break;
 			
 		}
+
+		return mdpToReturn;
 	}	
 }

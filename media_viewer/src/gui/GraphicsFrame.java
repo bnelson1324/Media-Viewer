@@ -96,4 +96,9 @@ public class GraphicsFrame extends JFrame {
 		tabbedPane.setSelectedIndex(n);
 	}
 	
+	public Tab getTabAtIndex(int n) {
+		return (Tab) (tabbedPane.getComponentAt(n));
+		
+	}
+	
 }

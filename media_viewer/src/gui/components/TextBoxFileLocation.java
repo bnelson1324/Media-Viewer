@@ -27,6 +27,8 @@ public class TextBoxFileLocation extends JTextField {
 					// changes selected media item and updates selected tab
 					GUIManager.changeSelectedMediaItem(getFileLocation());
 					GUIManager.updateSelectedTab();
+					GUIManager.appFrame.getSelectedTab().revalidate();
+					GUIManager.appFrame.getSelectedTab().repaint();
 				}
 			}
 		});

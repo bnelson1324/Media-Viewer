@@ -6,14 +6,12 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPopupMenu;
 
-import clipboard.ImageSelection;
 import media_control.MediaHandler;
 
 public class MediaItemContextMenu extends JPopupMenu {
@@ -23,11 +21,32 @@ public class MediaItemContextMenu extends JPopupMenu {
 	private Path mediaItem;
 	private Transferable copyItem;
 	
+	// mouse listener to open/close this context menu
+	public MouseListener contextMenuOpener;
+	
 	public MediaItemContextMenu(Path mediaItem, Transferable copyItem) {
 		super("Context Menu");
 		this.mediaItem = mediaItem;
 		this.copyItem = copyItem;
-	
+		
+		this.contextMenuOpener = new MouseAdapter() {
+			
+			// detects if should open context menu
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getButton() == MouseEvent.BUTTON3) {
+					MediaItemContextMenu.this.setVisible(true);
+					MediaItemContextMenu.this.setLocation(e.getXOnScreen(), e.getYOnScreen());
+				} 
+			}
+			
+			// detects if should close context menu
+			@Override public void mouseEntered(MouseEvent e) {
+				if(!MediaItemContextMenu.this.contains(e.getPoint())) {
+					MediaItemContextMenu.this.setVisible(false);
+				}
+			}
+		};
 	}
 	
 	// copy file
@@ -52,7 +71,7 @@ public class MediaItemContextMenu extends JPopupMenu {
 		cOpenFileLoc.addMouseListener(new MouseAdapter() {  
             public void mouseClicked(MouseEvent e) {
             	try {
-					Desktop.getDesktop().open(new File(MediaHandler.getFullRelativeFileLocation(mediaItem).toString()));
+					Desktop.getDesktop().open((MediaHandler.getFullRelativeFileLocation(mediaItem).toFile()));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}

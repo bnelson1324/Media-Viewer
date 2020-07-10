@@ -42,6 +42,7 @@ public class MediaGridSquare extends JPanel {
 				if(e.getButton() == MouseEvent.BUTTON1) {
 					GUIManager.changeSelectedMediaItem(mi);
 					GUIManager.setSelectedTabIndex(1);
+					GUIManager.appFrame.getSelectedTab().updateTab();
 				} 
 			}
 		});
