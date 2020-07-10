@@ -69,7 +69,4 @@ public class ImageDisplayPanel extends MediaDisplayPanel {
 		contextMenu.addChoiceCopy();
 		contextMenu.addChoiceOpenFileLoc();
 	}
-
-	
-	
 }

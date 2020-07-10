@@ -19,6 +19,7 @@ import com.wordpress.tips4java.WrapLayout;
 
 import gui.components.MediaGridSquare;
 import media_control.MediaHandler;
+import javax.swing.ScrollPaneConstants;
 
 public class TabSearch extends Tab {
 
@@ -45,6 +46,7 @@ public class TabSearch extends Tab {
 		});
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(

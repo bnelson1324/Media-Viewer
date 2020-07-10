@@ -94,9 +94,9 @@ public abstract class MediaDisplayPanel extends JPanel {
 				break;
 			case "text":
 				if(!preview) {
-					mdpToReturn = new TextDisplayPanel(mediaItem);
+					mdpToReturn = new TextDisplayPanel(mediaItem, true);
 				} else {
-					mdpToReturn = new UnknownDisplayPanel(mediaItem); // TODO new TextDisplayPanelPreview(mediaItem);
+					mdpToReturn = new TextDisplayPanel(mediaItem, false);
 				}
 				break;
 			

@@ -8,10 +8,4 @@ public class VideoDisplayPanelPreview extends VideoDisplayPanel {
 		super(mediaItem);
 		this.setDisplaySize(256, 256, false);
 	}
-
-	@Override
-	protected void prepareSnapshot() {
-		super.prepareSnapshot();
-	}
-	
 }

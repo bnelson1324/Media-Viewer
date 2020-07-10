@@ -1,12 +1,14 @@
 package gui.components.media_display;
 
+import java.awt.Dimension;
 import java.awt.datatransfer.StringSelection;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Scanner;
 
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
 
 import media_control.MediaHandler;
 
@@ -16,17 +18,15 @@ public class TextDisplayPanel extends MediaDisplayPanel {
 	
 	protected String mediaItemText;
 	
-	protected TextDisplayPanel(Path mediaItem) {
+	protected JScrollPane scrollPane;
+	
+	protected TextDisplayPanel(Path mediaItem, boolean addScrollPane) {
 		super(mediaItem);
 		
 		textPane = new JTextPane();
 		textPane.setEditable(false);
 		
-		// removes all mouse listeners and adds the one to open context menu
-		for(MouseListener ml : textPane.getMouseListeners()) {
-			textPane.removeMouseListener(ml);
-			
-		}
+		// adds the mouse listener to open context menu
 		textPane.addMouseListener(contextMenu.contextMenuOpener);
 
 		mediaItemText = "";
@@ -44,12 +44,24 @@ public class TextDisplayPanel extends MediaDisplayPanel {
 			e.printStackTrace();
 		}
 	
-		this.add(textPane);
+		if(addScrollPane) {
+			scrollPane = new JScrollPane(textPane);
+			scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			this.add(scrollPane);
+		} else {
+			this.add(textPane);
+		}
 	}
 
 	@Override
 	public void setDisplaySize(int width, int height, boolean keepAspectRatio) {
 		super.setDisplaySize(width, height, keepAspectRatio);
+		if(scrollPane != null) {
+			scrollPane.setPreferredSize(new Dimension(width, height));
+		} else {
+			textPane.setPreferredSize(new Dimension(width, height));
+		}
 	}
 	
 	@Override
