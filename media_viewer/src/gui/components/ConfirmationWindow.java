@@ -21,6 +21,8 @@ public class ConfirmationWindow extends JFrame {
 	// runnable run when the user chooses "yes" or "no"
 	private Runnable onChoice;
 	
+	// TODO: create an enum allowing confirmation window to initialize with either 1 or 2 choices, allowing for an alert box
+	
 	public ConfirmationWindow(String title, String description, String yesText, String noText) {
 		super(title);
 		this.choice = false;

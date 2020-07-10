@@ -18,7 +18,7 @@ public class MediaGridSquare extends JPanel {
 	/* JPanel representing one grid square in the search tab. Displays a file name and an image */
 	
 	private JLabel nameLabel;
-	private MediaDisplayPanel displayLabel;
+	private MediaDisplayPanel displayPanel;
 	
 	public MediaGridSquare(Path mi) {
 		setLayout(new BorderLayout(0, 0));
@@ -27,14 +27,14 @@ public class MediaGridSquare extends JPanel {
 		nameLabel.setFont(new Font("Label.font", Font.PLAIN, 16));
 		add(nameLabel, BorderLayout.NORTH);
 		
-		displayLabel = MediaDisplayPanel.makeMediaDisplayPanel(mi, true);
-		add(displayLabel, BorderLayout.SOUTH);
+		displayPanel = MediaDisplayPanel.makeMediaDisplayPanel(mi, true);
+		add(displayPanel, BorderLayout.SOUTH);
 		
-		displayLabel.setDisplaySize(256, 256, false);
+		displayPanel.setDisplaySize(256, 256, false);
 		
-		displayLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		displayPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		
-		displayLabel.addMouseListener(new MouseAdapter() {
+		displayPanel.getDisplayComponent().addMouseListener(new MouseAdapter() {
 
 			// detects if should open context menu
 			@Override

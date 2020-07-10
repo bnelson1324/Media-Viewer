@@ -8,6 +8,7 @@ import java.nio.file.Path;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 
 import clipboard.ImageSelection;
@@ -68,5 +69,10 @@ public class ImageDisplayPanel extends MediaDisplayPanel {
 	protected void createContextMenuChoices() {
 		contextMenu.addChoiceCopy();
 		contextMenu.addChoiceOpenFileLoc();
+	}
+
+	@Override
+	public JComponent getDisplayComponent() {
+		return imageLabel;
 	}
 }

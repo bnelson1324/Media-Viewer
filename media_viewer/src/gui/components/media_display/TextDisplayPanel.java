@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Scanner;
 
+import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
@@ -86,5 +87,10 @@ public class TextDisplayPanel extends MediaDisplayPanel {
 	protected void createContextMenuChoices() {
 		contextMenu.addChoiceCopy();
 		contextMenu.addChoiceOpenFileLoc();
+	}
+
+	@Override
+	public JComponent getDisplayComponent() {
+		return textPane;
 	}
 }

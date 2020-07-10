@@ -2,12 +2,11 @@ package gui.components.media_display;
 
 import java.awt.BorderLayout;
 import java.awt.datatransfer.Transferable;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import gui.components.context_menu.MediaItemContextMenu;
@@ -49,10 +48,6 @@ public abstract class MediaDisplayPanel extends JPanel {
 		contextMenu = new MediaItemContextMenu(mediaItem, copyItem);
 		this.add(contextMenu);
 		
-		// context menu listeners
-		if(contextMenu != null) {
-			this.addMouseListener(contextMenu.contextMenuOpener);
-		}
 		createContextMenuChoices();
 	}
 	
@@ -61,6 +56,9 @@ public abstract class MediaDisplayPanel extends JPanel {
 	
 	// creates choices for the context menu and copyItem
 	protected abstract void createContextMenuChoices();
+	
+	// gets component displaying the media
+	public abstract JComponent getDisplayComponent();
 
 	public static MediaDisplayPanel makeMediaDisplayPanel(Path mediaItem, boolean preview) {
 		String fileType;
@@ -99,9 +97,13 @@ public abstract class MediaDisplayPanel extends JPanel {
 					mdpToReturn = new TextDisplayPanel(mediaItem, false);
 				}
 				break;
-			
 		}
-
+		// context menu listeners
+		if(mdpToReturn.contextMenu != null) {
+			mdpToReturn.getDisplayComponent().addMouseListener(mdpToReturn.contextMenu.contextMenuOpener);
+		}
+		
+		
 		return mdpToReturn;
 	}	
 }
