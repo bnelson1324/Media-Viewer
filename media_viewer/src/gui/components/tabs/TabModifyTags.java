@@ -81,7 +81,7 @@ public class TabModifyTags extends Tab {
 		btnSaveTags = new JButton("Save Tags");
 		btnSaveTags.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ConfirmationWindow cw = new ConfirmationWindow("Are you sure you would like to save these tags?");
+				ConfirmationWindow cw = new ConfirmationWindow("Alert", "Are you sure you would like to save these tags?", "Yes", "No");
 				cw.setOnChoice( () -> {
 					if(cw.choice) {
 						GUIManager.saveTags(tfModName.getText(), tfModDateCreated.getText(), tfModDateAdded.getText(), tfModAuthorName.getText(), tfModAuthorLinks.getText(), tfModTags.getText());

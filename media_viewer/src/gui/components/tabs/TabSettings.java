@@ -30,7 +30,7 @@ public class TabSettings extends Tab {
 		
 		btnSaveSettings = new JButton("Save Settings");
 		btnSaveSettings.addActionListener( (e) -> {
-			ConfirmationWindow cw = new ConfirmationWindow("Are you sure you would like to save these settings?");
+			ConfirmationWindow cw = new ConfirmationWindow("Alert", "Are you sure you would like to save these settings?", "Yes", "No");
 			cw.setOnChoice( () -> {
 				if(cw.choice) {
 					saveSettings(tfRootStorageFolderLoc.getText(), tfDateFormat.getText());
@@ -40,7 +40,7 @@ public class TabSettings extends Tab {
 		
 		btnResetSettings = new JButton("Reset Settings");
 		btnResetSettings.addActionListener( (e) -> {
-			ConfirmationWindow cw = new ConfirmationWindow("Are you sure you would like to reset the settings?");
+			ConfirmationWindow cw = new ConfirmationWindow("Alert", "Are you sure you would like to reset the settings?", "Yes", "No");
 			cw.setOnChoice( () -> {
 				if(cw.choice) {
 					resetSettings();

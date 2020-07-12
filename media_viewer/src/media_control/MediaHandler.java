@@ -13,6 +13,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import gui.components.ConfirmationWindow;
 import media.MediaData;
 import settings.SettingsHandler;
 
@@ -99,7 +100,8 @@ public class MediaHandler {
 					passingMediaItems.add(p);
 				}
 			} catch (ScriptException e) {
-				e.printStackTrace();
+				ConfirmationWindow cw = new ConfirmationWindow("Alert", "Invalid search", "Ok");
+				return new ArrayList<Path>();
 			}
 		}
 		
