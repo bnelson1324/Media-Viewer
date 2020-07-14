@@ -1,5 +1,7 @@
 package gui.components.tabs;
+import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 import javax.swing.GroupLayout;
@@ -54,12 +56,23 @@ public class TabSettings extends Tab {
 		tfRootStorageFolderLoc = new JTextField();
 		tfRootStorageFolderLoc.setColumns(10);
 		
+		JButton btnOpenStorageFolder = new JButton("Open storage folder");
+		btnOpenStorageFolder.addActionListener( (e) -> {
+			try {
+				Desktop.getDesktop().open(new File(SettingsHandler.getSetting("rootStorageFolderLoc")));
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		});
+		
+		
 		JLabel lblDateFormat = new JLabel("Date Format: ");
 		
 		String[] cbDateFormatChoices = {"Month first", "Day first"};
 		
 		tfDateFormat = new JTextField();
 		tfDateFormat.setColumns(10);
+		
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -70,7 +83,9 @@ public class TabSettings extends Tab {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(lblRootStorageFolderLoc, GroupLayout.PREFERRED_SIZE, 198, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(tfRootStorageFolderLoc, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE))
+							.addComponent(tfRootStorageFolderLoc, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnOpenStorageFolder))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(btnSaveSettings)
 							.addGap(178)
@@ -79,7 +94,7 @@ public class TabSettings extends Tab {
 							.addComponent(lblDateFormat, GroupLayout.PREFERRED_SIZE, 198, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(tfDateFormat, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(167, Short.MAX_VALUE))
+					.addContainerGap(26, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -91,12 +106,13 @@ public class TabSettings extends Tab {
 					.addGap(40)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblRootStorageFolderLoc)
-						.addComponent(tfRootStorageFolderLoc, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(tfRootStorageFolderLoc, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnOpenStorageFolder))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblDateFormat)
 						.addComponent(tfDateFormat, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(287, Short.MAX_VALUE))
+					.addContainerGap(286, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);
 

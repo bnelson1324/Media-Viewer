@@ -34,8 +34,8 @@ public class GraphicsFrame extends JFrame {
 	public GraphicsFrame(HashMap<String, Object> defaultValues) {
 		super("Media Viewer");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setMinimumSize(new Dimension(640, 480));
-		setBounds(100, 100, 640, 480);
+		setMinimumSize(new Dimension(960, 720));
+		setBounds(100, 100, this.getMinimumSize().width, this.getMinimumSize().height);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
