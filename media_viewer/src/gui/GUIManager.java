@@ -35,7 +35,7 @@ public class GUIManager {
 	
 	public static void changeSelectedMediaItem(Path mi) {
 		selectedMediaItem = mi;
-		selectedMediaDisplay = MediaDisplayPanel.makeMediaDisplayPanel(mi, false);
+		selectedMediaDisplay = MediaDisplayPanel.makeMediaDisplayPanel(mi, true, false);
 		updateDefaultValues();
 	}
 	

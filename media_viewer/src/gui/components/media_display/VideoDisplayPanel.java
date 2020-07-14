@@ -22,8 +22,8 @@ public class VideoDisplayPanel extends ImageDisplayPanel {
 	protected MediaPlayer mp;
 	protected MediaView mv;
 	
-	protected VideoDisplayPanel(Path mediaItem) {
-		super(mediaItem, false);
+	protected VideoDisplayPanel(Path mediaItem, boolean itemInStorageFolder) {
+		super(mediaItem, itemInStorageFolder, false);
 		
 		// creates jfxpanel to initialize jfx toolkit
 		new JFXPanel();	
@@ -34,7 +34,7 @@ public class VideoDisplayPanel extends ImageDisplayPanel {
 	}
 	
 	protected void prepareMedia() {
-		Media fxMedia = new Media(MediaHandler.getFullRelativePath(mediaItem).toFile().toURI().toString());
+		Media fxMedia = new Media(getMediaItemPath().toFile().toURI().toString());
 		mp = new MediaPlayer(fxMedia);
 		mv = new MediaView(mp);
 	}

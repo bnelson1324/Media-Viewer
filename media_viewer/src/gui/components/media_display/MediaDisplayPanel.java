@@ -10,12 +10,16 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import gui.components.context_menu.MediaItemContextMenu;
+import media_control.MediaHandler;
 
 public abstract class MediaDisplayPanel extends JPanel {
 	
 	/* JPanel displaying a media item */
 	
 	protected Path mediaItem;
+	
+	// determines whether program should read relative to the root storage folder, or to the working directory
+	protected boolean itemInStorageFolder;
 	
 	// read only values for width and height, and keepAspectRatio
 	protected int currentWidth, currentHeight;
@@ -26,8 +30,9 @@ public abstract class MediaDisplayPanel extends JPanel {
 	// what is copied when selecting copy from the context menu
 	protected Transferable copyItem;
 	
-	protected MediaDisplayPanel(Path mediaItem) {
+	protected MediaDisplayPanel(Path mediaItem, boolean itemInStorageFolder) {
 		this.mediaItem = mediaItem;
+		this.itemInStorageFolder = itemInStorageFolder;
 		this.setLayout(new BorderLayout());
 		this.addContextMenu();
 	}
@@ -45,7 +50,7 @@ public abstract class MediaDisplayPanel extends JPanel {
 	
 	private void addContextMenu() {
 		createCopyItem();
-		contextMenu = new MediaItemContextMenu(mediaItem, copyItem);
+		contextMenu = new MediaItemContextMenu(mediaItem, itemInStorageFolder, copyItem);
 		this.add(contextMenu);
 		
 		createContextMenuChoices();
@@ -60,7 +65,7 @@ public abstract class MediaDisplayPanel extends JPanel {
 	// gets component displaying the media
 	public abstract JComponent getDisplayComponent();
 
-	public static MediaDisplayPanel makeMediaDisplayPanel(Path mediaItem, boolean preview) {
+	public static MediaDisplayPanel makeMediaDisplayPanel(Path mediaItem, boolean itemInStorageFolder, boolean preview) {
 		String fileType;
 		
 		try {
@@ -75,26 +80,26 @@ public abstract class MediaDisplayPanel extends JPanel {
 		switch(fileType) {
 			default:
 				System.out.println("unknown: " + mediaItem);
-				mdpToReturn = new UnknownDisplayPanel(mediaItem);
+				mdpToReturn = new UnknownDisplayPanel(mediaItem, itemInStorageFolder);
 				break;
 			case "image":
-				mdpToReturn = new ImageDisplayPanel(mediaItem, true);
+				mdpToReturn = new ImageDisplayPanel(mediaItem, itemInStorageFolder, true);
 				break;
 			case "video":
 				if(!preview) {
-					mdpToReturn = new VideoDisplayPanel(mediaItem);
+					mdpToReturn = new VideoDisplayPanel(mediaItem, itemInStorageFolder);
 				} else {
-					mdpToReturn = new VideoDisplayPanelPreview(mediaItem);
+					mdpToReturn = new VideoDisplayPanelPreview(mediaItem, itemInStorageFolder);
 				}
 				break;
 			case "audio":
-				mdpToReturn = new AudioDisplayPanel(mediaItem);
+				mdpToReturn = new AudioDisplayPanel(mediaItem, itemInStorageFolder);
 				break;
 			case "text":
 				if(!preview) {
-					mdpToReturn = new TextDisplayPanel(mediaItem, true);
+					mdpToReturn = new TextDisplayPanel(mediaItem, itemInStorageFolder, true);
 				} else {
-					mdpToReturn = new TextDisplayPanel(mediaItem, false);
+					mdpToReturn = new TextDisplayPanel(mediaItem, itemInStorageFolder, false);
 				}
 				break;
 		}
@@ -103,7 +108,17 @@ public abstract class MediaDisplayPanel extends JPanel {
 			mdpToReturn.getDisplayComponent().addMouseListener(mdpToReturn.contextMenu.contextMenuOpener);
 		}
 		
-		
 		return mdpToReturn;
 	}	
+	
+	// returns path where the media item is located
+	protected Path getMediaItemPath() {
+		return MediaHandler.getFullRelativePath(mediaItem, itemInStorageFolder);
+	}
+	
+	
+	/*public static Path getMediaItemFileLocation(Path mediaItem, boolean itemInStorageFolder) {
+		int lengthOfPathWithoutMediaItem = mediaItem.toString().length()-mediaItem.getFileName().toString().length();
+	}*/
+	
 }

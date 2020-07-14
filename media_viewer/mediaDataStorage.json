@@ -22,6 +22,17 @@
     ]
   },
   {
+    "fileLocation": "text\\text3.txt",
+    "name": [],
+    "dateCreated": [],
+    "dateAdded": [],
+    "authorName": [],
+    "authorLinks": [],
+    "tags": [
+      "untagged"
+    ]
+  },
+  {
     "fileLocation": "images\\desktop backgrounds\\plains.jpg",
     "name": [
       "Plains"
@@ -136,11 +147,22 @@
   },
   {
     "fileLocation": "video\\caramelldansen.mp4",
-    "name": [],
-    "dateCreated": [],
-    "dateAdded": [],
-    "authorName": [],
-    "authorLinks": [],
+    "name": [
+      ""
+    ],
+    "dateCreated": [
+      "brokenDate",
+      "2001/11/02"
+    ],
+    "dateAdded": [
+      ""
+    ],
+    "authorName": [
+      ""
+    ],
+    "authorLinks": [
+      ""
+    ],
     "tags": [
       "untagged"
     ]
@@ -189,6 +211,17 @@
     "tags": [
       "2002 Toyota Camry",
       "outdoors"
+    ]
+  },
+  {
+    "fileLocation": "text\\text2.txt",
+    "name": [],
+    "dateCreated": [],
+    "dateAdded": [],
+    "authorName": [],
+    "authorLinks": [],
+    "tags": [
+      "untagged"
     ]
   },
   {

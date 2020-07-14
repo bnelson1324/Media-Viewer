@@ -1,0 +1,41 @@
+This program lets you add tags to files in order to sort them.
+
+
+To add/remove files:
+Go to the root storage folder (can be opened in the Settings tab) and add/remove files from that folder. Added files will automatically be tagged with "untagged".
+
+
+To search for files by tag:
+Go to the search tab, enter a tag such as "untagged", and press enter.
+Entering an empty search will show all files in the root storage folder.
+You can search for multiple tags at once using the operators && (and), or || (or) between tags. For example, the search "desktop background && outdoors" would show all files with both the tags "desktop background" and "outdoors".
+
+
+To select a file to view/modify tags for:
+There are two ways to do this.
+1) Click on it in the Search tab. This will automatically take you to the View tab.
+2) Enter its file location relative to the root storage folder in the View/Modify Tags tab, and press enter.
+
+
+To modify a file's tags:
+Select the file as described above. Then, go to the Modify Tags tab.
+Enter tags into the text fields, separating tags by comma. For example, the tags field could have "desktop background, outdoors" entered.
+Then, press the save tags button.
+
+
+Entering dates:
+Dates should be entered following the date format in the Settings tab. The default format is YYYY/MM/DD.
+For example, a dateCreated field could have "1987/12/04" entered.
+
+
+To change the date format:
+Go to the Settings tab and go to the date format field. Enter a date format, where "Y" is year, "M" is month, and "D" is day. This is not case-sensitive.
+
+
+Implicit tags:
+The program will automatically add some tags available for searching, but not seen in the Modify Tags tab. This section describes all of these implicit tags.
+fileFormat: the file format of a file (example: fileFormat:png)
+mediaType: the type of media a file is (example: mediaType:image)
+yearCreated/monthCreated/dayCreated/yearAdded/monthAdded/dayAdded: part of a date for when a file was created/added (examples: monthCreated:may, dayAdded:14, yearCreated:2006, monthAdded:december)
+
+

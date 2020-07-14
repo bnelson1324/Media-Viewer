@@ -15,6 +15,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import gui.components.tabs.Tab;
+import gui.components.tabs.TabHelp;
 import gui.components.tabs.TabModifyTags;
 import gui.components.tabs.TabSearch;
 import gui.components.tabs.TabSettings;
@@ -55,6 +56,9 @@ public class GraphicsFrame extends JFrame {
 		
 		TabSettings tabSettings = new TabSettings(defaultValues);
 		tabbedPane.addTab("Settings", null, tabSettings, null);
+		
+		TabHelp tabHelp = new TabHelp(defaultValues);
+		tabbedPane.addTab("Help", null, tabHelp, null);
 	}
 	
 	// adds listeners to the components

@@ -24,15 +24,15 @@ public class ImageDisplayPanel extends MediaDisplayPanel {
 	// boolean saying if panel is ready to render
 	protected boolean readyToRender;
 	
-	protected ImageDisplayPanel(Path mediaItem, boolean createImage) {
-		super(mediaItem);
+	protected ImageDisplayPanel(Path mediaItem, boolean itemInStorageFolder, boolean createImage) {
+		super(mediaItem, itemInStorageFolder);
 		readyToRender = false;
 		
 		imageLabel = new JLabel();
 		
 		if(createImage) {
 			try {
-				mediaItemImage = ImageIO.read(MediaHandler.getFullRelativePath(mediaItem).toFile());
+				mediaItemImage = ImageIO.read(getMediaItemPath().toFile());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -59,7 +59,7 @@ public class ImageDisplayPanel extends MediaDisplayPanel {
 	@Override
 	protected void createCopyItem() {
 		try {
-			copyItem = new ImageSelection(ImageIO.read(new File(MediaHandler.getFullRelativePath(mediaItem).toString())));
+			copyItem = new ImageSelection(ImageIO.read(getMediaItemPath().toFile()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

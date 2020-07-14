@@ -21,8 +21,8 @@ public class TextDisplayPanel extends MediaDisplayPanel {
 	
 	protected JScrollPane scrollPane;
 	
-	protected TextDisplayPanel(Path mediaItem, boolean addScrollPane) {
-		super(mediaItem);
+	protected TextDisplayPanel(Path mediaItem, boolean itemInStorageFolder, boolean addScrollPane) {
+		super(mediaItem, itemInStorageFolder);
 		
 		textPane = new JTextPane();
 		textPane.setEditable(false);
@@ -33,7 +33,7 @@ public class TextDisplayPanel extends MediaDisplayPanel {
 		mediaItemText = "";
 
 		try {
-			Scanner sc = new Scanner(MediaHandler.getFullRelativePath(mediaItem).toFile());
+			Scanner sc = new Scanner(getMediaItemPath().toFile());
 			while(sc.hasNextLine()) {
 				mediaItemText += sc.nextLine();
 				if(sc.hasNextLine()) {
@@ -70,7 +70,7 @@ public class TextDisplayPanel extends MediaDisplayPanel {
 		String copyStr = "";
 		
 		try {
-			Scanner sc = new Scanner(MediaHandler.getFullRelativePath(mediaItem).toFile());
+			Scanner sc = new Scanner(getMediaItemPath().toFile());
 			while(sc.hasNextLine()) {
 				copyStr += sc.nextLine();
 				if(sc.hasNextLine()) {

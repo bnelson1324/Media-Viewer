@@ -4,8 +4,8 @@ import java.nio.file.Path;
 
 public class VideoDisplayPanelPreview extends VideoDisplayPanel {
 
-	protected VideoDisplayPanelPreview(Path mediaItem) {
-		super(mediaItem);
+	protected VideoDisplayPanelPreview(Path mediaItem, boolean itemInStorageFolder) {
+		super(mediaItem, itemInStorageFolder);
 		this.setDisplaySize(256, 256, false);
 	}
 }

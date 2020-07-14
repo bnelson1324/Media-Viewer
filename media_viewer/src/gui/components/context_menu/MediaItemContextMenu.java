@@ -12,6 +12,7 @@ import java.nio.file.Path;
 
 import javax.swing.JPopupMenu;
 
+import gui.components.media_display.MediaDisplayPanel;
 import media_control.MediaHandler;
 
 public class MediaItemContextMenu extends JPopupMenu {
@@ -19,14 +20,16 @@ public class MediaItemContextMenu extends JPopupMenu {
 	/* Context menu when right clicking a media item */
 
 	private Path mediaItem;
+	private boolean itemInStorageFolder;
 	private Transferable copyItem;
 	
 	// mouse listener to open/close this context menu
 	public MouseListener contextMenuOpener;
 	
-	public MediaItemContextMenu(Path mediaItem, Transferable copyItem) {
+	public MediaItemContextMenu(Path mediaItem, boolean itemInStorageFolder, Transferable copyItem) {
 		super("Context Menu");
 		this.mediaItem = mediaItem;
+		this.itemInStorageFolder = itemInStorageFolder;
 		this.copyItem = copyItem;
 		
 		this.contextMenuOpener = new MouseAdapter() {
@@ -71,7 +74,7 @@ public class MediaItemContextMenu extends JPopupMenu {
 		cOpenFileLoc.addMouseListener(new MouseAdapter() {  
             public void mouseClicked(MouseEvent e) {
             	try {
-					Desktop.getDesktop().open((MediaHandler.getFullRelativeFileLocation(mediaItem).toFile()));
+					Desktop.getDesktop().open((MediaHandler.getFullRelativeFileLocation(mediaItem, itemInStorageFolder).toFile()));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}

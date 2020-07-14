@@ -37,13 +37,22 @@ public class MediaHandler {
 	
 	/* return: Path */
 	
-	public static Path getFullRelativePath(Path mediaItem) {
-		return Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + mediaItem);
+	public static Path getFullRelativePath(Path mediaItem, boolean itemInStorageFolder) {
+		if(itemInStorageFolder) {
+			return Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + mediaItem);
+		} else {
+			return mediaItem;
+		}
 	}
 	
-	public static Path getFullRelativeFileLocation(Path mediaItem) {
+	public static Path getFullRelativeFileLocation(Path mediaItem, boolean itemInStorageFolder) {
 		int lengthOfPathWithoutMediaItem = mediaItem.toString().length()-mediaItem.getFileName().toString().length();
-		return(Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + mediaItem.toString().substring(0, lengthOfPathWithoutMediaItem)));
+		String fileLoc = mediaItem.toString().substring(0, lengthOfPathWithoutMediaItem);
+		if(itemInStorageFolder) {
+			return Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + fileLoc);
+		} else {
+			return Paths.get(fileLoc);
+		}
 	}
 	
 	

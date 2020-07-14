@@ -10,8 +10,8 @@ import javax.swing.JLabel;
 
 public class UnknownDisplayPanel extends ImageDisplayPanel {
 	
-	protected UnknownDisplayPanel(Path mediaItem) {
-		super(mediaItem, false);
+	protected UnknownDisplayPanel(Path mediaItem, boolean itemInStorageFolder) {
+		super(mediaItem, itemInStorageFolder, false);
 		
 		try {
 			mediaItemImage = ImageIO.read(new File("res/image/unknown_display_img.png"));

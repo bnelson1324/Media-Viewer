@@ -10,8 +10,8 @@ import javax.swing.JLabel;
 
 public class AudioDisplayPanel extends ImageDisplayPanel {
 
-	protected AudioDisplayPanel(Path mediaItem) {
-		super(mediaItem, false);
+	protected AudioDisplayPanel(Path mediaItem, boolean itemInStorageFolder) {
+		super(mediaItem, itemInStorageFolder, false);
 		
 		try {
 			mediaItemImage = ImageIO.read(new File("res/image/audio_display_img.png"));

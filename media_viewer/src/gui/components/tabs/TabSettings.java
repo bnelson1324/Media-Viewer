@@ -56,8 +56,8 @@ public class TabSettings extends Tab {
 		tfRootStorageFolderLoc = new JTextField();
 		tfRootStorageFolderLoc.setColumns(10);
 		
-		JButton btnOpenStorageFolder = new JButton("Open storage folder");
-		btnOpenStorageFolder.addActionListener( (e) -> {
+		JButton btnOpenRootStorageFolder = new JButton("Open root storage folder");
+		btnOpenRootStorageFolder.addActionListener( (e) -> {
 			try {
 				Desktop.getDesktop().open(new File(SettingsHandler.getSetting("rootStorageFolderLoc")));
 			} catch (IOException e1) {
@@ -85,7 +85,7 @@ public class TabSettings extends Tab {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(tfRootStorageFolderLoc, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnOpenStorageFolder))
+							.addComponent(btnOpenRootStorageFolder))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(btnSaveSettings)
 							.addGap(178)
@@ -107,7 +107,7 @@ public class TabSettings extends Tab {
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblRootStorageFolderLoc)
 						.addComponent(tfRootStorageFolderLoc, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnOpenStorageFolder))
+						.addComponent(btnOpenRootStorageFolder))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblDateFormat)
