@@ -15,8 +15,6 @@ import settings.SettingsHandler;
 
 public class MediaData {
 
-	// TODO: make the program automatically add a fileFormat tag like fileFormat:mp3 or fileFormat:wav
-	
 	/* This is data describing a media file */
 	
 	private ArrayList<String> name, dateCreated, dateAdded, authorName, authorLinks, tags;
@@ -25,7 +23,6 @@ public class MediaData {
 	
 	private ArrayList<String> allTags;
 	
-	// TODO
 	// date format used to read user-inputted dates in tags
 	private static SimpleDateFormat dateFormat;
 	// date format used for implicit tags
@@ -115,7 +112,7 @@ public class MediaData {
 		return str;
 	}
 	
-	// !! NOT SURE IF THIS works
+	
 	// creates a new date format using current settings
 	public static void createDateFormat() {
 		String dateFormatSetting = (SettingsHandler.getSetting("dateFormat")).toLowerCase();
@@ -163,8 +160,7 @@ public class MediaData {
 				allTags.add("monthCreated:" + tagDateFormat.format(calendar.getTime()).toLowerCase());
 				allTags.add("dayCreated:" + calendar.get(Calendar.DAY_OF_MONTH));
 			} catch (ParseException e) {
-				// TODO: reenable this
-				//System.out.println("Could not parse date: " + date);
+				System.out.println("Could not parse date: " + date);
 			}
 		}
 		for(String date : dateAdded) {
@@ -177,8 +173,7 @@ public class MediaData {
 				allTags.add("monthAdded:" + tagDateFormat.format(calendar.getTime()).toLowerCase());
 				allTags.add("dayAdded:" + calendar.get(Calendar.DAY_OF_MONTH));
 			} catch (ParseException e) {
-				// TODO: reenable this
-				//System.out.println("Could not parse date: " + date);
+				System.out.println("Could not parse date: " + date);
 			}
 		}
 	}

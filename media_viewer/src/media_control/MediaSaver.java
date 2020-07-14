@@ -26,8 +26,7 @@ public class MediaSaver {
 		// create a json object representing each media data, add these to the array
 		for(Map.Entry<Path, MediaData> entry : MediaHandler.getAllMediaData().entrySet()) {
 			JsonObject mdJson = new JsonObject();
-					
-			// !! not sure if this works
+			
 			// adds file location and media data to mdJson
 			mdJson.addProperty("fileLocation", entry.getKey().toString());
 			mdJson.add("name", MediaLoader.gson.toJsonTree(entry.getValue().getName()));
