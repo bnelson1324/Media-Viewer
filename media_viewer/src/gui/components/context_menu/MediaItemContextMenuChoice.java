@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.JMenuItem;
 
 public class MediaItemContextMenuChoice extends JMenuItem {

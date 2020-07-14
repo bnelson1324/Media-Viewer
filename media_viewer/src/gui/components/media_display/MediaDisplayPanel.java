@@ -10,7 +10,6 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import gui.components.context_menu.MediaItemContextMenu;
-import media_control.MediaHandler;
 
 public abstract class MediaDisplayPanel extends JPanel {
 	

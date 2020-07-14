@@ -12,7 +12,6 @@ import java.nio.file.Path;
 
 import javax.swing.JPopupMenu;
 
-import gui.components.media_display.MediaDisplayPanel;
 import media_control.MediaHandler;
 
 public class MediaItemContextMenu extends JPopupMenu {

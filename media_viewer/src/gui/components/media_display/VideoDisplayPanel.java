@@ -3,7 +3,6 @@ package gui.components.media_display;
 import java.nio.file.Path;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import javafx.animation.PauseTransition;

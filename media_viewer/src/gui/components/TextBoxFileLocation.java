@@ -5,13 +5,9 @@ import java.awt.event.KeyEvent;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import gui.GUIManager;
-import media.MediaData;
-import media_control.MediaHandler;
 
 public class TextBoxFileLocation extends JTextField {
 	

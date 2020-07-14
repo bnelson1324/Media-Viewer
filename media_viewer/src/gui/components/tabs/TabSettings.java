@@ -16,7 +16,6 @@ import media.MediaData;
 import media_control.MediaHandler;
 import settings.SettingsHandler;
 import settings.SettingsSaver;
-import javax.swing.JComboBox;
 
 public class TabSettings extends Tab {
 

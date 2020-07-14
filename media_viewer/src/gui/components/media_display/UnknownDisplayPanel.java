@@ -6,7 +6,6 @@ import java.nio.file.Path;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
 public class UnknownDisplayPanel extends ImageDisplayPanel {
 	

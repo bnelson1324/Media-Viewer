@@ -1,6 +1,0 @@
-abcdefg hijklmnop qrstuv wxyz        
-hijklmnop qrstuv wxyz abcdefg 
-
- qrstuv wxyz abcdefg hijklmnop 
-
-    wxyz abcdefg hijklmnop qrstuv
