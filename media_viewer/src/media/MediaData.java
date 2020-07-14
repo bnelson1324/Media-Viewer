@@ -17,7 +17,11 @@ public class MediaData {
 
 	/* This is data describing a media file */
 	
+	// explicit data
 	private ArrayList<String> name, dateCreated, dateAdded, authorName, authorLinks, tags;
+	
+	// implicit data
+	private String fileFormat, mediaType;
 	
 	private Path mediaItem;
 	
@@ -41,6 +45,7 @@ public class MediaData {
 		createAllTags();
 	}
 	
+	/* explicit data */
 	public ArrayList<String> getName() {
 		return name;
 	}
@@ -66,6 +71,16 @@ public class MediaData {
 		return tags;
 	}
 	
+	/* implicit data */
+	public String getFileFormat() {
+		return fileFormat;
+	}
+	
+	public String getMediaType() {
+		return mediaType;
+	}
+	
+	/* other */
 	// gets all the tags, including the ones that aren't misc 
 	public ArrayList<String> getAllTags() {
 		return allTags;
@@ -134,15 +149,18 @@ public class MediaData {
 	// adds file format (mp3, txt, etc)
 	private void addTagFileFormat(ArrayList<String> allTags) {
 		String mediaStr = mediaItem.toString();
-		String fileFormat = mediaStr.substring(mediaStr.indexOf('.') + 1);
+		fileFormat = mediaStr.substring(mediaStr.indexOf('.') + 1);
 		allTags.add("fileFormat:" + fileFormat);
 	}
 	
 	// adds media type (text, video, etc)
 	private void addTagMediaType(ArrayList<String> allTags) {
 		try {
-			String mediaType = Files.probeContentType(mediaItem).split("/")[0];
-			allTags.add("mediaType:" + mediaType);
+			String fileProbe = Files.probeContentType(mediaItem);
+			if(fileProbe != null) {
+				mediaType = fileProbe.split("/")[0];
+				allTags.add("mediaType:" + mediaType);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
