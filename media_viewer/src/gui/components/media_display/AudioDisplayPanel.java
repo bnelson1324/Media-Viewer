@@ -30,6 +30,7 @@ public class AudioDisplayPanel extends ImageDisplayPanel {
 	
 	@Override
 	protected void createContextMenuChoices() {
+		contextMenu.addChoiceOpenFile();
 		contextMenu.addChoiceOpenFileLoc();
 	}
 	

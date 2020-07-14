@@ -32,7 +32,7 @@ public class ImageDisplayPanel extends MediaDisplayPanel {
 		
 		if(createImage) {
 			try {
-				mediaItemImage = ImageIO.read(getMediaItemPath().toFile());
+				mediaItemImage = ImageIO.read(MediaHandler.getFullRelativePath(mediaItem, itemInStorageFolder).toFile());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -59,7 +59,7 @@ public class ImageDisplayPanel extends MediaDisplayPanel {
 	@Override
 	protected void createCopyItem() {
 		try {
-			copyItem = new ImageSelection(ImageIO.read(getMediaItemPath().toFile()));
+			copyItem = new ImageSelection(ImageIO.read(MediaHandler.getFullRelativePath(mediaItem, itemInStorageFolder).toFile()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -67,6 +67,7 @@ public class ImageDisplayPanel extends MediaDisplayPanel {
 
 	@Override
 	protected void createContextMenuChoices() {
+		contextMenu.addChoiceOpenFile();
 		contextMenu.addChoiceCopy();
 		contextMenu.addChoiceOpenFileLoc();
 	}

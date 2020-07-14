@@ -33,7 +33,7 @@ public class TextDisplayPanel extends MediaDisplayPanel {
 		mediaItemText = "";
 
 		try {
-			Scanner sc = new Scanner(getMediaItemPath().toFile());
+			Scanner sc = new Scanner(MediaHandler.getFullRelativePath(mediaItem, itemInStorageFolder).toFile());
 			while(sc.hasNextLine()) {
 				mediaItemText += sc.nextLine();
 				if(sc.hasNextLine()) {
@@ -70,7 +70,7 @@ public class TextDisplayPanel extends MediaDisplayPanel {
 		String copyStr = "";
 		
 		try {
-			Scanner sc = new Scanner(getMediaItemPath().toFile());
+			Scanner sc = new Scanner(MediaHandler.getFullRelativePath(mediaItem, itemInStorageFolder).toFile());
 			while(sc.hasNextLine()) {
 				copyStr += sc.nextLine();
 				if(sc.hasNextLine()) {
@@ -85,6 +85,7 @@ public class TextDisplayPanel extends MediaDisplayPanel {
 
 	@Override
 	protected void createContextMenuChoices() {
+		contextMenu.addChoiceOpenFile();
 		contextMenu.addChoiceCopy();
 		contextMenu.addChoiceOpenFileLoc();
 	}

@@ -34,7 +34,7 @@ public class VideoDisplayPanel extends ImageDisplayPanel {
 	}
 	
 	protected void prepareMedia() {
-		Media fxMedia = new Media(getMediaItemPath().toFile().toURI().toString());
+		Media fxMedia = new Media(MediaHandler.getFullRelativePath(mediaItem, itemInStorageFolder).toFile().toURI().toString());
 		mp = new MediaPlayer(fxMedia);
 		mv = new MediaView(mp);
 	}
@@ -76,6 +76,7 @@ public class VideoDisplayPanel extends ImageDisplayPanel {
 	
 	@Override
 	protected void createContextMenuChoices() {
+		contextMenu.addChoiceOpenFile();
 		contextMenu.addChoiceOpenFileLoc();
 	}
 	

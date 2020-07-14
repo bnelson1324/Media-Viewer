@@ -110,15 +110,6 @@ public abstract class MediaDisplayPanel extends JPanel {
 		
 		return mdpToReturn;
 	}	
-	
-	// returns path where the media item is located
-	protected Path getMediaItemPath() {
-		return MediaHandler.getFullRelativePath(mediaItem, itemInStorageFolder);
-	}
-	
-	
-	/*public static Path getMediaItemFileLocation(Path mediaItem, boolean itemInStorageFolder) {
-		int lengthOfPathWithoutMediaItem = mediaItem.toString().length()-mediaItem.getFileName().toString().length();
-	}*/
+
 	
 }

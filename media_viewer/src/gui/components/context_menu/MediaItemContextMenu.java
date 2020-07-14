@@ -52,6 +52,21 @@ public class MediaItemContextMenu extends JPopupMenu {
 		};
 	}
 	
+	// open file
+	public void addChoiceOpenFile() {
+		MediaItemContextMenuChoice cOpenFile = new MediaItemContextMenuChoice("Open file", this);
+		cOpenFile.addMouseListener(new MouseAdapter() {  
+            public void mouseClicked(MouseEvent e) {
+            	try {
+					Desktop.getDesktop().open((MediaHandler.getFullRelativePath(mediaItem, itemInStorageFolder).toFile()));
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}         
+            }                 
+         });
+		this.add(cOpenFile);
+	}
+	
 	// copy file
 	public void addChoiceCopy() {
 		MediaItemContextMenuChoice cCopy = new MediaItemContextMenuChoice("Copy", this);
