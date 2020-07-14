@@ -6,13 +6,8 @@ import settings.SettingsHandler;
 
 public class Main {
 	
-	// TODO: completely redesign gui so that its organized
-	// TODO: create an error message if user makes a search/inputs a file that results in an error
-	
 	public static void main(String[] args) {
-	
 		init();
-		
 	}
 	
 	private static void init() {
@@ -22,8 +17,5 @@ public class Main {
 		MediaHandler.init();
 		GUIManager.init();
 	}
-	
-	
-	
 	
 }

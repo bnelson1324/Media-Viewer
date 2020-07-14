@@ -28,12 +28,8 @@ public class SettingsSaver {
 			fw.write(toWrite);
 			fw.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-
-		
 	}
 	
 	// copies the default settings file to the actual settings file

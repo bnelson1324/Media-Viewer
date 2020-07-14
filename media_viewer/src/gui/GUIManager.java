@@ -4,30 +4,24 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 
-import gui.components.MediaItemDisplayLabel;
-import gui.components.tabs.Tab;
+import gui.components.media_display.MediaDisplayPanel;
 import media.MediaData;
 import media_control.MediaHandler;
 import media_control.MediaSaver;
-import settings.SettingsHandler;
-import settings.SettingsSaver;
 
 public class GUIManager {
-	
-	// TODO: organize this class, separating methods by which tab they are used in
-	
-	private static GraphicsFrame appFrame;
+
+	public static GraphicsFrame appFrame;
 	
 	// currently selected media item (for view and modify tags tab) (smi)
 	private static Path selectedMediaItem;
 	
-	// TODO: maybe make this a selected MediaItemDisplayGrid to incorporate things other than images
-	private static BufferedImage selectedMediaItemImage;
+	private static MediaDisplayPanel selectedMediaDisplay;
 	
 	// default values for the selectedMediaItem
 	private static HashMap<String, Object> defaultValues;
@@ -41,7 +35,7 @@ public class GUIManager {
 	
 	public static void changeSelectedMediaItem(Path mi) {
 		selectedMediaItem = mi;
-		selectedMediaItemImage = MediaItemDisplayLabel.getMediaItemImage(mi);
+		selectedMediaDisplay = MediaDisplayPanel.makeMediaDisplayPanel(mi, true, false);
 		updateDefaultValues();
 	}
 	
@@ -49,7 +43,7 @@ public class GUIManager {
 	private static void updateDefaultValues() {
 		if(selectedMediaItem != null) {
 			defaultValues.put("smi", selectedMediaItem);
-			defaultValues.put("smiImage", selectedMediaItemImage);
+			defaultValues.put("smiDisplay", selectedMediaDisplay);
 			MediaData md = MediaHandler.getMediaDataByPath(selectedMediaItem);
 			defaultValues.put("smiName", md.getName());
 			defaultValues.put("smiDateCreated", md.getDateCreated());
@@ -73,7 +67,7 @@ public class GUIManager {
 	// scales an image keeping the aspect ratio
 	public static ImageIcon scaleKeepingAspectRatio(BufferedImage img, int width, int height) {
 		double newWidth, newHeight;
-
+		
 		// scaled to width
 		double sWMultiplier = (((double)width)/img.getWidth());
 
@@ -97,7 +91,9 @@ public class GUIManager {
 	}
 
 	public static void updateSelectedTab() {
-		 appFrame.getSelectedTab().updateTab();
+		SwingUtilities.invokeLater( () -> {
+			appFrame.getSelectedTab().updateTab();
+		});
 	}
 	
 	
@@ -119,22 +115,25 @@ public class GUIManager {
 	// converts string into an arraylist of tags
 	public static ArrayList<String> packTagList(String tagStr, String regex) {
 		String[] tagArr = tagStr.split(regex);
-		return new ArrayList<String>(Arrays.asList(tagArr));
+		ArrayList<String> trimmedTagArr = new ArrayList<String>();
+		for(String tag : tagArr) {
+			trimmedTagArr.add(tag.trim());
+		}
+		return trimmedTagArr;
 	}
 
 	public static void saveTags(String name, String dateCreated, String dateAdded, String authorName, String authorLinks, String tags) {
 		if(selectedMediaItem == null) {
 			return;
 		}
-		ArrayList<String> aName = packTagList(name, ", ");
-		ArrayList<String> aDateCreated = packTagList(dateCreated, ", ");
-		ArrayList<String> aDateAdded = packTagList(dateAdded, ", ");
-		ArrayList<String> aAuthorName = packTagList(authorName, ", ");
-		ArrayList<String> aAuthorLinks = packTagList(authorLinks, ", ");
-		ArrayList<String> aTags = packTagList(tags, ", ");
-		System.out.println(aTags);
+		ArrayList<String> aName = packTagList(name, ",");
+		ArrayList<String> aDateCreated = packTagList(dateCreated, ",");
+		ArrayList<String> aDateAdded = packTagList(dateAdded, ",");
+		ArrayList<String> aAuthorName = packTagList(authorName, ",");
+		ArrayList<String> aAuthorLinks = packTagList(authorLinks, ",");
+		ArrayList<String> aTags = packTagList(tags, ",");
 		
-		MediaData md = new MediaData(aName, aDateCreated, aDateAdded, aAuthorName, aAuthorLinks, aTags);
+		MediaData md = new MediaData(selectedMediaItem, aName, aDateCreated, aDateAdded, aAuthorName, aAuthorLinks, aTags);
 		MediaHandler.pairMediaData(selectedMediaItem, md);
 		
 		updateDefaultValues();

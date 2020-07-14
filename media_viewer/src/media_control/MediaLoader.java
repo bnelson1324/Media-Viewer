@@ -45,7 +45,6 @@ public class MediaLoader {
 		for(Path f : allFiles) {
 			// removes root folder storage location from the path
 			Path relativePath = Paths.get(f.toString().substring(rootStorageFolder.toString().length() + 1));
-			
 			loaderAllMediaItems.add(relativePath);
 		}
 	}
@@ -78,13 +77,12 @@ public class MediaLoader {
 			ArrayList<String> mdAuthorLink = gson.fromJson(mdJson.get("authorLinks"), ArrayList.class);
 			ArrayList<String> mdTags = gson.fromJson(mdJson.get("tags"), ArrayList.class);
 			
-			MediaData md = new MediaData(mdName, mdDateCreated, mdDateAdded, mdAuthorName, mdAuthorLink, mdTags);
+			MediaData md = new MediaData(Paths.get(mdPath), mdName, mdDateCreated, mdDateAdded, mdAuthorName, mdAuthorLink, mdTags);
 			loaderAllMediaData.put(Paths.get(mdPath), md);
 		}
 		try {
 			myReader.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -118,7 +116,7 @@ public class MediaLoader {
 		for(Path p : untaggedMediaItems) {
 			ArrayList<String> tags = new ArrayList<String>();
 			tags.add("untagged");
-			MediaData md = new MediaData(new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), tags);
+			MediaData md = new MediaData(p, new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), tags);
 			loaderAllMediaData.put(p, md);
 		}
 	}

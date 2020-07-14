@@ -6,8 +6,9 @@ public class SettingsHandler {
 
 	private static HashMap<String, String> settingsMap;
 	
-	public static String getSetting(String key) {
-		return (String) settingsMap.get(key);
+	
+	public static String getSetting(String settingName) {
+		return (String) settingsMap.get(settingName);
 	}
 	
 	public static void modifySetting(String settingName, String newValue) {

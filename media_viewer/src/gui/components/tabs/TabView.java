@@ -1,25 +1,21 @@
 package gui.components.tabs;
 
-import java.awt.image.BufferedImage;
-import java.nio.file.Paths;
+import java.awt.BorderLayout;
 import java.util.HashMap;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import gui.components.MediaItemDisplayLabel;
 import gui.components.TextBoxFileLocation;
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-import java.awt.BorderLayout;
+import gui.components.media_display.MediaDisplayPanel;
 
 public class TabView extends Tab {
 
 	private TextBoxFileLocation tbFileLocation;
 	private JPanel pnlSelectedMediaDisplay;
-	private MediaItemDisplayLabel lblSelectedMediaDisplay;
 	
 	public TabView(HashMap<String, Object> defaultValues) {
 		super(defaultValues);
@@ -56,29 +52,30 @@ public class TabView extends Tab {
 					.addGap(9))
 		);
 		pnlSelectedMediaDisplay.setLayout(new BorderLayout(0, 0));
-		
-		lblSelectedMediaDisplay = new MediaItemDisplayLabel();
-		pnlSelectedMediaDisplay.add(lblSelectedMediaDisplay, BorderLayout.NORTH);
 		setLayout(groupLayout);
 
 	}
 	
-	
-	// updates the selected media item's image
-	private void updateImage() {
-		int imgWidth, imgHeight;
-		imgWidth = this.getWidth() - 32;
-		imgHeight = this.getHeight() - 64;
-		BufferedImage bImg = (BufferedImage) defaultValues.get("smiImage");
-		lblSelectedMediaDisplay.setMediaItem(Paths.get(defaultValues.get("smi").toString()), bImg);
-		lblSelectedMediaDisplay.setImageSize(imgWidth, imgHeight, true);
+	// updates the selected media item's display panel
+	private void updateDisplayPanel() {
+		int pnlWidth, pnlHeight;
+		pnlWidth = this.getWidth() - 32;
+		pnlHeight = this.getHeight() - 64;
+		pnlSelectedMediaDisplay.removeAll();
+		MediaDisplayPanel mdp = (MediaDisplayPanel) defaultValues.get("smiDisplay");
+		if(mdp == null) {
+			return;
+		}
+		mdp.setDisplaySize(pnlWidth, pnlHeight, true);
+		
+		pnlSelectedMediaDisplay.add(mdp, BorderLayout.NORTH);
 	}
 	
 	@Override
 	public void updateTab() {
 		// updates the text box and image
 		tbFileLocation.setText(defaultValues.get("smi").toString());
-		updateImage();
+		updateDisplayPanel();
 	}
 
 
@@ -90,6 +87,6 @@ public class TabView extends Tab {
 	@Override
 	public void onResize() {
 		// updates image
-		updateImage();
+		updateDisplayPanel();
 	}
 }

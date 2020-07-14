@@ -1,11 +1,8 @@
 package gui.components.tabs;
 
-import javax.swing.JPanel;
-
 import java.util.HashMap;
 
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
+import javax.swing.JPanel;
 
 public abstract class Tab extends JPanel {
 

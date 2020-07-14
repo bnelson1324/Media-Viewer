@@ -3,65 +3,97 @@ package gui.components.context_menu;
 import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.Transferable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPopupMenu;
 
-import clipboard.ImageSelection;
-import gui.components.MediaItemDisplayLabel;
 import media_control.MediaHandler;
 
 public class MediaItemContextMenu extends JPopupMenu {
 
 	/* Context menu when right clicking a media item */
 
-	private MediaItemDisplayLabel parentDisplay;
+	private Path mediaItem;
+	private boolean itemInStorageFolder;
+	private Transferable copyItem;
 	
-	public MediaItemContextMenu(MediaItemDisplayLabel parentDisplay) {
+	// mouse listener to open/close this context menu
+	public MouseListener contextMenuOpener;
+	
+	public MediaItemContextMenu(Path mediaItem, boolean itemInStorageFolder, Transferable copyItem) {
 		super("Context Menu");
-		this.parentDisplay = parentDisplay;
+		this.mediaItem = mediaItem;
+		this.itemInStorageFolder = itemInStorageFolder;
+		this.copyItem = copyItem;
 		
+		this.contextMenuOpener = new MouseAdapter() {
+			
+			// detects if should open context menu
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getButton() == MouseEvent.BUTTON3) {
+					MediaItemContextMenu.this.setVisible(true);
+					MediaItemContextMenu.this.setLocation(e.getXOnScreen(), e.getYOnScreen());
+				} 
+			}
+			
+			// detects if should close context menu
+			@Override public void mouseEntered(MouseEvent e) {
+				if(!MediaItemContextMenu.this.contains(e.getPoint())) {
+					MediaItemContextMenu.this.setVisible(false);
+				}
+			}
+		};
+	}
+	
+	// open file
+	public void addChoiceOpenFile() {
+		MediaItemContextMenuChoice cOpenFile = new MediaItemContextMenuChoice("Open file", this);
+		cOpenFile.addMouseListener(new MouseAdapter() {  
+            public void mouseClicked(MouseEvent e) {
+            	try {
+					Desktop.getDesktop().open((MediaHandler.getFullRelativePath(mediaItem, itemInStorageFolder).toFile()));
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}         
+            }                 
+         });
+		this.add(cOpenFile);
+	}
+	
+	// copy file
+	public void addChoiceCopy() {
 		MediaItemContextMenuChoice cCopy = new MediaItemContextMenuChoice("Copy", this);
-		MediaItemContextMenuChoice cOpenFileLoc = new MediaItemContextMenuChoice("Open file location", this);
-		
-		// menu choices' listeners
-		
-		// copy file
-		// TODO: add compatibility for more than just images
 		cCopy.addMouseListener(new MouseAdapter() {  
             public void mouseClicked(MouseEvent e) {
             	Toolkit tk = Toolkit.getDefaultToolkit();
             	Clipboard clipboard = tk.getSystemClipboard();
             	
-            	// copies image
-				try {
-					ImageSelection imgSel = new ImageSelection(ImageIO.read(new File(MediaHandler.getFullRelativePath(parentDisplay.getMediaItem()).toString())));
-					clipboard.setContents(imgSel, null);
-					System.out.println("Copied file to clipboard"); 
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}         
+            	// copies copyItem to clipboard
+				clipboard.setContents(copyItem, null);
+				System.out.println("Copied file to clipboard");         
             }                 
-         });  
-		
-		// open file location
+         });
+		this.add(cCopy);
+	}
+	
+	// open file location
+	public void addChoiceOpenFileLoc() {
+		MediaItemContextMenuChoice cOpenFileLoc = new MediaItemContextMenuChoice("Open file location", this);
 		cOpenFileLoc.addMouseListener(new MouseAdapter() {  
             public void mouseClicked(MouseEvent e) {
             	try {
-					Desktop.getDesktop().open(new File(MediaHandler.getFullRelativeFileLocation(parentDisplay.getMediaItem()).toString()));
+					Desktop.getDesktop().open((MediaHandler.getFullRelativeFileLocation(mediaItem, itemInStorageFolder).toFile()));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
             }                 
-         });  
-		
-		
-		this.add(cCopy);
+         });
 		this.add(cOpenFileLoc);
 	}
 

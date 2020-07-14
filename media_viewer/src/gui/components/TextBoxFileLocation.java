@@ -5,13 +5,9 @@ import java.awt.event.KeyEvent;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import gui.GUIManager;
-import media.MediaData;
-import media_control.MediaHandler;
 
 public class TextBoxFileLocation extends JTextField {
 	
@@ -27,6 +23,8 @@ public class TextBoxFileLocation extends JTextField {
 					// changes selected media item and updates selected tab
 					GUIManager.changeSelectedMediaItem(getFileLocation());
 					GUIManager.updateSelectedTab();
+					GUIManager.appFrame.getSelectedTab().revalidate();
+					GUIManager.appFrame.getSelectedTab().repaint();
 				}
 			}
 		});

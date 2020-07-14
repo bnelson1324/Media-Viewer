@@ -23,158 +23,24 @@
     ]
   },
   {
-    "fileLocation": "images\\desktop backgrounds\\sunflowers.jpg",
+    "fileLocation": "text\\text1.txt",
     "name": [
-      "Sunflowers"
+      "Alphabet Song"
     ],
     "dateCreated": [
-      ""
+      "2020/06/12"
     ],
     "dateAdded": [
-      "2020/05/30"
+      "2020/06/12"
     ],
     "authorName": [
-      ""
+      "Ben N."
     ],
     "authorLinks": [
-      ""
+      "https://github.com/bnelson1324/Media-Viewer"
     ],
     "tags": [
-      "outdoors",
-      "flowers"
-    ]
-  },
-  {
-    "fileLocation": "images\\2002 camry.jpg",
-    "name": [
-      "2002 Camry"
-    ],
-    "dateCreated": [
-      ""
-    ],
-    "dateAdded": [
-      "2020/05/24"
-    ],
-    "authorName": [
-      ""
-    ],
-    "authorLinks": [
-      ""
-    ],
-    "tags": [
-      "2002 Toyota Camry",
-      "outdoors"
-    ]
-  },
-  {
-    "fileLocation": "images\\desktop backgrounds\\plains.jpg",
-    "name": [
-      "Plains"
-    ],
-    "dateCreated": [
-      ""
-    ],
-    "dateAdded": [
-      "2020/05/30"
-    ],
-    "authorName": [
-      ""
-    ],
-    "authorLinks": [
-      ""
-    ],
-    "tags": [
-      "outdoors"
-    ]
-  },
-  {
-    "fileLocation": "images\\desktop backgrounds\\mountains.jpg",
-    "name": [
-      "Mountain"
-    ],
-    "dateCreated": [
-      ""
-    ],
-    "dateAdded": [
-      "2020/05/30"
-    ],
-    "authorName": [
-      ""
-    ],
-    "authorLinks": [
-      ""
-    ],
-    "tags": [
-      "outdoors"
-    ]
-  },
-  {
-    "fileLocation": "images\\desktop backgrounds\\ocean.jpg",
-    "name": [
-      "Ocean"
-    ],
-    "dateCreated": [
-      ""
-    ],
-    "dateAdded": [
-      "2020/05/30"
-    ],
-    "authorName": [
-      ""
-    ],
-    "authorLinks": [
-      ""
-    ],
-    "tags": [
-      "outdoors"
-    ]
-  },
-  {
-    "fileLocation": "images\\desktop backgrounds\\forest.jpg",
-    "name": [
-      "Forest"
-    ],
-    "dateCreated": [
-      ""
-    ],
-    "dateAdded": [
-      "2020/06/02"
-    ],
-    "authorName": [
-      ""
-    ],
-    "authorLinks": [
-      ""
-    ],
-    "tags": [
-      "outdoors",
-      "forest",
-      "river",
-      "trees",
-      "digital art"
-    ]
-  },
-  {
-    "fileLocation": "images\\death grips car.jpg",
-    "name": [
-      "Death Grips car"
-    ],
-    "dateCreated": [
-      ""
-    ],
-    "dateAdded": [
-      "2020/05/18"
-    ],
-    "authorName": [
-      ""
-    ],
-    "authorLinks": [
-      ""
-    ],
-    "tags": [
-      "death grips",
-      "guillotine",
-      "2002 Toyota Camry"
+      "alphabet"
     ]
   }
 ]

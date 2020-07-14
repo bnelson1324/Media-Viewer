@@ -1,8 +1,8 @@
 package gui.components.tabs;
 
 import java.awt.BorderLayout;
-import java.awt.image.BufferedImage;
-import java.nio.file.Paths;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,16 +16,14 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import gui.GUIManager;
-import gui.components.MediaItemDisplayLabel;
+import gui.components.ConfirmationWindow;
 import gui.components.TextBoxFileLocation;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import gui.components.media_display.MediaDisplayPanel;
 
 public class TabModifyTags extends Tab {
 
 	private TextBoxFileLocation tbFileLocation;
 	private JPanel pnlSelectedMediaDisplay;
-	private MediaItemDisplayLabel lblSelectedMediaDisplay;
 	
 	private JTextField tfModName;
 	private JTextField tfModDateCreated;
@@ -35,6 +33,7 @@ public class TabModifyTags extends Tab {
 	private JTextArea tfModTags;
 	
 	private JButton btnSaveTags;
+	
 	
 	public TabModifyTags(HashMap<String, Object> defaultValues) {
 		super(defaultValues);
@@ -82,8 +81,13 @@ public class TabModifyTags extends Tab {
 		btnSaveTags = new JButton("Save Tags");
 		btnSaveTags.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GUIManager.saveTags(tfModName.getText(), tfModDateCreated.getText(), tfModDateAdded.getText(), tfModAuthorName.getText(), tfModAuthorLinks.getText(), tfModTags.getText());
-				updateTags();
+				ConfirmationWindow cw = new ConfirmationWindow("Alert", "Are you sure you would like to save these tags?", "Yes", "No");
+				cw.setOnChoice( () -> {
+					if(cw.choice) {
+						GUIManager.saveTags(tfModName.getText(), tfModDateCreated.getText(), tfModDateAdded.getText(), tfModAuthorName.getText(), tfModAuthorLinks.getText(), tfModTags.getText());
+						updateTags();
+					}
+				});
 			}
 		});
 		
@@ -188,8 +192,6 @@ public class TabModifyTags extends Tab {
 					.addGap(93))
 		);
 		
-		lblSelectedMediaDisplay = new MediaItemDisplayLabel();
-		pnlSelectedMediaDisplay.add(lblSelectedMediaDisplay, BorderLayout.NORTH);
 		setLayout(groupLayout);
 
 	}
@@ -198,9 +200,13 @@ public class TabModifyTags extends Tab {
 		int imgWidth, imgHeight;
 		imgWidth = this.getWidth() - 390;
 		imgHeight = this.getHeight() - 80;
-		BufferedImage bImg = (BufferedImage) defaultValues.get("smiImage");
-		lblSelectedMediaDisplay.setMediaItem(Paths.get(defaultValues.get("smi").toString()), bImg);
-		lblSelectedMediaDisplay.setImageSize(imgWidth, imgHeight, true);
+		pnlSelectedMediaDisplay.removeAll();
+		MediaDisplayPanel mid = (MediaDisplayPanel) defaultValues.get("smiDisplay");
+		if(mid == null) {
+			return;
+		}
+		mid.setDisplaySize(imgWidth, imgHeight, true);
+		pnlSelectedMediaDisplay.add(mid, BorderLayout.NORTH);
 	}
 	
 	

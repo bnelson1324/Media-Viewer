@@ -15,9 +15,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import gui.components.MediaItemGridSquare;
+import com.wordpress.tips4java.WrapLayout;
+
+import gui.components.MediaGridSquare;
 import media_control.MediaHandler;
-import misc.WrapLayout;
+import javax.swing.ScrollPaneConstants;
 
 public class TabSearch extends Tab {
 
@@ -25,7 +27,6 @@ public class TabSearch extends Tab {
 	
 	private JPanel mediaDisplayGrid;
 	
-	// TODO
 	
 	public TabSearch(HashMap<String, Object> defaultValues) {
 		super(defaultValues);
@@ -33,17 +34,19 @@ public class TabSearch extends Tab {
 		JLabel lblFileLocation = new JLabel("Search By Tag:");
 		
 		tfSearchBox = new JTextField();
-		TabSearch thisTab = this;
 		tfSearchBox.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					thisTab.updateDisplayGrid();
+					TabSearch.this.updateDisplayGrid();
+					revalidate();
+					repaint();
 				}
 			}
 		});
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -91,8 +94,8 @@ public class TabSearch extends Tab {
 		}
 		mediaDisplayGrid.removeAll();
 		for(Path mi : results) {
-			MediaItemGridSquare migs = new MediaItemGridSquare(mi);
-			mediaDisplayGrid.add(migs);
+			MediaGridSquare mgs = new MediaGridSquare(mi);
+			mediaDisplayGrid.add(mgs);
 		}
 		mediaDisplayGrid.revalidate();
 	}
@@ -102,6 +105,7 @@ public class TabSearch extends Tab {
 	public void updateTab() {
 		tfSearchBox.setText(defaultValues.get("currentSearch").toString());
 		updateDisplayGrid();
+		repaint();
 	}
 
 	@Override

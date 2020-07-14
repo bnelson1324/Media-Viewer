@@ -1,6 +1,5 @@
 package media_control;
 
-import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,6 +12,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import gui.components.ConfirmationWindow;
 import media.MediaData;
 import settings.SettingsHandler;
 
@@ -36,13 +36,22 @@ public class MediaHandler {
 	
 	/* return: Path */
 	
-	public static Path getFullRelativePath(Path mediaItem) {
-		return Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + mediaItem);
+	public static Path getFullRelativePath(Path mediaItem, boolean itemInStorageFolder) {
+		if(itemInStorageFolder) {
+			return Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + mediaItem);
+		} else {
+			return mediaItem;
+		}
 	}
 	
-	public static Path getFullRelativeFileLocation(Path mediaItem) {
+	public static Path getFullRelativeFileLocation(Path mediaItem, boolean itemInStorageFolder) {
 		int lengthOfPathWithoutMediaItem = mediaItem.toString().length()-mediaItem.getFileName().toString().length();
-		return(Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + mediaItem.toString().substring(0, lengthOfPathWithoutMediaItem)));
+		String fileLoc = mediaItem.toString().substring(0, lengthOfPathWithoutMediaItem);
+		if(itemInStorageFolder) {
+			return Paths.get(SettingsHandler.getSetting("rootStorageFolderLoc") + "\\" + fileLoc);
+		} else {
+			return Paths.get(fileLoc);
+		}
 	}
 	
 	
@@ -99,7 +108,8 @@ public class MediaHandler {
 					passingMediaItems.add(p);
 				}
 			} catch (ScriptException e) {
-				e.printStackTrace();
+				ConfirmationWindow cw = new ConfirmationWindow("Alert", "Invalid search", "Ok");
+				return new ArrayList<Path>();
 			}
 		}
 		
@@ -162,6 +172,7 @@ public class MediaHandler {
 	}
 	
 	public static void init() {
+		MediaData.init();
 		MediaLoader.init();
 		
 		allMediaItems = MediaLoader.getMediaItems();

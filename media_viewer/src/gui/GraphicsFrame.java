@@ -9,11 +9,13 @@ import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import gui.components.tabs.Tab;
+import gui.components.tabs.TabHelp;
 import gui.components.tabs.TabModifyTags;
 import gui.components.tabs.TabSearch;
 import gui.components.tabs.TabSettings;
@@ -33,8 +35,8 @@ public class GraphicsFrame extends JFrame {
 	public GraphicsFrame(HashMap<String, Object> defaultValues) {
 		super("Media Viewer");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setMinimumSize(new Dimension(640, 480));
-		setBounds(100, 100, 640, 480);
+		setMinimumSize(new Dimension(960, 720));
+		setBounds(100, 100, this.getMinimumSize().width, this.getMinimumSize().height);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -54,6 +56,9 @@ public class GraphicsFrame extends JFrame {
 		
 		TabSettings tabSettings = new TabSettings(defaultValues);
 		tabbedPane.addTab("Settings", null, tabSettings, null);
+		
+		TabHelp tabHelp = new TabHelp(defaultValues);
+		tabbedPane.addTab("Help", null, tabHelp, null);
 	}
 	
 	// adds listeners to the components
@@ -63,14 +68,19 @@ public class GraphicsFrame extends JFrame {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				selectedTab = (Tab) tabbedPane.getComponents()[tabbedPane.getSelectedIndex()];
-				selectedTab.onSelect();
+				SwingUtilities.invokeLater( () -> {
+		    		selectedTab.onSelect();
+		    	});
 			}
 		});
 		
 		tabbedPane.addComponentListener(new ComponentAdapter() {
 		    public void componentResized(ComponentEvent componentEvent) {
 		    	selectedTab = (Tab) tabbedPane.getComponents()[tabbedPane.getSelectedIndex()];
-		    	selectedTab.onResize();
+		    	SwingUtilities.invokeLater( () -> {
+		    		selectedTab.onResize();
+		    	});
+		    	
 		    }
 		});
 	}
@@ -88,6 +98,11 @@ public class GraphicsFrame extends JFrame {
 	
 	public void setSelectedTabIndex(int n) {
 		tabbedPane.setSelectedIndex(n);
+	}
+	
+	public Tab getTabAtIndex(int n) {
+		return (Tab) (tabbedPane.getComponentAt(n));
+		
 	}
 	
 }
